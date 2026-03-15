@@ -96,6 +96,36 @@ export function ChevronDownIcon(props) {
   )
 }
 
+export function ChevronLeftIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" {...props}>
+      <path
+        d="m15 6-6 6 6 6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+export function ChevronRightIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" {...props}>
+      <path
+        d="m9 6 6 6-6 6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
 export function CloseIcon(props) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" {...props}>

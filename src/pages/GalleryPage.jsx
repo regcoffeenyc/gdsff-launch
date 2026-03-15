@@ -1,3 +1,5 @@
+import { useSearchParams } from 'react-router-dom'
+import GalleryLightbox from '../components/GalleryLightbox'
 import PageHero from '../components/PageHero'
 import { normalizeLaunchValue } from '../content/launchNormalizer'
 import {
@@ -84,9 +86,60 @@ const galleryWallCopy = {
   },
 }
 
+const galleryUiCopy = {
+  en: {
+    viewImage: 'View image',
+    close: 'Close image viewer',
+    previous: 'Previous image',
+    next: 'Next image',
+    venueItem: {
+      src: rangeHeroSrc,
+      alt: 'Federation range prepared for training and competition',
+      eyebrow: 'Venue Presentation',
+      title: 'Federation Range Environment',
+      text:
+        'A wide visual of the federation venue presented as part of the official media archive and event-hosting identity.',
+    },
+  },
+  ka: {
+    viewImage: '\u10e4\u10dd\u10e2\u10dd\u10e1 \u10dc\u10d0\u10ee\u10d5\u10d0',
+    close: '\u10e4\u10dd\u10e2\u10dd\u10e1 \u10d3\u10d0\u10ee\u10e3\u10e0\u10d5\u10d0',
+    previous: '\u10ec\u10d8\u10dc\u10d0 \u10e4\u10dd\u10e2\u10dd',
+    next: '\u10e8\u10d4\u10db\u10d3\u10d4\u10d2\u10d8 \u10e4\u10dd\u10e2\u10dd',
+    venueItem: {
+      src: rangeHeroSrc,
+      alt: '\u10e4\u10d4\u10d3\u10d4\u10e0\u10d0\u10ea\u10d8\u10d8\u10e1 \u10e0\u10d4\u10dc\u10ef\u10d8 \u10d5\u10d0\u10e0\u10ef\u10d8\u10e8\u10d8\u10e1\u10d0 \u10d3\u10d0 \u10e8\u10d4\u10ef\u10d8\u10d1\u10e0\u10d4\u10d1\u10d8\u10e1\u10d7\u10d5\u10d8\u10e1',
+      eyebrow: '\u10da\u10dd\u10d9\u10d0\u10ea\u10d8\u10d8\u10e1 \u10de\u10e0\u10d4\u10d6\u10d4\u10dc\u10e2\u10d0\u10ea\u10d8\u10d0',
+      title: '\u10e4\u10d4\u10d3\u10d4\u10e0\u10d0\u10ea\u10d8\u10d8\u10e1 \u10e1\u10d0\u10e1\u10d0\u10e0\u10dd\u10da\u10d4 \u10d2\u10d0\u10e0\u10d4\u10db\u10dd',
+      text:
+        '\u10e4\u10d4\u10d3\u10d4\u10e0\u10d0\u10ea\u10d8\u10d8\u10e1 \u10e1\u10d0\u10e1\u10d0\u10e0\u10dd\u10da\u10d4 \u10e1\u10d8\u10d5\u10e0\u10ea\u10d8\u10e1 \u10e4\u10d0\u10e0\u10d7\u10dd \u10d5\u10d8\u10d6\u10e3\u10d0\u10da\u10d8, \u10e0\u10dd\u10db\u10d4\u10da\u10d8\u10ea \u10ec\u10d0\u10e0\u10db\u10dd\u10d3\u10d2\u10d4\u10dc\u10d8\u10da\u10d8\u10d0 \u10dd\u10e4\u10d8\u10ea\u10d8\u10d0\u10da\u10e3\u10e0 \u10db\u10d4\u10d3\u10d8\u10d0 \u10d0\u10e0\u10e5\u10d8\u10d5\u10e8\u10d8 \u10d3\u10d0 \u10e6\u10dd\u10dc\u10d8\u10e1\u10eb\u10d8\u10d4\u10d1\u10d4\u10d1\u10d8\u10e1 \u10db\u10d0\u10e1\u10de\u10d8\u10dc\u10eb\u10da\u10dd\u10d1\u10d8\u10e1 \u10d8\u10d3\u10d4\u10dc\u10e2\u10dd\u10d1\u10d8\u10e1 \u10dc\u10d0\u10ec\u10d8\u10da\u10d0\u10d3.',
+    },
+  },
+}
+
 export default function GalleryPage({ copy }) {
   const localeKey = copy.locale === 'ka-GE' ? 'ka' : 'en'
   const galleryWall = normalizeLaunchValue(galleryWallCopy[localeKey])
+  const galleryUi = galleryUiCopy[localeKey]
+  const [searchParams, setSearchParams] = useSearchParams()
+  const rawLightboxIndex = Number.parseInt(searchParams.get('lightbox') ?? '', 10)
+  const lightboxItems = [galleryUi.venueItem, ...galleryWall.items]
+  const activeLightboxIndex =
+    Number.isInteger(rawLightboxIndex) && rawLightboxIndex >= 0 && rawLightboxIndex < lightboxItems.length
+      ? rawLightboxIndex
+      : null
+
+  const openLightbox = (index) => {
+    const nextSearchParams = new URLSearchParams(searchParams)
+    nextSearchParams.set('lightbox', String(index))
+    setSearchParams(nextSearchParams, { replace: true })
+  }
+
+  const closeLightbox = () => {
+    const nextSearchParams = new URLSearchParams(searchParams)
+    nextSearchParams.delete('lightbox')
+    setSearchParams(nextSearchParams, { replace: true })
+  }
 
   return (
     <>
@@ -100,9 +153,17 @@ export default function GalleryPage({ copy }) {
 
       <section className="container page-section">
         <div className="gallery-layout">
-          <article id="venue-presentation" className="gallery-panel large anchor-section">
+          <button
+            type="button"
+            id="venue-presentation"
+            className="gallery-panel gallery-media-button large anchor-section"
+            onClick={() => openLightbox(0)}
+            aria-haspopup="dialog"
+            aria-label={`${galleryUi.viewImage}: ${galleryUi.venueItem.title}`}
+          >
             <img src={rangeHeroSrc} alt="Federation range" loading="lazy" />
-          </article>
+            <span className="gallery-panel-hint">{galleryUi.viewImage}</span>
+          </button>
           <article className="gallery-panel">
             <img src={logoSrc} alt="Federation logo" className="gallery-logo" loading="lazy" />
           </article>
@@ -126,20 +187,37 @@ export default function GalleryPage({ copy }) {
 
         <div className="gallery-photo-wall">
           {galleryWall.items.map((item, index) => (
-            <article
+            <button
+              type="button"
               key={item.title}
               className={index === 0 ? 'gallery-photo-card is-featured' : 'gallery-photo-card'}
+              onClick={() => openLightbox(index + 1)}
+              aria-haspopup="dialog"
+              aria-label={`${galleryUi.viewImage}: ${item.title}`}
             >
               <img src={item.src} alt={item.alt} loading="lazy" />
               <div className="gallery-photo-overlay">
                 <span className="overlay-kicker">{item.eyebrow}</span>
+                <span className="gallery-view-hint">{galleryUi.viewImage}</span>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
               </div>
-            </article>
+            </button>
           ))}
         </div>
       </section>
+
+      <GalleryLightbox
+        items={lightboxItems}
+        activeIndex={activeLightboxIndex}
+        onClose={closeLightbox}
+        onNavigate={openLightbox}
+        labels={{
+          close: galleryUi.close,
+          previous: galleryUi.previous,
+          next: galleryUi.next,
+        }}
+      />
     </>
   )
 }
