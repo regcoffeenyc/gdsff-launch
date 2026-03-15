@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="ka">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GDSFF | უსაფრთხოების წესები და ინფორმირებული თანხმობა</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #111111;
+        --muted: #555555;
+        --line: #d7d0c0;
+        --accent: #9f8350;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        color: var(--ink);
+        background: #f7f4ee;
+      }
+
+      main {
+        max-width: 920px;
+        margin: 0 auto;
+        padding: 32px 20px 56px;
+      }
+
+      .sheet {
+        background: #ffffff;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 28px;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+      }
+
+      .eyebrow {
+        margin: 0 0 8px;
+        color: var(--accent);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 34px;
+        line-height: 1.1;
+      }
+
+      .sub {
+        margin: 12px 0 0;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.6;
+      }
+
+      .note {
+        margin-top: 14px;
+        padding: 12px 14px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #faf8f3;
+        font-weight: 700;
+      }
+
+      section {
+        margin-top: 26px;
+      }
+
+      h2 {
+        margin: 0 0 12px;
+        font-size: 20px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px 16px;
+      }
+
+      .field {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 10px 12px 18px;
+      }
+
+      .field.wide {
+        grid-column: 1 / -1;
+      }
+
+      .label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .line {
+        height: 22px;
+        border-bottom: 1px solid #b7b0a0;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 22px;
+      }
+
+      li {
+        margin: 0 0 10px;
+        line-height: 1.55;
+      }
+
+      .signature-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px 16px;
+      }
+
+      .signature-box {
+        min-height: 110px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 12px;
+      }
+
+      .signature-line {
+        margin-top: 52px;
+        border-bottom: 1px solid #a8a08d;
+      }
+
+      .footer-note {
+        margin-top: 24px;
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      @media print {
+        body {
+          background: #ffffff;
+        }
+
+        main {
+          max-width: none;
+          padding: 0;
+        }
+
+        .sheet {
+          border: 0;
+          box-shadow: none;
+          border-radius: 0;
+          padding: 0;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .grid,
+        .signature-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <article class="sheet">
+        <p class="eyebrow">GDSFF Official Document</p>
+        <h1>უსაფრთხოების წესები და ინფორმირებული თანხმობა</h1>
+        <p class="sub">
+          საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციის უსაფრთხოების წესები და ინფორმირებული თანხმობის ფორმა
+          განკუთვნილია წევრებისთვის, სპორტსმენებისთვის, მონაწილეებისთვის და სხვა შესაბამისი პირებისთვის. დოკუმენტი განსაზღვრავს
+          უსაფრთხოების ძირითად წესებს, მონაწილის პასუხისმგებლობას, დისციპლინურ მოთხოვნებსა და ინფორმირებული თანხმობის პირობებს.
+        </p>
+        <p class="note">ფორმის შევსებამდე გთხოვთ ყურადღებით გაეცნოთ ყველა პუნქტს.</p>
+
+        <section>
+          <h2>მონაწილის მონაცემები</h2>
+          <div class="grid">
+            <div class="field"><span class="label">სახელი და გვარი</span><div class="line"></div></div>
+            <div class="field"><span class="label">დაბადების თარიღი</span><div class="line"></div></div>
+            <div class="field"><span class="label">პირადი ნომერი / საიდენტიფიკაციო ნომერი</span><div class="line"></div></div>
+            <div class="field"><span class="label">მოქალაქეობა</span><div class="line"></div></div>
+            <div class="field wide"><span class="label">მისამართი</span><div class="line"></div></div>
+            <div class="field"><span class="label">ტელეფონი</span><div class="line"></div></div>
+            <div class="field"><span class="label">ელფოსტა</span><div class="line"></div></div>
+            <div class="field"><span class="label">წევრის / მონაწილის სტატუსი</span><div class="line"></div></div>
+            <div class="field"><span class="label">საგანგებო საკონტაქტო პირი</span><div class="line"></div></div>
+            <div class="field"><span class="label">საგანგებო საკონტაქტო ტელეფონი</span><div class="line"></div></div>
+          </div>
+        </section>
+
+        <section>
+          <h2>უსაფრთხოების დადასტურება</h2>
+          <ul>
+            <li>ვადასტურებ, რომ გავეცანი ფედერაციის უსაფრთხოების წესებს.</li>
+            <li>ვადასტურებ, რომ დავემორჩილები ინსტრუქტორის, ორგანიზატორისა და ფედერაციის უფლებამოსილი წარმომადგენლების მითითებებს.</li>
+            <li>ვადასტურებ, რომ დავიცავ დისციპლინურ და უსაფრთხოების მოთხოვნებს.</li>
+            <li>ვადასტურებ, რომ უსაფრთხოების წესების დარღვევის შემთხვევაში ფედერაცია უფლებამოსილია შემიზღუდოს მონაწილეობა.</li>
+            <li>ვადასტურებ, რომ მონაწილეობისას ვიმოქმედებ პასუხისმგებლობით და წესების დაცვით.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>ჯანმრთელობა / ინფორმირებული თანხმობა</h2>
+          <ul>
+            <li>ვადასტურებ, რომ ჩემი ჯანმრთელობის მდგომარეობა მაძლევს მონაწილეობის შესაძლებლობას.</li>
+            <li>ვადასტურებ, რომ მონაწილეობას ვიღებ ინფორმირებული თანხმობის საფუძველზე.</li>
+            <li>ვაცნობიერებ, რომ სპორტულ/სასწავლო აქტივობებში მონაწილეობა დაკავშირებულია გარკვეულ რისკებთან.</li>
+            <li>ვადასტურებ, რომ სწორად და სრულად შევავსე მოცემული ინფორმაცია.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>არასრულწლოვანის დამატებითი ბლოკი</h2>
+          <div class="grid">
+            <div class="field wide"><span class="label">ვარ არასრულწლოვანი</span><div class="line"></div></div>
+            <div class="field"><span class="label">მშობლის / კანონიერი წარმომადგენლის სახელი და გვარი</span><div class="line"></div></div>
+            <div class="field"><span class="label">მშობლის / კანონიერი წარმომადგენლის ტელეფონი</span><div class="line"></div></div>
+          </div>
+        </section>
+
+        <section>
+          <h2>საბოლოო დადასტურება</h2>
+          <p class="sub">
+            ვადასტურებ, რომ სრულად გავეცანი წარმოდგენილ წესებსა და პირობებს, ინფორმაცია შევავსე სწორად, ხელმოწერას ვაკეთებ
+            ნებაყოფლობით და ვადასტურებ ჩემს თანხმობას დოკუმენტში მოცემულ პირობებზე.
+          </p>
+        </section>
+
+        <section>
+          <h2>ხელმოწერა</h2>
+          <div class="signature-grid">
+            <div class="signature-box">
+              <span class="label">ხელმომწერის სრული სახელი</span>
+              <div class="signature-line"></div>
+            </div>
+            <div class="signature-box">
+              <span class="label">ხელმოწერის თარიღი</span>
+              <div class="signature-line"></div>
+            </div>
+            <div class="signature-box">
+              <span class="label">მონაწილის ხელმოწერა</span>
+              <div class="signature-line"></div>
+            </div>
+            <div class="signature-box">
+              <span class="label">მშობლის / კანონიერი წარმომადგენლის ხელმოწერა</span>
+              <div class="signature-line"></div>
+            </div>
+          </div>
+        </section>
+
+        <p class="footer-note">
+          ეს ონლაინ ფორმა წარმოადგენს ფედერაციის შიდა ადმინისტრაციულ და საორგანიზაციო დოკუმენტს. საჭიროების შემთხვევაში
+          ფედერაცია უფლებამოსილია მოითხოვოს დამატებითი იდენტიფიკაცია ან ფიზიკურად ხელმოწერილი ვერსია.
+        </p>
+      </article>
+    </main>
+  </body>
+</html>
