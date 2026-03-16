@@ -11,6 +11,7 @@ import PartnersPage from './pages/PartnersPage'
 import GalleryPage from './pages/GalleryPage'
 import DocumentsPage from './pages/DocumentsPage'
 import ContactPage from './pages/ContactPage'
+import SearchPage from './pages/SearchPage'
 import { siteContent } from './siteContent'
 
 const SafetyConsentPage = lazy(() => import('./pages/SafetyConsentPage'))
@@ -58,6 +59,7 @@ export default function App() {
           <Route path="/documents" element={<DocumentsPage copy={copy} />} />
           <Route path="/safety-consent" element={<SafetyConsentPage copy={copy} />} />
           <Route path="/contact" element={<ContactPage copy={copy} />} />
+          <Route path="/search" element={<SearchPage copy={copy} />} />
         </Routes>
       </Suspense>
     </SiteLayout>

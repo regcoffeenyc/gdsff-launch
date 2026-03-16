@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { logoSrc } from '../siteAssets'
 import BrandLockup from './BrandLockup'
 import { buildFederationNav, DesktopFederationNav, isGroupActive, MobileFederationNav } from './FederationNavigation'
-import { CloseIcon } from './SiteIcons'
+import { CloseIcon, SearchIcon } from './SiteIcons'
 import { EmailLink, LocationLink, PhoneLink, SocialLinks } from './SiteMetaLinks'
+import { getSearchUiCopy } from '../utils/siteSearch'
 
 const pageLabelKeys = {
   '/about': 'about',
@@ -17,16 +18,48 @@ const pageLabelKeys = {
   '/documents': 'documents',
   '/safety-consent': 'safetyConsent',
   '/contact': 'contact',
+  '/search': 'search',
+}
+
+function SearchForm({ className, copy, idPrefix, value, onChange, onSubmit }) {
+  const inputId = `${idPrefix}-site-search`
+
+  return (
+    <form className={className} role="search" onSubmit={onSubmit}>
+      <label className="sr-only" htmlFor={inputId}>
+        {copy.searchLabel}
+      </label>
+
+      <div className="site-search-field">
+        <SearchIcon className="site-search-field-icon" />
+        <input
+          id={inputId}
+          type="search"
+          className="site-search-input"
+          value={value}
+          onChange={onChange}
+          placeholder={copy.placeholder}
+          autoComplete="off"
+        />
+        <button type="submit" className="site-search-submit" aria-label={copy.searchButton}>
+          <SearchIcon className="site-search-submit-icon" />
+        </button>
+      </div>
+    </form>
+  )
 }
 
 export default function SiteLayout({ children, copy, language, setLanguage }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [openDesktopMenu, setOpenDesktopMenu] = useState(null)
   const [openMobileSection, setOpenMobileSection] = useState(null)
+  const [searchValue, setSearchValue] = useState('')
   const headerRef = useRef(null)
   const desktopCloseTimerRef = useRef(null)
   const location = useLocation()
+  const navigate = useNavigate()
   const navGroups = useMemo(() => buildFederationNav(copy), [copy])
+  const searchCopy = useMemo(() => getSearchUiCopy(copy.locale), [copy.locale])
 
   const clearDesktopCloseTimer = () => {
     if (desktopCloseTimerRef.current) {
@@ -87,10 +120,24 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
   }, [language])
 
   useEffect(() => {
+    if (location.pathname !== '/search') {
+      return
+    }
+
+    const params = new URLSearchParams(location.search)
+    setSearchValue(params.get('q') ?? '')
+  }, [location.pathname, location.search])
+
+  useEffect(() => {
     document.documentElement.lang = language === 'ka' ? 'ka' : 'en'
 
     const routeLabelKey = pageLabelKeys[location.pathname]
-    const routeLabel = routeLabelKey ? copy.nav[routeLabelKey] : copy.brand.shortName
+    const routeLabel =
+      routeLabelKey === 'search'
+        ? searchCopy.navLabel
+        : routeLabelKey
+          ? copy.nav[routeLabelKey]
+          : copy.brand.shortName
     const title =
       location.pathname === '/'
         ? `${copy.brand.shortName} | ${copy.brand.fullName}`
@@ -107,7 +154,7 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
     if (themeTag) {
       themeTag.setAttribute('content', '#0d0f12')
     }
-  }, [copy, language, location.pathname])
+  }, [copy, language, location.pathname, searchCopy.navLabel])
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
@@ -158,6 +205,14 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
     }
   }, [openDesktopMenu])
 
+  function handleSearchSubmit(event, onComplete) {
+    event.preventDefault()
+
+    const nextQuery = searchValue.trim()
+    navigate(nextQuery ? `/search?q=${encodeURIComponent(nextQuery)}` : '/search')
+    onComplete?.()
+  }
+
   return (
     <div className="site-shell">
       <a href="#main-content" className="skip-link">
@@ -187,6 +242,15 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
           <BrandLockup copy={copy} />
 
           <div className="header-actions">
+            <SearchForm
+              className="site-search-form desktop-search-form"
+              copy={searchCopy}
+              idPrefix="desktop"
+              value={searchValue}
+              onChange={(event) => setSearchValue(event.target.value)}
+              onSubmit={(event) => handleSearchSubmit(event)}
+            />
+
             <Link className="header-utility-link desktop-utility header-calendar-link" to="/events#calendar-2026">
               {copy.header.quickAction}
             </Link>
@@ -274,6 +338,15 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
             </div>
 
             <div className="mobile-drawer-tools">
+              <SearchForm
+                className="site-search-form mobile-search-form"
+                copy={searchCopy}
+                idPrefix="mobile"
+                value={searchValue}
+                onChange={(event) => setSearchValue(event.target.value)}
+                onSubmit={(event) => handleSearchSubmit(event, closeMobileMenu)}
+              />
+
               <div className="mobile-contact-links">
                 <EmailLink email={copy.meta.email} className="mobile-meta-link" />
                 <PhoneLink phone={copy.meta.phone} className="mobile-meta-link" />

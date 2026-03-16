@@ -1,33 +1,40 @@
+const downloadBase = `${import.meta.env.BASE_URL}downloads/`
+
 const documentItems = [
   {
     id: 'charter',
-    href: '/downloads/01_GDSFF_Wesdebis_Web_Version_Registered.docx',
+    href: `${downloadBase}01_GDSFF_Wesdebis_Web_Version_Registered.docx`,
     fileName: '01_GDSFF_Wesdebis_Web_Version_Registered.docx',
   },
   {
     id: 'giorgi-bio',
-    href: '/downloads/02_Giorgi_Gagnidze_Short_Bio_Final.docx',
+    href: `${downloadBase}02_Giorgi_Gagnidze_Short_Bio_Final.docx`,
     fileName: '02_Giorgi_Gagnidze_Short_Bio_Final.docx',
   },
   {
     id: 'ana-bio',
-    href: '/downloads/03_Ana_Fabchulidze_Short_Bio_Final.docx',
+    href: `${downloadBase}03_Ana_Fabchulidze_Short_Bio_Final.docx`,
     fileName: '03_Ana_Fabchulidze_Short_Bio_Final.docx',
   },
   {
     id: 'membership-form',
-    href: '/downloads/04_GDSFF_Membership_Application_Form_Final.docx',
+    href: `${downloadBase}04_GDSFF_Membership_Application_Form_Final.docx`,
     fileName: '04_GDSFF_Membership_Application_Form_Final.docx',
   },
   {
     id: 'content-pack',
-    href: '/downloads/05_GDSFF_Website_Content_Pack_Final.docx',
+    href: `${downloadBase}05_GDSFF_Website_Content_Pack_Final.docx`,
     fileName: '05_GDSFF_Website_Content_Pack_Final.docx',
   },
   {
     id: 'upload-checklist',
-    href: '/downloads/06_GDSFF_Website_Upload_Checklist_Final.docx',
+    href: `${downloadBase}06_GDSFF_Website_Upload_Checklist_Final.docx`,
     fileName: '06_GDSFF_Website_Upload_Checklist_Final.docx',
+  },
+  {
+    id: 'logo',
+    href: `${downloadBase}08_GDSFF_Official_Logo_Approved.png`,
+    fileName: '08_GDSFF_Official_Logo_Approved.png',
   },
 ]
 
@@ -37,7 +44,7 @@ export const officialLaunchContent = {
       eyebrow: 'About',
       title: 'Federation Overview and Charter',
       text:
-        'Official federation profile, mission, charter basis, and institutional role presented in a clean launch-ready format.',
+        'Official federation profile, mission, charter basis, and institutional role presented in one clear reference format.',
       highlights: ['Registered federation', 'Modern sport platform', 'International cooperation'],
       overviewTitle: 'Federation Overview',
       overviewParagraphs: [
@@ -74,7 +81,7 @@ export const officialLaunchContent = {
           name: 'Giorgi Gagnidze',
           text:
             'Giorgi Gagnidze is the President of the Georgian Dynamic Shooting & Functional Fitness Federation. He leads the strategic development of the federation, the process of institutional positioning, the deepening of partner relations, and the implementation of long-term federation goals. His role includes strengthening the organizational framework, developing sport directions, supporting international cooperation, and representing the federation in relevant professional and institutional environments.',
-          href: '/downloads/02_Giorgi_Gagnidze_Short_Bio_Final.docx',
+          href: `${downloadBase}02_Giorgi_Gagnidze_Short_Bio_Final.docx`,
           actionLabel: 'Download Bio',
         },
         {
@@ -83,7 +90,7 @@ export const officialLaunchContent = {
           name: 'Ana Fabchulidze',
           text:
             'Ana Fabchulidze is the Director of the Georgian Dynamic Shooting & Functional Fitness Federation. She is responsible for administrative coordination, management of organizational processes, internal communication, and the effective execution of ongoing activity. Her work supports the stability of daily federation operations, the systematic development of organizational processes, and the practical delivery of federation programs.',
-          href: '/downloads/03_Ana_Fabchulidze_Short_Bio_Final.docx',
+          href: `${downloadBase}03_Ana_Fabchulidze_Short_Bio_Final.docx`,
           actionLabel: 'Download Bio',
         },
       ],
@@ -102,7 +109,7 @@ export const officialLaunchContent = {
       applicationTitle: 'Membership Application Form',
       applicationText:
         'Download the official application form and submit the completed version to the federation email address.',
-      applicationHref: '/downloads/04_GDSFF_Membership_Application_Form_Final.docx',
+      applicationHref: `${downloadBase}04_GDSFF_Membership_Application_Form_Final.docx`,
       actionLabel: 'Download Application Form',
     },
     documents: {
@@ -110,10 +117,10 @@ export const officialLaunchContent = {
       title: 'Official Documents and Downloads',
       text:
         'This page gathers the main official federation documents, forms, and reference materials available for download.',
-      highlights: ['Official files', 'Launch documents', 'Direct downloads'],
+      highlights: ['Official files', 'Federation records', 'Direct downloads'],
       introTitle: 'Official Documents',
       introText:
-        'The launch-ready document library includes the charter, leadership biographies, membership form, content pack, and upload checklist.',
+        'The document library includes the charter, leadership biographies, membership form, public logo file, content pack, and upload checklist.',
       items: [
         {
           ...documentItems[0],
@@ -151,22 +158,29 @@ export const officialLaunchContent = {
           description: 'Launch checklist used to verify final website deployment readiness.',
           actionLabel: 'Download Checklist',
         },
+        {
+          ...documentItems[6],
+          title: 'Official GDSFF Logo',
+          description: 'Approved public federation logo file for media, partner decks, and official references.',
+          actionLabel: 'Download Logo',
+          format: 'PNG',
+        },
       ],
     },
     home: {
       leadershipEyebrow: 'Leadership Preview',
       leadershipTitle: 'Official leadership presented with direct access to the president and director profiles.',
       leadershipText:
-        'The launch homepage now surfaces the core leadership profile area so institutions, partners, and members can quickly understand responsibility and coordination.',
+        'The homepage surfaces the leadership profile area so institutions, partners, and members can quickly understand responsibility and coordination.',
       membershipEyebrow: 'Membership Preview',
       membershipTitle: 'A clear application path for individuals, athletes, coaches, and clubs.',
       membershipText:
         'Membership entry is structured through a formal application form and direct submission to the official federation email address.',
       membershipActionLabel: 'Open Membership',
       documentsEyebrow: 'Documents Preview',
-      documentsTitle: 'Essential launch documents available from one official download center.',
+      documentsTitle: 'Essential federation documents available from one official download center.',
       documentsText:
-        'The documents preview highlights the files most important for launch, federation administration, and stakeholder communication.',
+        'The documents preview highlights the files most relevant for federation administration and stakeholder communication.',
       documentsActionLabel: 'Open Documents',
     },
   },
@@ -212,7 +226,7 @@ export const officialLaunchContent = {
           name: 'გიორგი გაგნიძე',
           text:
             'გიორგი გაგნიძე არის Georgian Dynamic Shooting & Functional Fitness Federation-ის პრეზიდენტი. იგი ხელმძღვანელობს ფედერაციის სტრატეგიულ განვითარებას, ინსტიტუციური პოზიციონირების პროცესს, პარტნიორული ურთიერთობების გაღრმავებასა და ფედერაციის გრძელვადიანი მიზნების განხორციელებას. მისი როლი მოიცავს ორგანიზაციული ჩარჩოს განმტკიცებას, სპორტული მიმართულებების განვითარებას, საერთაშორისო თანამშრომლობის ხელშეწყობასა და ფედერაციის წარმომადგენლობას შესაბამის პროფესიულ და ინსტიტუციურ სივრცეებში.',
-          href: '/downloads/02_Giorgi_Gagnidze_Short_Bio_Final.docx',
+          href: `${downloadBase}02_Giorgi_Gagnidze_Short_Bio_Final.docx`,
           actionLabel: 'ბიოს ჩამოტვირთვა',
         },
         {
@@ -221,7 +235,7 @@ export const officialLaunchContent = {
           name: 'ანა ფაბჩულიძე',
           text:
             'ანა ფაბჩულიძე არის Georgian Dynamic Shooting & Functional Fitness Federation-ის დირექტორი. იგი პასუხისმგებელია ფედერაციის ადმინისტრაციულ კოორდინაციაზე, საორგანიზაციო პროცესების მართვაზე, შიდა კომუნიკაციის გამართულობაზე და მიმდინარე საქმიანობის ეფექტიან შესრულებაზე. მისი საქმიანობა ხელს უწყობს ფედერაციის ყოველდღიური ოპერაციების სტაბილურობას, ორგანიზაციული პროცესების სისტემურ განვითარებასა და პროგრამების განხორციელების პრაქტიკულ უზრუნველყოფას.',
-          href: '/downloads/03_Ana_Fabchulidze_Short_Bio_Final.docx',
+          href: `${downloadBase}03_Ana_Fabchulidze_Short_Bio_Final.docx`,
           actionLabel: 'ბიოს ჩამოტვირთვა',
         },
       ],
@@ -240,7 +254,7 @@ export const officialLaunchContent = {
       applicationTitle: 'წევრობის განაცხადის ფორმა',
       applicationText:
         'ჩამოტვირთეთ ოფიციალური განაცხადის ფორმა, შეავსეთ სრულად და გადმოაგზავნეთ ფედერაციის ელფოსტაზე.',
-      applicationHref: '/downloads/04_GDSFF_Membership_Application_Form_Final.docx',
+      applicationHref: `${downloadBase}04_GDSFF_Membership_Application_Form_Final.docx`,
       actionLabel: 'განაცხადის ფორმის ჩამოტვირთვა',
     },
     documents: {
@@ -251,7 +265,7 @@ export const officialLaunchContent = {
       highlights: ['ოფიციალური ფაილები', 'საიტის გაშვების მასალები', 'პირდაპირი ჩამოტვირთვა'],
       introTitle: 'ოფიციალური დოკუმენტები',
       introText:
-        'დოკუმენტების ბიბლიოთეკა აერთიანებს წესდებას, ხელმძღვანელობის ბიოგრაფიებს, წევრობის ფორმას, საიტის კონტენტის პაკეტს და ატვირთვის შემოწმების სიას.',
+        'დოკუმენტების ბიბლიოთეკა აერთიანებს წესდებას, ხელმძღვანელობის ბიოგრაფიებს, წევრობის ფორმას, საჯარო ლოგოს ფაილს, საიტის კონტენტის პაკეტს და ატვირთვის შემოწმების სიას.',
       items: [
         {
           ...documentItems[0],
@@ -288,6 +302,13 @@ export const officialLaunchContent = {
           title: 'საიტის ატვირთვის შემოწმების სია',
           description: 'გაშვებამდე საბოლოო შემოწმების დოკუმენტი.',
           actionLabel: 'ჩეკლისტის ჩამოტვირთვა',
+        },
+        {
+          ...documentItems[6],
+          title: 'GDSFF-ის ოფიციალური ლოგო',
+          description: 'დამტკიცებული საჯარო ფედერაციული ლოგოს ფაილი მედიისთვის, პარტნიორული მასალებისთვის და ოფიციალური გამოყენებისთვის.',
+          actionLabel: 'ლოგოს ჩამოტვირთვა',
+          format: 'PNG',
         },
       ],
     },

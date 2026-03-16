@@ -7,7 +7,7 @@ const libraryCopy = {
   en: {
     libraryTitle: 'Official Document Library',
     libraryText:
-      'All core federation files are grouped in one controlled download center to keep the page clear, structured, and launch-ready.',
+      'All core federation files and public brand assets are grouped in one controlled download center to keep the page clear, structured, and launch-ready.',
     categories: [
       {
         key: 'governance',
@@ -44,12 +44,19 @@ const libraryCopy = {
         text: 'Supporting website and deployment resources prepared for official rollout.',
         itemIds: ['content-pack', 'upload-checklist'],
       },
+      {
+        key: 'branding',
+        kicker: 'Brand Assets',
+        title: 'Official federation logo',
+        text: 'Approved public logo file prepared for media kits, partner materials, and official references.',
+        itemIds: ['logo'],
+      },
     ],
   },
   ka: {
     libraryTitle: 'ოფიციალური დოკუმენტების ბიბლიოთეკა',
     libraryText:
-      'ფედერაციის ძირითადი ფაილები გაერთიანებულია ერთ მოწესრიგებულ ჩამოსატვირთ ცენტრში, რათა გვერდი დარჩეს სუფთა, სტრუქტურირებული და ოფიციალური.',
+      'ფედერაციის ძირითადი ფაილები და საჯარო ბრენდ აქტივები გაერთიანებულია ერთ მოწესრიგებულ ჩამოსატვირთ ცენტრში, რათა გვერდი დარჩეს სუფთა, სტრუქტურირებული და ოფიციალური.',
     categories: [
       {
         key: 'governance',
@@ -85,6 +92,13 @@ const libraryCopy = {
         title: 'გაშვების რესურსები და საოპერაციო ფაილები',
         text: 'საიტისა და ოფიციალური გაშვების მხარდამჭერი დამატებითი მასალები.',
         itemIds: ['content-pack', 'upload-checklist'],
+      },
+      {
+        key: 'branding',
+        kicker: 'ბრენდინგის ფაილები',
+        title: 'ოფიციალური ფედერაციის ლოგო',
+        text: 'დამტკიცებული საჯარო ლოგოს ფაილი მედიისთვის, პარტნიორული მასალებისთვის და ოფიციალური გამოყენებისთვის.',
+        itemIds: ['logo'],
       },
     ],
   },
