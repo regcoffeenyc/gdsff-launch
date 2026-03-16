@@ -7,7 +7,7 @@ export const kaContent = {
       { id: 'facebook', label: 'Facebook', href: 'https://facebook.com/' },
       { id: 'instagram', label: 'Instagram', href: 'https://instagram.com/' },
     ],
-    email: 'info@gdsff.ge',
+    email: 'office@gdsff.org',
     phone: '+995 511 560038',
     locationLabel: `41\u00B035'22.30"N 45\u00B016'56.28"E`,
     locationHref: 'https://maps.google.com/?q=41.589528,45.282300',
@@ -38,7 +38,7 @@ export const kaContent = {
     subtitle: 'სიზუსტე. ძალა. დისციპლინა.',
     slogan: 'სიზუსტე. ძალა. დისციპლინა.',
     location: 'თბილისი, საქართველო',
-    email: 'info@gdsff.ge',
+    email: 'office@gdsff.org',
   },
   header: {
     seasonBadge: 'ფედერაციის 2026 წლის სეზონი',
@@ -65,7 +65,7 @@ export const kaContent = {
     ],
     contactTitle: 'ოფიციალური კონტაქტი',
     contactItems: [
-      'ზოგადი კითხვები: info@gdsff.ge',
+      'ზოგადი კითხვები: office@gdsff.org',
       'ლოკაცია: თბილისი, საქართველო',
       'მივესალმებით პარტნიორულ, მედია და მასპინძელი კლუბის მოთხოვნებს',
     ],
@@ -414,7 +414,7 @@ export const kaContent = {
     title: 'უფრო მკვეთრი ვიზუალური სისტემა არსებული ლოგოსა და რენჯის ფოტოზე დაფუძნებით.',
     text:
       'მედიის გვერდი ინარჩუნებს საწყის მასალებს, მაგრამ წარადგენს მათ უფრო ოფიციალურ და რედაქციულ ფორმატში სპონსორული პრეზენტაციებისთვის, ღონისძიებების ფოტოებისთვის და ფედერაციის განცხადებებისთვის.',
-    highlights: ['არსებული ლოგო შენარჩუნებულია', 'რენჯის ფოტო შენარჩუნებულია', 'რედაქციული ხარისხის განლაგება'],
+    highlights: ['ოფიციალური ემბლემა განახლებულია', 'რენჯის ფოტო შენარჩუნებულია', 'რედაქციული ხარისხის განლაგება'],
     cards: [
       {
         title: 'მთავარი რენჯის ვიზუალი',
@@ -439,7 +439,7 @@ export const kaContent = {
     cards: [
       {
         title: 'ფედერაციის ზოგადი კითხვები',
-        value: 'info@gdsff.ge',
+        value: 'office@gdsff.org',
         text: 'გამოიყენეთ ოფიციალური კომუნიკაციისთვის, სპორტსმენების ინფორმაციისთვის და ზოგადი კითხვებისთვის.',
       },
       {

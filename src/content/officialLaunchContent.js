@@ -104,7 +104,7 @@ export const officialLaunchContent = {
       paragraphs: [
         'The federation welcomes the involvement of individuals and organizations that share the federation goals, ethical standards, and development-oriented vision.',
         'An applicant must download the membership application form, complete it in full, and send it to the official federation email address.',
-        'Completed applications are accepted electronically at: info@gdsff.ge',
+        'Completed applications are accepted electronically at: office@gdsff.org',
       ],
       applicationTitle: 'Membership Application Form',
       applicationText:
@@ -249,7 +249,7 @@ export const officialLaunchContent = {
       paragraphs: [
         'ფედერაცია მიესალმება იმ პირებისა და ორგანიზაციების ჩართვას, რომლებიც იზიარებენ ფედერაციის მიზნებს, ეთიკურ სტანდარტებსა და განვითარებაზე ორიენტირებულ ხედვას.',
         'გაწევრიანების მსურველმა პირმა ან ორგანიზაციამ უნდა ჩამოტვირთოს წევრობის განაცხადის ფორმა, შეავსოს სრულად და გადმოაგზავნოს ფედერაციის ოფიციალურ ელფოსტაზე.',
-        'შევსებული განაცხადები მიიღება ელექტრონულად შემდეგ მისამართზე: info@gdsff.ge',
+        'შევსებული განაცხადები მიიღება ელექტრონულად შემდეგ მისამართზე: office@gdsff.org',
       ],
       applicationTitle: 'წევრობის განაცხადის ფორმა',
       applicationText:

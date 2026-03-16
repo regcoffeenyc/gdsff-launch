@@ -11,9 +11,9 @@ const contactCopy = {
     cards: [
       {
         title: 'Email',
-        value: 'info@gdsff.ge',
+        value: 'office@gdsff.org',
         text: 'Primary federation inbox for official correspondence, institutional inquiries, and member communication.',
-        href: 'mailto:info@gdsff.ge',
+        href: 'mailto:office@gdsff.org',
         icon: MailIcon,
         actionLabel: 'Send Email',
       },
@@ -61,9 +61,9 @@ const contactCopy = {
     cards: [
       {
         title: 'ელფოსტა',
-        value: 'info@gdsff.ge',
+        value: 'office@gdsff.org',
         text: 'ფედერაციის მთავარი ელფოსტა ოფიციალური მიმოწერისთვის, ინსტიტუციური კითხვებისთვის და წევრებთან კომუნიკაციისთვის.',
-        href: 'mailto:info@gdsff.ge',
+        href: 'mailto:office@gdsff.org',
         icon: MailIcon,
         actionLabel: 'ელფოსტის გაგზავნა',
       },

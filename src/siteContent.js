@@ -10,7 +10,7 @@ function applyLaunchOverrides(rawContent, locale) {
     ...normalized,
     meta: {
       ...normalized.meta,
-      email: 'info@gdsff.ge',
+      email: 'office@gdsff.org',
       phone: '+995 511 560038',
       locationLabel: `41\u00B035'22.30"N 45\u00B016'56.28"E`,
       locationHref: 'https://maps.google.com/?q=41.589528,45.282300',

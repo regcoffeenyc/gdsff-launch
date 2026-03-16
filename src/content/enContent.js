@@ -7,7 +7,7 @@ export const enContent = {
       { id: 'facebook', label: 'Facebook', href: 'https://facebook.com/' },
       { id: 'instagram', label: 'Instagram', href: 'https://instagram.com/' },
     ],
-    email: 'info@gdsff.ge',
+    email: 'office@gdsff.org',
     phone: '+995 511 560038',
     locationLabel: `41\u00B035'22.30"N 45\u00B016'56.28"E`,
     locationHref: 'https://maps.google.com/?q=41.589528,45.282300',
@@ -38,7 +38,7 @@ export const enContent = {
     subtitle: 'Precision. Strength. Discipline.',
     slogan: 'Precision. Strength. Discipline.',
     location: 'Tbilisi, Georgia',
-    email: 'info@gdsff.ge',
+    email: 'office@gdsff.org',
   },
   header: {
     seasonBadge: 'Official federation season 2026',
@@ -65,7 +65,7 @@ export const enContent = {
     ],
     contactTitle: 'Contact',
     contactItems: [
-      'General inquiries: info@gdsff.ge',
+      'General inquiries: office@gdsff.org',
       'Partnerships, media, and host club coordination',
       'Official communications issued in Georgian and English',
     ],
@@ -87,10 +87,10 @@ export const enContent = {
         'GDSFF serves as the official public platform for dynamic shooting and functional fitness in Georgia, bringing together competition governance, athlete pathways, safety standards, and partner-facing communications in one disciplined identity.',
       primaryAction: { label: 'Explore 2026 Calendar', to: '/events' },
       secondaryAction: { label: 'Contact Secretariat', to: '/contact' },
-      quickFacts: ['Governance and sanctioning', '2026 seeded calendar', 'International-facing communications'],
+      quickFacts: ['Governance and sanctioning', '2026 official calendar', 'International-facing communications'],
       commandTitle: 'Federation Brief',
       commandItems: [
-        '2026 season structure published with seeded event dates',
+        '2026 season structure published with official event windows',
         'Leadership, governance, and sport direction presented publicly',
         'Partner, media, and host-club outreach channels open',
       ],
@@ -100,7 +100,7 @@ export const enContent = {
     },
     stats: [
       { value: '2', label: 'Core competition disciplines' },
-      { value: '2026', label: 'Seeded official season' },
+      { value: '2026', label: 'Official season calendar' },
       { value: 'Bilingual', label: 'Public communications' },
       { value: 'Partner-ready', label: 'Official digital presentation' },
     ],
@@ -144,7 +144,7 @@ export const enContent = {
       title: '2026 federation calendar and event bulletins.',
       text:
         'The events area now presents the season with an official calendar grid, professional event cards, and clear publishing states for members, partners, and guests.',
-      note: '2026 dates are seeded launch data and can be refined through official federation notices and event bulletins.',
+      note: '2026 dates are published as a planning calendar and may be refined through official federation notices and event bulletins.',
     },
     leadershipSpotlight: {
       eyebrow: 'Leadership',
@@ -159,10 +159,10 @@ export const enContent = {
         'The partner area presents neutral, premium partner panels that can transition directly to approved sponsor and institutional marks.',
     },
     closingCta: {
-      eyebrow: 'Official Launch',
+      eyebrow: 'Official Federation Platform',
       title: 'Prepared for public release, federation outreach, and sponsor review.',
       text:
-        'The site now combines disciplined branding, clear governance presentation, bilingual publishing, and static deployment readiness in a launch-ready federation platform.',
+        'The site now combines disciplined branding, clear governance presentation, bilingual publishing, and deployment-ready publishing in one official federation platform.',
       primaryAction: { label: 'Open Contact Page', to: '/contact' },
       secondaryAction: { label: 'Review Leadership', to: '/leadership' },
     },
@@ -211,7 +211,7 @@ export const enContent = {
       {
         phase: 'Phase 2',
         title: 'Season activation',
-        text: 'Publish the calendar, onboard host clubs, and launch development clinics.',
+        text: 'Publish the calendar, onboard host clubs, and open development clinics.',
       },
       {
         phase: 'Phase 3',
@@ -299,16 +299,16 @@ export const enContent = {
     eyebrow: 'Competition Calendar',
     title: 'Season planning with formal dates, publication states, and professional event presentation.',
     text:
-      'The events section presents the federation season through a structured calendar, seeded schedule data, and bulletin-ready event cards suitable for public release.',
+      'The events section presents the federation season through a structured calendar, published schedule data, and bulletin-ready event cards suitable for public release.',
     highlights: ['Month grid', 'Schedule notice', 'Event detail cards'],
     calendar: {
       title: '2026 Federation Competition and Development Calendar',
       text:
-        'The launch calendar uses seeded 2026 schedule data so the site can publish a complete season view while dates, venues, and formal bulletins are updated through official federation notices.',
+        'The 2026 calendar uses published schedule data so the site can present a complete season view while dates, venues, and formal bulletins are updated through official federation notices.',
       entryLabel: 'official entries',
       noticeTitle: 'Schedule Notice',
       noticeText:
-        'The 2026 calendar is published as seeded launch data. Dates, venues, and event bulletins remain subject to official federation confirmation.',
+        'The 2026 calendar is published as planning data. Dates, venues, and event bulletins remain subject to official federation confirmation.',
       month: '2026-04',
       days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
       legend: ['Registration open', 'Confirmed', 'Coming soon', 'Members only'],
@@ -420,7 +420,7 @@ export const enContent = {
     title: 'Official identity and media presentation built around the approved emblem and range photography.',
     text:
       'The media page presents the approved emblem and range photography in an editorial layout suitable for federation announcements, event coverage, and sponsor-facing presentations.',
-    highlights: ['Existing logo preserved', 'Range image retained', 'Editorial page polish'],
+    highlights: ['Official emblem updated', 'Range image retained', 'Editorial page polish'],
     cards: [
       {
         title: 'Primary Range Visual',
@@ -445,7 +445,7 @@ export const enContent = {
     cards: [
       {
         title: 'Federation Secretariat',
-        value: 'info@gdsff.ge',
+        value: 'office@gdsff.org',
         text: 'Use for official communication, athlete information requests, and general federation questions.',
       },
       {
@@ -471,7 +471,7 @@ export const enContent = {
     cards: [
       {
         title: 'Email',
-        value: 'info@gdsff.ge',
+        value: 'office@gdsff.org',
         text: 'Primary federation inbox for official communication, general inquiries, and athlete or club requests.',
       },
       {
