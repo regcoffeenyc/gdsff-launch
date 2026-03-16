@@ -24,8 +24,34 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
   const [openDesktopMenu, setOpenDesktopMenu] = useState(null)
   const [openMobileSection, setOpenMobileSection] = useState(null)
   const headerRef = useRef(null)
+  const desktopCloseTimerRef = useRef(null)
   const location = useLocation()
   const navGroups = useMemo(() => buildFederationNav(copy), [copy])
+
+  const clearDesktopCloseTimer = () => {
+    if (desktopCloseTimerRef.current) {
+      window.clearTimeout(desktopCloseTimerRef.current)
+      desktopCloseTimerRef.current = null
+    }
+  }
+
+  const openDesktopMenuNow = (key) => {
+    clearDesktopCloseTimer()
+    setOpenDesktopMenu(key)
+  }
+
+  const queueDesktopMenuClose = (key, delay = 180) => {
+    clearDesktopCloseTimer()
+    desktopCloseTimerRef.current = window.setTimeout(() => {
+      setOpenDesktopMenu((current) => (current === key ? null : current))
+      desktopCloseTimerRef.current = null
+    }, delay)
+  }
+
+  const closeDesktopMenuNow = () => {
+    clearDesktopCloseTimer()
+    setOpenDesktopMenu(null)
+  }
 
   const closeMobileMenu = () => {
     setMenuOpen(false)
@@ -34,7 +60,7 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
 
   useEffect(() => {
     closeMobileMenu()
-    setOpenDesktopMenu(null)
+    closeDesktopMenuNow()
 
     const hashId = location.hash.replace(/^#/, '')
     const scrollFrame = window.requestAnimationFrame(() => {
@@ -56,7 +82,7 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
   }, [location.hash, location.pathname])
 
   useEffect(() => {
-    setOpenDesktopMenu(null)
+    closeDesktopMenuNow()
     closeMobileMenu()
   }, [language])
 
@@ -101,19 +127,25 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
   }, [location, menuOpen, navGroups, openMobileSection])
 
   useEffect(() => {
+    return () => {
+      clearDesktopCloseTimer()
+    }
+  }, [])
+
+  useEffect(() => {
     if (!openDesktopMenu) {
       return
     }
 
     function handlePointerDown(event) {
       if (!headerRef.current?.contains(event.target)) {
-        setOpenDesktopMenu(null)
+        closeDesktopMenuNow()
       }
     }
 
     function handleEscape(event) {
       if (event.key === 'Escape') {
-        setOpenDesktopMenu(null)
+        closeDesktopMenuNow()
       }
     }
 
@@ -203,7 +235,9 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
               groups={navGroups}
               location={location}
               openKey={openDesktopMenu}
-              setOpenKey={setOpenDesktopMenu}
+              openMenu={openDesktopMenuNow}
+              queueCloseMenu={queueDesktopMenuClose}
+              closeMenu={closeDesktopMenuNow}
               ariaLabel={copy.header.mainNavigation}
             />
           </div>

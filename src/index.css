@@ -4749,3 +4749,376 @@ img {
     justify-content: stretch;
   }
 }
+
+.inline-email-link,
+.contact-card-value-link {
+  color: var(--gold-strong);
+  text-decoration: underline;
+  text-decoration-color: rgba(212, 187, 131, 0.34);
+  text-underline-offset: 0.18em;
+  transition: color 180ms ease, text-decoration-color 180ms ease;
+}
+
+.inline-email-link:hover,
+.contact-card-value-link:hover,
+.contact-card-value-link:focus-visible {
+  color: var(--text);
+  text-decoration-color: rgba(212, 187, 131, 0.72);
+}
+
+.contact-card-value {
+  margin: 0;
+}
+
+.document-library-shell {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+}
+
+.document-library-intro {
+  display: grid;
+  gap: 0.5rem;
+  padding-bottom: 0.2rem;
+}
+
+.document-library-intro .section-copy {
+  margin: 0;
+  max-width: 62ch;
+}
+
+.document-library-groups {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.document-library-group {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 100%),
+    rgba(255, 255, 255, 0.025);
+  overflow: hidden;
+  transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+
+.document-library-group.is-open,
+.document-library-group:hover {
+  border-color: rgba(212, 187, 131, 0.2);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 100%),
+    rgba(255, 255, 255, 0.032);
+  box-shadow: 0 20px 34px rgba(0, 0, 0, 0.18);
+}
+
+.document-library-toggle {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1.05rem 1.1rem;
+  border: none;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+.document-library-toggle-copy {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.document-library-toggle-copy h3,
+.document-item-copy h3 {
+  margin: 0;
+  font-size: 1.12rem;
+}
+
+.document-library-toggle-copy p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.document-library-toggle-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.document-library-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  min-height: 42px;
+  padding: 0.55rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(212, 187, 131, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--gold-strong);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.document-library-toggle-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--gold-strong);
+  transition: transform 180ms ease;
+}
+
+.document-library-group.is-open .document-library-toggle-icon {
+  transform: rotate(180deg);
+}
+
+.document-library-toggle:focus-visible,
+.document-library-toggle:focus-visible .document-library-count {
+  outline: 2px solid rgba(212, 187, 131, 0.58);
+  outline-offset: 2px;
+}
+
+.document-library-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 220ms ease;
+}
+
+.document-library-group.is-open .document-library-panel {
+  grid-template-rows: 1fr;
+}
+
+.document-library-panel-inner {
+  min-height: 0;
+  overflow: hidden;
+  display: grid;
+  gap: 0.8rem;
+  padding: 0 1.1rem 1.1rem;
+}
+
+.document-item-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.document-item-copy {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.document-item-row .document-description {
+  margin: 0;
+}
+
+.document-item-row .download-action {
+  min-width: 200px;
+}
+
+.site-topbar-inner {
+  min-height: 34px;
+  padding: 0.18rem 0;
+}
+
+.topbar-contacts {
+  gap: 0.38rem;
+}
+
+.topbar-contact-link {
+  padding: 0.34rem 0.62rem;
+  font-size: 0.78rem;
+}
+
+.topbar-location-link {
+  max-width: 248px;
+}
+
+.social-link {
+  width: 30px;
+  height: 30px;
+}
+
+.header-main-row {
+  gap: 0.9rem;
+  padding: 0.44rem 0 0.08rem;
+}
+
+.header-actions {
+  gap: 0.55rem;
+}
+
+.brand-mark {
+  max-width: 450px;
+  gap: 0.74rem;
+}
+
+.brand-logo {
+  width: 56px;
+  height: 56px;
+  padding: 0.24rem;
+  border-radius: 17px;
+}
+
+.brand-kicker {
+  font-size: 0.54rem;
+  letter-spacing: 0.19em;
+}
+
+.brand-title {
+  font-size: 1.2rem;
+  letter-spacing: 0.19em;
+}
+
+.brand-subtitle {
+  max-width: 25ch;
+  font-size: 0.68rem;
+  line-height: 1.28;
+}
+
+.brand-meta {
+  font-size: 0.54rem;
+  letter-spacing: 0.16em;
+}
+
+.header-calendar-link {
+  min-height: 36px;
+  padding-inline: 0.88rem;
+}
+
+.desktop-language-toggle {
+  padding: 0.12rem;
+}
+
+.language-button {
+  min-width: 36px;
+  min-height: 32px;
+  padding: 0.38rem 0.54rem;
+  font-size: 0.68rem;
+}
+
+.header-nav-row {
+  border-top: 1px solid rgba(255, 255, 255, 0.035);
+}
+
+.header-nav-shell {
+  padding: 0 0 0.14rem;
+}
+
+.federation-nav {
+  gap: 0.2rem;
+}
+
+.nav-dropdown {
+  position: relative;
+  padding-bottom: 0.18rem;
+  margin-bottom: -0.18rem;
+}
+
+.nav-trigger-shell {
+  min-height: 36px;
+}
+
+.nav-group-link {
+  min-height: 36px;
+  padding: 0.42rem 0.32rem 0.42rem 0.74rem;
+  font-size: 0.78rem;
+}
+
+.nav-group-toggle {
+  width: 28px;
+  height: 28px;
+  margin: 0 0.16rem 0 0.06rem;
+}
+
+.dropdown-panel {
+  top: calc(100% + 0.08rem);
+  width: min(410px, 34vw);
+}
+
+.dropdown-panel-inner {
+  gap: 0.8rem;
+  padding: 0.84rem;
+}
+
+.dropdown-link {
+  padding: 0.7rem 0.78rem;
+}
+
+.page-hero-grid {
+  padding: 1.8rem 0 0;
+}
+
+.page-section {
+  padding-top: 1.8rem;
+}
+
+@media (max-width: 980px) {
+  .document-item-row {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .document-item-row .download-action {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 900px) {
+  .header-main-row {
+    padding: 0.48rem 0;
+  }
+
+  .nav-toggle {
+    top: 5.2rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .site-topbar-inner {
+    padding: 0.26rem 0;
+    gap: 0.48rem;
+  }
+
+  .topbar-contact-link {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .header-main-row {
+    padding: 0.42rem 0;
+  }
+
+  .brand-logo {
+    width: 52px;
+    height: 52px;
+  }
+
+  .brand-title {
+    font-size: 1.08rem;
+  }
+
+  .brand-meta {
+    font-size: 0.5rem;
+  }
+
+  .document-library-shell {
+    padding: 1rem;
+  }
+
+  .document-library-toggle {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .document-library-toggle-meta {
+    justify-content: space-between;
+  }
+}

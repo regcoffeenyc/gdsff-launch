@@ -310,7 +310,7 @@ function NavigationLink({ item, location, className, onActivate }) {
   )
 }
 
-export function DesktopFederationNav({ groups, location, openKey, setOpenKey, ariaLabel }) {
+export function DesktopFederationNav({ groups, location, openKey, openMenu, queueCloseMenu, closeMenu, ariaLabel }) {
   return (
     <nav className="federation-nav desktop-nav" aria-label={ariaLabel}>
       {groups.map((group) => {
@@ -322,11 +322,11 @@ export function DesktopFederationNav({ groups, location, openKey, setOpenKey, ar
           <div
             key={group.key}
             className={isOpen ? 'nav-dropdown is-open' : active ? 'nav-dropdown is-active' : 'nav-dropdown'}
-            onMouseEnter={() => setOpenKey(group.key)}
-            onMouseLeave={() => setOpenKey((current) => (current === group.key ? null : current))}
+            onMouseEnter={() => openMenu(group.key)}
+            onMouseLeave={() => queueCloseMenu(group.key)}
             onBlurCapture={(event) => {
               if (!event.currentTarget.contains(event.relatedTarget)) {
-                setOpenKey((current) => (current === group.key ? null : current))
+                queueCloseMenu(group.key, 120)
               }
             }}
           >
@@ -334,9 +334,9 @@ export function DesktopFederationNav({ groups, location, openKey, setOpenKey, ar
               <Link
                 to={group.to}
                 className={active ? 'nav-group-link is-active' : 'nav-group-link'}
-                onFocus={() => setOpenKey(group.key)}
-                onMouseEnter={() => setOpenKey(group.key)}
-                onClick={() => setOpenKey(null)}
+                onFocus={() => openMenu(group.key)}
+                onMouseEnter={() => openMenu(group.key)}
+                onClick={closeMenu}
               >
                 <span>{group.label}</span>
               </Link>
@@ -348,14 +348,21 @@ export function DesktopFederationNav({ groups, location, openKey, setOpenKey, ar
                 aria-controls={panelId}
                 aria-haspopup="true"
                 aria-label={`${group.label} menu`}
-                onClick={() => setOpenKey((current) => (current === group.key ? null : group.key))}
-                onFocus={() => setOpenKey(group.key)}
+                onClick={() => (isOpen ? closeMenu() : openMenu(group.key))}
+                onFocus={() => openMenu(group.key)}
               >
                 <ChevronDownIcon className="nav-trigger-icon" />
               </button>
             </div>
 
-            <div id={panelId} className={`dropdown-panel align-${group.panelAlign ?? 'center'}`} role="group" aria-label={group.label}>
+            <div
+              id={panelId}
+              className={`dropdown-panel align-${group.panelAlign ?? 'center'}`}
+              role="group"
+              aria-label={group.label}
+              onMouseEnter={() => openMenu(group.key)}
+              onMouseLeave={() => queueCloseMenu(group.key)}
+            >
               <div className="dropdown-panel-inner">
                 <div className="dropdown-panel-copy">
                   <span className="dropdown-panel-kicker">{group.overline}</span>
@@ -370,7 +377,7 @@ export function DesktopFederationNav({ groups, location, openKey, setOpenKey, ar
                       item={item}
                       location={location}
                       className="dropdown-link"
-                      onActivate={() => setOpenKey(null)}
+                      onActivate={closeMenu}
                     />
                   ))}
                 </div>

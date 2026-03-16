@@ -118,6 +118,18 @@ function ContactActionLink({ card }) {
   )
 }
 
+function ContactValueLink({ card }) {
+  return (
+    <a
+      href={card.href}
+      className="contact-card-value-link"
+      {...(card.external ? { target: '_blank', rel: 'noreferrer' } : {})}
+    >
+      {card.value}
+    </a>
+  )
+}
+
 export default function ContactPage({ copy }) {
   const localeKey = copy.locale === 'ka-GE' ? 'ka' : 'en'
   const directory = normalizeLaunchValue(contactCopy[localeKey])
@@ -191,7 +203,9 @@ export default function ContactPage({ copy }) {
                     </div>
                     <span className="card-kicker">{card.title}</span>
                   </div>
-                  <h3>{card.value}</h3>
+                  <h3 className="contact-card-value">
+                    <ContactValueLink card={card} />
+                  </h3>
                   <p>{card.text}</p>
                   <ContactActionLink card={card} />
                 </article>

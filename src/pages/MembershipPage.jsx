@@ -2,6 +2,24 @@ import PageHero from '../components/PageHero'
 import { EmailLink } from '../components/SiteMetaLinks'
 import { officialLaunchContent } from '../content/officialLaunchContent'
 
+function MembershipParagraph({ text, email }) {
+  if (!text.includes(email)) {
+    return <p>{text}</p>
+  }
+
+  const [before, after] = text.split(email)
+
+  return (
+    <p>
+      {before}
+      <a href={`mailto:${email}`} className="inline-email-link">
+        {email}
+      </a>
+      {after}
+    </p>
+  )
+}
+
 export default function MembershipPage({ copy }) {
   const localeKey = copy.locale === 'ka-GE' ? 'ka' : 'en'
   const view = officialLaunchContent[localeKey].membership
@@ -21,7 +39,7 @@ export default function MembershipPage({ copy }) {
           {view.paragraphs.map((paragraph, index) => (
             <article key={paragraph} className="feature-card">
               <span className="card-kicker">{index === 0 ? view.eyebrow : copy.brand.shortName}</span>
-              <p>{paragraph}</p>
+              <MembershipParagraph text={paragraph} email={copy.meta.email} />
             </article>
           ))}
         </div>

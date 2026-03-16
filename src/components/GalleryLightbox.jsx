@@ -9,6 +9,8 @@ export default function GalleryLightbox({
   labels,
 }) {
   const dialogRef = useRef(null)
+  const touchStartXRef = useRef(null)
+  const touchStartYRef = useRef(null)
 
   useEffect(() => {
     if (activeIndex === null) {
@@ -61,6 +63,31 @@ export default function GalleryLightbox({
   const nextIndex = (activeIndex + 1) % items.length
   const slideLabel = `${String(activeIndex + 1).padStart(2, '0')} / ${String(items.length).padStart(2, '0')}`
 
+  const handleTouchStart = (event) => {
+    const touch = event.changedTouches[0]
+    touchStartXRef.current = touch.clientX
+    touchStartYRef.current = touch.clientY
+  }
+
+  const handleTouchEnd = (event) => {
+    if (touchStartXRef.current === null || touchStartYRef.current === null) {
+      return
+    }
+
+    const touch = event.changedTouches[0]
+    const deltaX = touch.clientX - touchStartXRef.current
+    const deltaY = touch.clientY - touchStartYRef.current
+
+    touchStartXRef.current = null
+    touchStartYRef.current = null
+
+    if (Math.abs(deltaX) < 48 || Math.abs(deltaY) > Math.abs(deltaX)) {
+      return
+    }
+
+    onNavigate(deltaX > 0 ? previousIndex : nextIndex)
+  }
+
   return (
     <div className="gallery-lightbox" role="presentation" onClick={onClose}>
       <div
@@ -92,7 +119,7 @@ export default function GalleryLightbox({
           </button>
 
           <figure className="gallery-lightbox-figure">
-            <div className="gallery-lightbox-frame">
+            <div className="gallery-lightbox-frame" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
               <img src={item.src} alt={item.alt} className="gallery-lightbox-image" />
             </div>
             <figcaption className="gallery-lightbox-caption">
