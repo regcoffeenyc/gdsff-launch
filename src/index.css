@@ -5415,3 +5415,365 @@ img {
     width: 100%;
   }
 }
+
+/* Tone refinement pass: lighten the darkest surfaces without changing the federation palette. */
+:root {
+  --bg: #1e2429;
+  --bg-deep: #1a2025;
+  --panel: rgba(255, 255, 255, 0.085);
+  --panel-strong: rgba(255, 255, 255, 0.125);
+  --panel-soft: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.16);
+  --border-strong: rgba(215, 192, 138, 0.28);
+  --text: #f6f1e8;
+  --muted: rgba(246, 241, 232, 0.86);
+  --soft: rgba(246, 241, 232, 0.66);
+  --shadow: 0 28px 68px rgba(0, 0, 0, 0.3);
+}
+
+body {
+  background:
+    radial-gradient(circle at top right, rgba(178, 59, 47, 0.13), transparent 31%),
+    radial-gradient(circle at left, rgba(212, 187, 131, 0.15), transparent 25%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.068), transparent 40%),
+    linear-gradient(180deg, #21272d 0%, #1b2127 100%);
+}
+
+body::before {
+  opacity: 0.2;
+}
+
+.site-header {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.034), transparent 100%),
+    rgba(24, 29, 34, 0.84);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.15);
+}
+
+.site-topbar {
+  border-bottom-color: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.028);
+}
+
+.topbar-contact-link,
+.mobile-meta-link,
+.footer-info-link,
+.contact-directory-link,
+.social-link,
+.brand-logo,
+.header-utility-link,
+.language-toggle,
+.nav-toggle,
+.mobile-drawer-close {
+  border-color: rgba(255, 255, 255, 0.11);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 100%),
+    rgba(255, 255, 255, 0.048);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.topbar-contact-link:hover,
+.mobile-meta-link:hover,
+.footer-info-link:hover,
+.contact-directory-link:hover,
+.social-link:hover,
+.header-utility-link:hover,
+.mobile-drawer-close:hover,
+.nav-toggle:hover,
+.nav-toggle.is-open {
+  border-color: rgba(212, 187, 131, 0.24);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 100%),
+    rgba(255, 255, 255, 0.075);
+}
+
+.brand-logo {
+  background:
+    radial-gradient(circle at center, rgba(212, 187, 131, 0.16), transparent 64%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 100%),
+    rgba(255, 255, 255, 0.048);
+}
+
+.header-nav-row {
+  border-top-color: rgba(255, 255, 255, 0.055);
+}
+
+.nav-trigger-shell {
+  border-color: rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.028), transparent 100%),
+    rgba(255, 255, 255, 0.032);
+}
+
+.nav-dropdown.is-open .nav-trigger-shell,
+.nav-dropdown.is-active .nav-trigger-shell,
+.nav-trigger-shell:hover {
+  border-color: rgba(212, 187, 131, 0.22);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 100%),
+    rgba(255, 255, 255, 0.06);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.16);
+}
+
+.dropdown-panel-inner {
+  border-color: rgba(212, 187, 131, 0.18);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.042), transparent 32%),
+    rgba(16, 19, 22, 0.94);
+  box-shadow: 0 24px 52px rgba(0, 0, 0, 0.28);
+}
+
+.dropdown-link,
+.mobile-subnav-link,
+.mobile-accordion-link,
+.mobile-accordion-toggle,
+.mobile-accordion-group {
+  border-color: rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 100%),
+    rgba(255, 255, 255, 0.042);
+}
+
+.dropdown-link:hover,
+.dropdown-link.is-active,
+.mobile-subnav-link:hover,
+.mobile-subnav-link.is-active,
+.mobile-accordion-link.is-active,
+.mobile-accordion-link:hover,
+.mobile-accordion-toggle.is-active,
+.mobile-accordion-toggle:hover,
+.mobile-accordion-toggle.is-open,
+.mobile-accordion-group.is-open .mobile-accordion-link {
+  background:
+    radial-gradient(circle at top right, rgba(212, 187, 131, 0.08), transparent 62%),
+    rgba(255, 255, 255, 0.068);
+}
+
+.mobile-drawer-backdrop {
+  background: rgba(7, 9, 12, 0.46);
+}
+
+.mobile-drawer-panel {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 32%),
+    rgba(20, 24, 28, 0.93);
+  box-shadow: -20px 0 46px rgba(0, 0, 0, 0.28);
+}
+
+.page-hero-section {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.048), transparent 58%),
+    rgba(255, 255, 255, 0.04);
+}
+
+.hero-backdrop {
+  background:
+    linear-gradient(140deg, rgba(255, 255, 255, 0.036), transparent 42%),
+    radial-gradient(circle at top right, rgba(178, 59, 47, 0.18), transparent 28%),
+    radial-gradient(circle at left, rgba(212, 187, 131, 0.13), transparent 24%);
+}
+
+.hero-media-card,
+.feature-card,
+.stat-card,
+.gallery-panel,
+.hero-side-panel,
+.calendar-panel,
+.event-card,
+.cta-panel,
+.gallery-photo-card,
+.reference-card,
+.document-card,
+.homepage-preview-card {
+  border-color: rgba(255, 255, 255, 0.11);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.042), transparent 34%),
+    rgba(255, 255, 255, 0.08);
+}
+
+.hero-command-panel,
+.safety-note-callout,
+.search-results-header,
+.search-empty-panel {
+  border-color: rgba(255, 255, 255, 0.11);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 100%),
+    rgba(255, 255, 255, 0.046);
+}
+
+.secondary-button,
+.download-action {
+  border-color: rgba(255, 255, 255, 0.14);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 100%),
+    rgba(255, 255, 255, 0.055);
+}
+
+.secondary-button:hover,
+.download-action:hover,
+.download-action:focus-visible {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.055), transparent 100%),
+    rgba(255, 255, 255, 0.085);
+}
+
+.home-hero::after {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(15, 18, 22, 0.56) 0%,
+      rgba(15, 18, 22, 0.42) 34%,
+      rgba(15, 18, 22, 0.12) 66%,
+      rgba(15, 18, 22, 0.3) 100%
+    ),
+    linear-gradient(180deg, rgba(15, 18, 22, 0.08) 0%, rgba(15, 18, 22, 0.15) 30%, rgba(15, 18, 22, 0.46) 100%);
+}
+
+.home-hero-media {
+  filter: saturate(0.95) contrast(1.02) brightness(1.28);
+}
+
+.home-hero-tint {
+  opacity: 0.92;
+}
+
+.hero-metric-card,
+.hero-aside-card,
+.mission-card,
+.premium-event-card,
+.geo-hub-badge,
+.federation-cta-panel,
+.safety-brand-card,
+.safety-summary-card,
+.safety-panel,
+.safety-actions-card,
+.safety-guardian-card {
+  border-color: rgba(255, 255, 255, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 32%),
+    rgba(23, 27, 31, 0.72);
+}
+
+.hero-media-overlay,
+.gallery-photo-overlay,
+.discipline-overlay,
+.media-preview-overlay {
+  background: linear-gradient(180deg, rgba(15, 18, 22, 0.02), rgba(15, 18, 22, 0.72));
+}
+
+.gallery-view-hint,
+.document-library-count,
+.document-format,
+.homepage-preview-meta {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.site-footer {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.052), transparent 24%),
+    rgba(21, 26, 30, 0.82);
+}
+
+.document-library-group {
+  border-color: rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 100%),
+    rgba(255, 255, 255, 0.04);
+}
+
+.document-library-group.is-open,
+.document-library-group:hover {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 100%),
+    rgba(255, 255, 255, 0.052);
+  box-shadow: 0 20px 36px rgba(0, 0, 0, 0.16);
+}
+
+.document-item-row {
+  border-color: rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.032), transparent 100%),
+    rgba(255, 255, 255, 0.048);
+}
+
+.site-search-field {
+  border-color: rgba(212, 187, 131, 0.2);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 100%),
+    rgba(255, 255, 255, 0.055);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.site-search-field-icon {
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.site-search-input::placeholder,
+.search-page-input::placeholder {
+  color: rgba(255, 255, 255, 0.56);
+}
+
+.search-page-input {
+  border-color: rgba(255, 255, 255, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 100%),
+    rgba(255, 255, 255, 0.05);
+}
+
+.search-result-card {
+  border-color: rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 100%),
+    rgba(255, 255, 255, 0.046);
+}
+
+.search-result-link:hover .search-result-card,
+.search-result-link:focus-visible .search-result-card {
+  box-shadow: 0 20px 36px rgba(0, 0, 0, 0.16);
+}
+
+.search-result-path {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.gallery-lightbox {
+  background: rgba(10, 13, 16, 0.58);
+}
+
+.gallery-lightbox-dialog {
+  border-color: rgba(212, 187, 131, 0.2);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.062), transparent 32%),
+    rgba(24, 29, 34, 0.92);
+  box-shadow: 0 28px 72px rgba(0, 0, 0, 0.38);
+}
+
+.gallery-lightbox-frame,
+.gallery-lightbox-caption {
+  border-color: rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 100%),
+    rgba(255, 255, 255, 0.046);
+}
+
+.gallery-lightbox-image {
+  background:
+    radial-gradient(circle at center, rgba(212, 187, 131, 0.09), transparent 70%),
+    rgba(255, 255, 255, 0.035);
+}
+
+.gallery-lightbox-close,
+.gallery-lightbox-nav {
+  border-color: rgba(255, 255, 255, 0.14);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 100%),
+    rgba(255, 255, 255, 0.06);
+}
+
+.gallery-lightbox-close:hover,
+.gallery-lightbox-nav:hover {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 100%),
+    rgba(212, 187, 131, 0.12);
+}
