@@ -29,16 +29,16 @@ const contactCopy = {
         title: 'Facebook',
         value: 'GDSFF | Georgian Dynamic Shooting & Functional Fitness Federation',
         text: 'Official public page for announcements, community updates, and federation bulletins.',
-        href: 'https://facebook.com/GDSFFGeorgia',
+        href: 'https://www.facebook.com/profile.php?id=61578666412435',
         icon: FacebookIcon,
         actionLabel: 'Open Facebook',
         external: true,
       },
       {
         title: 'Instagram',
-        value: '@gdsff.ge',
+        value: '@gdsffofficial',
         text: 'Official visual channel for federation media, event highlights, and season coverage.',
-        href: 'https://instagram.com/gdsff.ge',
+        href: 'https://www.instagram.com/gdsffofficial/?hl=en',
         icon: InstagramIcon,
         actionLabel: 'Open Instagram',
         external: true,
@@ -79,16 +79,16 @@ const contactCopy = {
         title: 'Facebook',
         value: 'GDSFF | Georgian Dynamic Shooting & Functional Fitness Federation',
         text: 'ფედერაციის ოფიციალური გვერდი განცხადებებისთვის, სიახლეებისთვის და საჯარო განახლებებისთვის.',
-        href: 'https://facebook.com/GDSFFGeorgia',
+        href: 'https://www.facebook.com/profile.php?id=61578666412435',
         icon: FacebookIcon,
         actionLabel: 'Facebook-ის გახსნა',
         external: true,
       },
       {
         title: 'Instagram',
-        value: '@gdsff.ge',
+        value: '@gdsffofficial',
         text: 'ფედერაციის ოფიციალური Instagram არხი მედიისთვის, ღონისძიებების ვიზუალებისთვის და სეზონის გაშუქებისთვის.',
-        href: 'https://instagram.com/gdsff.ge',
+        href: 'https://www.instagram.com/gdsffofficial/?hl=en',
         icon: InstagramIcon,
         actionLabel: 'Instagram-ის გახსნა',
         external: true,
@@ -133,8 +133,12 @@ function ContactValueLink({ card }) {
 export default function ContactPage({ copy }) {
   const localeKey = copy.locale === 'ka-GE' ? 'ka' : 'en'
   const directory = normalizeLaunchValue(contactCopy[localeKey])
-  const facebookLink = copy.meta.socials.find((item) => item.id === 'facebook')?.href ?? 'https://facebook.com/GDSFFGeorgia'
-  const instagramLink = copy.meta.socials.find((item) => item.id === 'instagram')?.href ?? 'https://instagram.com/gdsff.ge'
+  const facebookLink =
+    copy.meta.socials.find((item) => item.id === 'facebook')?.href ??
+    'https://www.facebook.com/profile.php?id=61578666412435'
+  const instagramLink =
+    copy.meta.socials.find((item) => item.id === 'instagram')?.href ??
+    'https://www.instagram.com/gdsffofficial/?hl=en'
   const cards = [
     {
       ...directory.cards[0],

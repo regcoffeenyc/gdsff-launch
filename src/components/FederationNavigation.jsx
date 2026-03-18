@@ -274,13 +274,17 @@ export function buildFederationNav(copy) {
         {
           label: 'Facebook',
           description: copy.meta.facebookPageName,
-          href: copy.meta.socials.find((item) => item.id === 'facebook')?.href ?? 'https://facebook.com/GDSFFGeorgia',
+          href:
+            copy.meta.socials.find((item) => item.id === 'facebook')?.href ??
+            'https://www.facebook.com/profile.php?id=61578666412435',
           external: true,
         },
         {
           label: 'Instagram',
           description: copy.meta.instagramHandle,
-          href: copy.meta.socials.find((item) => item.id === 'instagram')?.href ?? 'https://instagram.com/gdsff.ge',
+          href:
+            copy.meta.socials.find((item) => item.id === 'instagram')?.href ??
+            'https://www.instagram.com/gdsffofficial/?hl=en',
           external: true,
         },
       ],

@@ -15,17 +15,17 @@ function applyLaunchOverrides(rawContent, locale) {
       locationLabel: `41\u00B035'22.30"N 45\u00B016'56.28"E`,
       locationHref: 'https://maps.google.com/?q=41.589528,45.282300',
       facebookPageName: 'GDSFF | Georgian Dynamic Shooting & Functional Fitness Federation',
-      instagramHandle: '@gdsff.ge',
+      instagramHandle: '@gdsffofficial',
       socials: [
         {
           id: 'facebook',
           label: 'Facebook: GDSFF | Georgian Dynamic Shooting & Functional Fitness Federation',
-          href: 'https://facebook.com/GDSFFGeorgia',
+          href: 'https://www.facebook.com/profile.php?id=61578666412435',
         },
         {
           id: 'instagram',
-          label: 'Instagram: @gdsff.ge',
-          href: 'https://instagram.com/gdsff.ge',
+          label: 'Instagram: @gdsffofficial',
+          href: 'https://www.instagram.com/gdsffofficial/?hl=en',
         },
       ],
     },

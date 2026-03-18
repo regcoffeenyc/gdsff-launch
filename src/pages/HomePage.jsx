@@ -44,7 +44,7 @@ const homePageCopy = {
       ],
       briefTitle: 'Federation Brief',
       briefItems: [
-        'Official governance, competition, and institutional identity presented in one launch-ready platform.',
+        'Official governance, competition, and institutional identity presented in one disciplined digital platform.',
         'Dynamic shooting and functional fitness aligned under one disciplined federation standard.',
         'Built for athlete development, event readiness, and international cooperation.',
       ],
@@ -99,9 +99,9 @@ const homePageCopy = {
     },
     events: {
       eyebrow: 'Events Preview',
-      title: 'Seeded 2026 events already presented as an official calendar view.',
+      title: 'The 2026 federation season is presented through an official calendar view.',
       text:
-        'The events section gives athletes, clubs, partners, and guests a professional preview of the coming season and its official publishing structure.',
+        'The events section gives athletes, clubs, partners, and guests a professional view of the federation season and its publishing structure.',
       actionLabel: 'Open Full Calendar',
     },
     hub: {
@@ -257,8 +257,12 @@ export default function HomePage({ copy }) {
   const view = homePageCopy[localeKey]
   const launch = officialLaunchContent[localeKey]
   const featuredEvents = copy.events.calendar.events.slice(0, 4)
-  const facebookLink = copy.meta.socials.find((item) => item.id === 'facebook')?.href ?? 'https://facebook.com/GDSFFGeorgia'
-  const instagramLink = copy.meta.socials.find((item) => item.id === 'instagram')?.href ?? 'https://instagram.com/gdsff.ge'
+  const facebookLink =
+    copy.meta.socials.find((item) => item.id === 'facebook')?.href ??
+    'https://www.facebook.com/profile.php?id=61578666412435'
+  const instagramLink =
+    copy.meta.socials.find((item) => item.id === 'instagram')?.href ??
+    'https://www.instagram.com/gdsffofficial/?hl=en'
 
   return (
     <>
