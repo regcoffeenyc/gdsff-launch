@@ -142,6 +142,17 @@ export function SearchIcon(props) {
   )
 }
 
+export function PlayIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" {...props}>
+      <path
+        d="M8 6.75v10.5c0 .6.65.98 1.17.69l8.23-5.25a.8.8 0 0 0 0-1.38L9.17 6.06A.8.8 0 0 0 8 6.75Z"
+        fill="currentColor"
+      />
+    </svg>
+  )
+}
+
 export function CloseIcon(props) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" {...props}>

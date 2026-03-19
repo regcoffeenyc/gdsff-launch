@@ -59,6 +59,7 @@ export default function GalleryLightbox({
   }
 
   const item = items[activeIndex]
+  const isVideo = item.mediaType === 'video'
   const previousIndex = (activeIndex - 1 + items.length) % items.length
   const nextIndex = (activeIndex + 1) % items.length
   const slideLabel = `${String(activeIndex + 1).padStart(2, '0')} / ${String(items.length).padStart(2, '0')}`
@@ -120,7 +121,19 @@ export default function GalleryLightbox({
 
           <figure className="gallery-lightbox-figure">
             <div className="gallery-lightbox-frame" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
-              <img src={item.src} alt={item.alt} className="gallery-lightbox-image" />
+              {isVideo ? (
+                <video
+                  src={item.src}
+                  poster={item.posterSrc}
+                  className="gallery-lightbox-video"
+                  controls
+                  autoPlay
+                  playsInline
+                  preload="metadata"
+                />
+              ) : (
+                <img src={item.src} alt={item.alt} className="gallery-lightbox-image" />
+              )}
             </div>
             <figcaption className="gallery-lightbox-caption">
               <div className="gallery-lightbox-caption-row">

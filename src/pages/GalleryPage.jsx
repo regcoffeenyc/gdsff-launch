@@ -1,10 +1,13 @@
 import { useSearchParams } from 'react-router-dom'
 import GalleryLightbox from '../components/GalleryLightbox'
+import { PlayIcon } from '../components/SiteIcons'
 import PageHero from '../components/PageHero'
 import { normalizeLaunchValue } from '../content/launchNormalizer'
 import {
   functionalFitnessCollageSrc,
   logoSrc,
+  promoLoopPosterSrc,
+  promoLoopSrc,
   rangeHeroSrc,
   ropeClimbCourseSrc,
   tacticalRifleLineSrc,
@@ -89,6 +92,7 @@ const galleryWallCopy = {
 const galleryUiCopy = {
   en: {
     viewImage: 'View image',
+    viewVideo: 'Watch video',
     close: 'Close image viewer',
     previous: 'Previous image',
     next: 'Next image',
@@ -103,6 +107,7 @@ const galleryUiCopy = {
   },
   ka: {
     viewImage: '\u10e4\u10dd\u10e2\u10dd\u10e1 \u10dc\u10d0\u10ee\u10d5\u10d0',
+    viewVideo: '\u10d5\u10d8\u10d3\u10d4\u10dd\u10e1 \u10e7\u10e3\u10e0\u10d4\u10d1\u10d0',
     close: '\u10e4\u10dd\u10e2\u10dd\u10e1 \u10d3\u10d0\u10ee\u10e3\u10e0\u10d5\u10d0',
     previous: '\u10ec\u10d8\u10dc\u10d0 \u10e4\u10dd\u10e2\u10dd',
     next: '\u10e8\u10d4\u10db\u10d3\u10d4\u10d2\u10d8 \u10e4\u10dd\u10e2\u10dd',
@@ -121,9 +126,32 @@ export default function GalleryPage({ copy }) {
   const localeKey = copy.locale === 'ka-GE' ? 'ka' : 'en'
   const galleryWall = normalizeLaunchValue(galleryWallCopy[localeKey])
   const galleryUi = galleryUiCopy[localeKey]
+  const promoGalleryItem =
+    localeKey === 'ka'
+      ? {
+          mediaType: 'video',
+          src: promoLoopSrc,
+          posterSrc: promoLoopPosterSrc,
+          alt: '\u10dd\u10e4\u10d8\u10ea\u10d8\u10d0\u10da\u10e3\u10e0\u10d8 GDSFF \u10e1\u10d0\u10de\u10e0\u10dd\u10db\u10dd \u10d5\u10d8\u10d3\u10d4\u10dd',
+          eyebrow: '\u10dd\u10e4\u10d8\u10ea\u10d8\u10d0\u10da\u10e3\u10e0\u10d8 \u10d5\u10d8\u10d3\u10d4\u10dd',
+          title: 'GDSFF Promo Loop',
+          text:
+            '\u10db\u10dd\u10d9\u10da\u10d4 \u10dd\u10e4\u10d8\u10ea\u10d8\u10d0\u10da\u10e3\u10e0\u10d8 \u10e1\u10d0\u10e4\u10d4\u10d3\u10d4\u10e0\u10d0\u10ea\u10d8\u10dd \u10de\u10e0\u10dd\u10db\u10dd \u10e0\u10dd\u10db\u10d4\u10da\u10d8\u10ea \u10db\u10dd\u10db\u10d6\u10d0\u10d3\u10d4\u10d1\u10e3\u10da\u10d8\u10d0 \u10d2\u10d0\u10da\u10d4\u10e0\u10d4\u10d8\u10e1, \u10db\u10d7\u10d0\u10d5\u10d0\u10e0\u10d8 \u10d2\u10d5\u10d4\u10e0\u10d3\u10d8\u10e1 \u10d3\u10d0 \u10e1\u10d0\u10ef\u10d0\u10e0\u10dd \u10db\u10d4\u10d3\u10d8\u10d0 \u10ec\u10d0\u10e0\u10db\u10dd\u10d3\u10d2\u10d4\u10dc\u10d8\u10e1\u10d7\u10d5\u10d8\u10e1.',
+        }
+      : {
+          mediaType: 'video',
+          src: promoLoopSrc,
+          posterSrc: promoLoopPosterSrc,
+          alt: 'GDSFF official promotional video',
+          eyebrow: 'Official Video',
+          title: 'GDSFF Promo Loop',
+          text:
+            'Short-form official federation promo prepared for gallery presentation, homepage hero placement, and launch-ready media use.',
+        }
+  const galleryWallItems = [promoGalleryItem, ...galleryWall.items]
   const [searchParams, setSearchParams] = useSearchParams()
   const rawLightboxIndex = Number.parseInt(searchParams.get('lightbox') ?? '', 10)
-  const lightboxItems = [galleryUi.venueItem, ...galleryWall.items]
+  const lightboxItems = [galleryUi.venueItem, ...galleryWallItems]
   const activeLightboxIndex =
     Number.isInteger(rawLightboxIndex) && rawLightboxIndex >= 0 && rawLightboxIndex < lightboxItems.length
       ? rawLightboxIndex
@@ -139,6 +167,24 @@ export default function GalleryPage({ copy }) {
     const nextSearchParams = new URLSearchParams(searchParams)
     nextSearchParams.delete('lightbox')
     setSearchParams(nextSearchParams, { replace: true })
+  }
+
+  const renderGalleryMedia = (item) => {
+    if (item.mediaType === 'video') {
+      return (
+        <video
+          src={item.src}
+          poster={item.posterSrc}
+          className="gallery-photo-video"
+          muted
+          playsInline
+          preload="none"
+          aria-hidden="true"
+        />
+      )
+    }
+
+    return <img src={item.src} alt={item.alt} loading="lazy" />
   }
 
   return (
@@ -186,19 +232,28 @@ export default function GalleryPage({ copy }) {
         </div>
 
         <div className="gallery-photo-wall">
-          {galleryWall.items.map((item, index) => (
+          {galleryWallItems.map((item, index) => (
             <button
               type="button"
               key={item.title}
               className={index === 0 ? 'gallery-photo-card is-featured' : 'gallery-photo-card'}
               onClick={() => openLightbox(index + 1)}
               aria-haspopup="dialog"
-              aria-label={`${galleryUi.viewImage}: ${item.title}`}
+              aria-label={`${item.mediaType === 'video' ? galleryUi.viewVideo : galleryUi.viewImage}: ${item.title}`}
             >
-              <img src={item.src} alt={item.alt} loading="lazy" />
+              {renderGalleryMedia(item)}
               <div className="gallery-photo-overlay">
                 <span className="overlay-kicker">{item.eyebrow}</span>
-                <span className="gallery-view-hint">{galleryUi.viewImage}</span>
+                <span className="gallery-view-hint">
+                  {item.mediaType === 'video' ? (
+                    <>
+                      <PlayIcon className="gallery-view-icon" />
+                      {galleryUi.viewVideo}
+                    </>
+                  ) : (
+                    galleryUi.viewImage
+                  )}
+                </span>
                 <h3>{item.title}</h3>
                 <p>{item.text}</p>
               </div>
