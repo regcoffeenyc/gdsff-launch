@@ -3,6 +3,25 @@ import { ChevronDownIcon } from '../components/SiteIcons'
 import PageHero from '../components/PageHero'
 import { officialLaunchContent } from '../content/officialLaunchContent'
 
+const hiddenDocumentIds = new Set(['content-pack', 'upload-checklist'])
+
+const documentsPageCopy = {
+  en: {
+    highlights: ['Official files', 'Federation records', 'Direct downloads'],
+    introText:
+      'The document library includes the charter, leadership biographies, membership form, safety materials, and the public logo file.',
+  },
+  ka: {
+    highlights: [
+      '\u10dd\u10e4\u10d8\u10ea\u10d8\u10d0\u10da\u10e3\u10e0\u10d8 \u10e4\u10d0\u10d8\u10da\u10d4\u10d1\u10d8',
+      '\u10e4\u10d4\u10d3\u10d4\u10e0\u10d0\u10ea\u10d8\u10d8\u10e1 \u10e9\u10d0\u10dc\u10d0\u10ec\u10d4\u10e0\u10d4\u10d1\u10d8',
+      '\u10de\u10d8\u10e0\u10d3\u10d0\u10de\u10d8\u10e0\u10d8 \u10e9\u10d0\u10db\u10dd\u10e2\u10d5\u10d8\u10e0\u10d7\u10d5\u10d0',
+    ],
+    introText:
+      '\u10d3\u10dd\u10d9\u10e3\u10db\u10d4\u10dc\u10e2\u10d4\u10d1\u10d8\u10e1 \u10d1\u10d8\u10d1\u10da\u10d8\u10dd\u10d7\u10d4\u10d9\u10d0 \u10d0\u10d4\u10e0\u10d7\u10d8\u10d0\u10dc\u10d4\u10d1\u10e1 \u10ec\u10d4\u10e1\u10d3\u10d4\u10d1\u10d0\u10e1, \u10ee\u10d4\u10da\u10db\u10eb\u10e6\u10d5\u10d0\u10dc\u10d4\u10da\u10dd\u10d1\u10d8\u10e1 \u10d1\u10d8\u10dd\u10d2\u10e0\u10d0\u10e4\u10d8\u10d4\u10d1\u10e1, \u10ec\u10d4\u10d5\u10e0\u10dd\u10d1\u10d8\u10e1 \u10e4\u10dd\u10e0\u10db\u10d0\u10e1, \u10e3\u10e1\u10d0\u10e4\u10e0\u10d7\u10ee\u10dd\u10d4\u10d1\u10d8\u10e1 \u10db\u10d0\u10e1\u10d0\u10da\u10d4\u10d1\u10e1 \u10d3\u10d0 \u10e1\u10d0\u10ef\u10d0\u10e0\u10dd \u10da\u10dd\u10d2\u10dd\u10e1 \u10e4\u10d0\u10d8\u10da\u10e1.',
+  },
+}
+
 const libraryCopy = {
   en: {
     libraryTitle: 'Official Document Library',
@@ -127,6 +146,7 @@ function DocumentDownloadRow({ item }) {
 export default function DocumentsPage({ copy }) {
   const localeKey = copy.locale === 'ka-GE' ? 'ka' : 'en'
   const view = officialLaunchContent[localeKey].documents
+  const pageCopy = documentsPageCopy[localeKey]
   const library = libraryCopy[localeKey]
   const [openKey, setOpenKey] = useState('governance')
 
@@ -153,21 +173,25 @@ export default function DocumentsPage({ copy }) {
 
   const documentItems = useMemo(() => {
     const baseUrl = import.meta.env.BASE_URL
-    return [...view.items, safetySourceItem].map((item) => ({
-      ...item,
-      href:
-        item.href.startsWith('http') || item.href.startsWith(baseUrl)
-          ? item.href
-          : `${baseUrl}${item.href.replace(/^\//, '')}`,
-    }))
+    return [...view.items, safetySourceItem]
+      .filter((item) => !hiddenDocumentIds.has(item.id))
+      .map((item) => ({
+        ...item,
+        href:
+          item.href.startsWith('http') || item.href.startsWith(baseUrl)
+            ? item.href
+            : `${baseUrl}${item.href.replace(/^\//, '')}`,
+      }))
   }, [view.items, safetySourceItem])
 
-  const groupedDocuments = library.categories.map((category) => ({
-    ...category,
-    items: category.itemIds
-      .map((itemId) => documentItems.find((item) => item.id === itemId))
-      .filter(Boolean),
-  }))
+  const groupedDocuments = library.categories
+    .map((category) => ({
+      ...category,
+      items: category.itemIds
+        .map((itemId) => documentItems.find((item) => item.id === itemId))
+        .filter(Boolean),
+    }))
+    .filter((category) => category.items.length > 0)
 
   return (
     <>
@@ -175,7 +199,7 @@ export default function DocumentsPage({ copy }) {
         eyebrow={view.eyebrow}
         title={view.title}
         text={view.text}
-        highlights={view.highlights}
+        highlights={pageCopy.highlights}
         label={copy.header.highlightsLabel}
       />
 
@@ -183,7 +207,7 @@ export default function DocumentsPage({ copy }) {
         <div className="section-intro compact-intro">
           <p className="eyebrow">{view.introTitle}</p>
           <h2>{view.title}</h2>
-          <p className="section-copy">{view.introText}</p>
+          <p className="section-copy">{pageCopy.introText}</p>
         </div>
       </section>
 

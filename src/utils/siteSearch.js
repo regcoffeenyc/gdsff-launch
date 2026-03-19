@@ -2,6 +2,7 @@ import { buildFederationNav } from '../components/FederationNavigation'
 import { officialLaunchContent } from '../content/officialLaunchContent'
 
 const sportsAnchorIds = ['dynamic-shooting', 'functional-fitness', 'tactical-performance']
+const hiddenDocumentIds = new Set(['content-pack', 'upload-checklist'])
 
 const searchUiCopy = {
   en: {
@@ -353,16 +354,18 @@ export function buildSiteSearchIndex(copy) {
     })),
   )
 
-  const documentEntries = [...launch.documents.items, buildSafetyDownloadEntry(localeKey)].map((item) => ({
-    kind: 'download',
-    title: item.title,
-    description: item.description,
-    href: item.href,
-    download: true,
-    section: copy.nav.documents,
-    meta: item.fileName ?? item.meta,
-    keywords: [item.fileName, item.actionLabel, item.format, copy.nav.documents],
-  }))
+  const documentEntries = [...launch.documents.items, buildSafetyDownloadEntry(localeKey)]
+    .filter((item) => !hiddenDocumentIds.has(item.id))
+    .map((item) => ({
+      kind: 'download',
+      title: item.title,
+      description: item.description,
+      href: item.href,
+      download: true,
+      section: copy.nav.documents,
+      meta: item.fileName ?? item.meta,
+      keywords: [item.fileName, item.actionLabel, item.format, copy.nav.documents],
+    }))
 
   const entries = [
     ...buildPageEntries(copy, localeKey),
