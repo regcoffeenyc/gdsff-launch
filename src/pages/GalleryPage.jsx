@@ -126,6 +126,8 @@ export default function GalleryPage({ copy }) {
   const localeKey = copy.locale === 'ka-GE' ? 'ka' : 'en'
   const galleryWall = normalizeLaunchValue(galleryWallCopy[localeKey])
   const galleryUi = galleryUiCopy[localeKey]
+  const galleryHighlights = []
+  const galleryCards = []
   const promoGalleryItem =
     localeKey === 'ka'
       ? {
@@ -193,7 +195,7 @@ export default function GalleryPage({ copy }) {
         eyebrow={copy.gallery.eyebrow}
         title={copy.gallery.title}
         text={copy.gallery.text}
-        highlights={copy.gallery.highlights}
+        highlights={galleryHighlights}
         label={copy.header.highlightsLabel}
       />
 
@@ -213,14 +215,16 @@ export default function GalleryPage({ copy }) {
           <article className="gallery-panel">
             <img src={logoSrc} alt="Federation logo" className="gallery-logo" loading="lazy" />
           </article>
-          <article id="news-updates" className="gallery-panel text-panel anchor-section">
-            {copy.gallery.cards.map((item) => (
-              <div key={item.title} className="gallery-copy-block">
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </div>
-            ))}
-          </article>
+          {galleryCards.length > 0 ? (
+            <article id="news-updates" className="gallery-panel text-panel anchor-section">
+              {galleryCards.map((item) => (
+                <div key={item.title} className="gallery-copy-block">
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </div>
+              ))}
+            </article>
+          ) : null}
         </div>
       </section>
 

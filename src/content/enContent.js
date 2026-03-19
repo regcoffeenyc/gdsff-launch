@@ -420,21 +420,8 @@ export const enContent = {
     title: 'Official identity and media presentation built around the approved emblem and range photography.',
     text:
       'The media page presents the approved emblem and range photography in an editorial layout suitable for federation announcements, event coverage, and sponsor-facing presentations.',
-    highlights: ['Official emblem updated', 'Range image retained', 'Editorial page polish'],
-    cards: [
-      {
-        title: 'Primary Range Visual',
-        text: 'The hero range image remains the signature photography anchor for the website and event storytelling.',
-      },
-      {
-        title: 'Approved Federation Emblem',
-        text: 'The corrected GDSFF emblem is used consistently across the header, hero, footer, and supporting brand applications.',
-      },
-      {
-        title: 'Event Media System',
-        text: 'The layout supports tournament galleries, sponsor lockups, bulletin artwork, and post-event recaps without changing the core visual system.',
-      },
-    ],
+    highlights: [],
+    cards: [],
   },
   contact: {
     eyebrow: 'Contact',

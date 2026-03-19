@@ -529,6 +529,10 @@ img {
   padding: 3.2rem 0 0;
 }
 
+.page-hero-grid.is-single-column {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .hero-copy h1,
 .section-intro h1 {
   margin: 1rem 0 0;
