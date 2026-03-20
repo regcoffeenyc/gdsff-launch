@@ -1,7 +1,22 @@
-const apiBase = (import.meta.env.VITE_GDSFF_API_BASE || import.meta.env.VITE_SOCIAL_API_BASE || 'http://127.0.0.1:8787').replace(
-  /\/$/,
-  '',
-)
+function resolveApiBase() {
+  const configuredBase = (import.meta.env.VITE_GDSFF_API_BASE || import.meta.env.VITE_SOCIAL_API_BASE || '').trim()
+  if (configuredBase) {
+    return configuredBase.replace(/\/$/, '')
+  }
+
+  if (typeof window !== 'undefined') {
+    const hostname = window.location.hostname || ''
+    if (hostname === '127.0.0.1' || hostname === 'localhost') {
+      return 'http://127.0.0.1:8787'
+    }
+
+    return window.location.origin.replace(/\/$/, '')
+  }
+
+  return 'http://127.0.0.1:8787'
+}
+
+const apiBase = resolveApiBase()
 const AUTH_STORAGE_KEY = 'gdsff-media-bot-token'
 
 function canUseStorage() {
@@ -46,10 +61,16 @@ async function request(path, options = {}) {
     headers.Authorization = `Bearer ${token}`
   }
 
-  const response = await fetch(`${apiBase}${path}`, {
-    ...options,
-    headers,
-  })
+  let response
+
+  try {
+    response = await fetch(`${apiBase}${path}`, {
+      ...options,
+      headers,
+    })
+  } catch (error) {
+    throw new Error(`Online registration backend is unreachable at ${apiBase}.`)
+  }
 
   const contentType = response.headers.get('content-type') || ''
   const data = contentType.includes('application/json') ? await response.json() : await response.text()
