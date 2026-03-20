@@ -142,8 +142,8 @@ export function buildFederationNav(copy) {
       panelAlign: 'center',
       overline: labels.membershipOverline,
       description: isGeorgian
-        ? 'გაწევრიანების პროცესი, განაცხადის ფორმა და უსაფრთხოების თანხმობის ელექტრონული workflow.'
-        : 'Membership process, application form, and online safety consent workflow.',
+        ? 'გაწევრიანების პროცესი, ონლაინ განაცხადი და უსაფრთხოების თანხმობის ელექტრონული workflow.'
+        : 'Membership process, online application, and safety consent workflow.',
       matchPaths: ['/membership', '/safety-consent'],
       items: [
         {
@@ -154,11 +154,11 @@ export function buildFederationNav(copy) {
           to: '/membership#join-federation',
         },
         {
-          label: isGeorgian ? 'განაცხადის ფორმა' : 'Application Form',
+          label: isGeorgian ? 'ონლაინ განაცხადი' : 'Online Application',
           description: isGeorgian
-            ? 'ოფიციალური წევრობის განაცხადის ჩამოტვირთვა.'
-            : 'Official membership application download.',
-          to: '/membership#application-form',
+            ? 'ორენოვანი წევრობის ონლაინ ფორმის გახსნა.'
+            : 'Open the bilingual online membership application form.',
+          to: '/membership#online-application',
         },
         {
           label: labels.safetyConsent,

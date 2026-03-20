@@ -9,6 +9,7 @@ export default function SafetyField({
   required = true,
   autoComplete,
   placeholder,
+  ...inputProps
 }) {
   const baseProps = {
     id: name,
@@ -18,6 +19,7 @@ export default function SafetyField({
     autoComplete,
     placeholder,
     onChange: (event) => onChange(name, event.target.value),
+    ...inputProps,
   }
 
   return (
@@ -35,8 +37,8 @@ export default function SafetyField({
         <select className="safety-input safety-select" {...baseProps}>
           <option value="">{placeholder ?? '...'}</option>
           {options.map((option) => (
-            <option key={option} value={option}>
-              {option}
+            <option key={typeof option === 'string' ? option : option.value} value={typeof option === 'string' ? option : option.value}>
+              {typeof option === 'string' ? option : option.label}
             </option>
           ))}
         </select>

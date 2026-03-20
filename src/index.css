@@ -4714,6 +4714,166 @@ img {
   justify-content: flex-end;
 }
 
+.membership-intro-grid,
+.membership-form-secondary {
+  display: grid;
+  gap: 1rem;
+}
+
+.membership-intro-grid {
+  grid-template-columns: minmax(0, 1.02fr) minmax(340px, 0.98fr);
+}
+
+.membership-intro-card,
+.membership-support-card,
+.membership-form-panel,
+.membership-summary-card,
+.membership-actions-card {
+  border-radius: 28px;
+}
+
+.membership-support-card,
+.membership-summary-card,
+.membership-actions-card {
+  padding: 1.35rem;
+}
+
+.membership-support-card,
+.membership-summary-card {
+  display: grid;
+  gap: 1rem;
+}
+
+.membership-support-card h2,
+.membership-summary-card h3,
+.membership-form-header h2 {
+  margin: 0;
+  line-height: 1.08;
+}
+
+.membership-support-card h2,
+.membership-form-header h2 {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+}
+
+.membership-summary-card h3 {
+  font-size: 1.2rem;
+}
+
+.membership-support-card p,
+.membership-summary-card p,
+.membership-group-copy p,
+.membership-actions-card p,
+.membership-destination-chip p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.72;
+}
+
+.membership-support-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.membership-support-note {
+  color: var(--soft);
+}
+
+.membership-support-actions,
+.membership-summary-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.membership-form-shell,
+.membership-form-groups {
+  display: grid;
+  gap: 1rem;
+}
+
+.membership-form-panel {
+  padding: 1.35rem;
+}
+
+.membership-form-header {
+  align-items: end;
+}
+
+.membership-destination-chip {
+  display: grid;
+  gap: 0.55rem;
+  min-width: min(100%, 280px);
+  padding: 1rem 1.05rem;
+  border-radius: 22px;
+  border: 1px solid rgba(212, 187, 131, 0.16);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.membership-destination-chip .meta-link {
+  justify-content: flex-start;
+}
+
+.membership-field-group {
+  display: grid;
+  gap: 0.85rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.membership-field-group:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+
+.membership-group-copy {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.membership-fields-grid {
+  align-items: start;
+}
+
+.membership-form-secondary {
+  grid-template-columns: minmax(0, 1.02fr) minmax(320px, 0.98fr);
+  align-items: start;
+}
+
+.membership-reference-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: fit-content;
+  min-height: 42px;
+  padding: 0.65rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(212, 187, 131, 0.2);
+  background:
+    radial-gradient(circle at top right, rgba(212, 187, 131, 0.14), transparent 60%),
+    rgba(255, 255, 255, 0.05);
+  color: var(--gold-strong);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.membership-summary-textarea {
+  min-height: 240px;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+.membership-actions-card {
+  justify-content: space-between;
+}
+
+.membership-actions-card p {
+  max-width: 68ch;
+}
+
 .ghost-button:disabled,
 .primary-button:disabled,
 .secondary-button:disabled,
@@ -4727,7 +4887,9 @@ img {
   .safety-intro-grid,
   .safety-columns,
   .safety-signature-grid,
-  .safety-guardian-grid {
+  .safety-guardian-grid,
+  .membership-intro-grid,
+  .membership-form-secondary {
     grid-template-columns: 1fr;
   }
 
@@ -4767,7 +4929,11 @@ img {
   .ghost-button,
   .safety-actions .download-action,
   .safety-actions .secondary-button,
-  .safety-actions .primary-button {
+  .safety-actions .primary-button,
+  .membership-support-actions .download-action,
+  .membership-support-actions .meta-link,
+  .membership-summary-actions .secondary-button,
+  .membership-summary-actions .ghost-button {
     width: 100%;
   }
 
@@ -4778,6 +4944,11 @@ img {
   .safety-actions {
     width: 100%;
     justify-content: stretch;
+  }
+
+  .membership-support-actions,
+  .membership-summary-actions {
+    width: 100%;
   }
 }
 

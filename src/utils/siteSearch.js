@@ -34,7 +34,7 @@ const searchUiCopy = {
     visitAction: 'Visit',
     shortcuts: [
       { label: 'Document library', to: '/documents#downloads' },
-      { label: 'Membership form', to: '/membership#application-form' },
+      { label: 'Online membership application', to: '/membership#online-application' },
       { label: 'Safety consent', to: '/safety-consent' },
       { label: 'Contact directory', to: '/contact#contact-directory' },
     ],
@@ -68,7 +68,7 @@ const searchUiCopy = {
     visitAction: 'გადასვლა',
     shortcuts: [
       { label: 'დოკუმენტების ბიბლიოთეკა', to: '/documents#downloads' },
-      { label: 'წევრობის ფორმა', to: '/membership#application-form' },
+      { label: 'ონლაინ წევრობის განაცხადი', to: '/membership#online-application' },
       { label: 'უსაფრთხოების თანხმობა', to: '/safety-consent' },
       { label: 'კონტაქტების ბლოკი', to: '/contact#contact-directory' },
     ],

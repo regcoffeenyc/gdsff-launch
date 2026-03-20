@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { membershipApplicationContent } from '../content/membershipApplicationContent'
 import { officialLaunchContent } from '../content/officialLaunchContent'
 import { EmailLink, LocationLink, PhoneLink, SocialLinks } from '../components/SiteMetaLinks'
 import {
@@ -256,6 +257,7 @@ export default function HomePage({ copy }) {
   const localeKey = copy.locale === 'ka-GE' ? 'ka' : 'en'
   const view = homePageCopy[localeKey]
   const launch = officialLaunchContent[localeKey]
+  const membershipFormView = membershipApplicationContent[localeKey]
   const featuredEvents = copy.events.calendar.events.slice(0, 4)
   const facebookLink =
     copy.meta.socials.find((item) => item.id === 'facebook')?.href ??
@@ -454,11 +456,11 @@ export default function HomePage({ copy }) {
           <span className="card-kicker">{launch.home.membershipEyebrow}</span>
           <h3>{launch.home.membershipTitle}</h3>
           <p>{launch.home.membershipText}</p>
-          {launch.membership.paragraphs.slice(0, 2).map((paragraph) => (
+          {[membershipFormView.introText, membershipFormView.processText].map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
           <div className="document-actions">
-            <Link className="download-action" to="/membership#application-form">
+            <Link className="download-action" to="/membership#online-application">
               {launch.home.membershipActionLabel}
             </Link>
           </div>
