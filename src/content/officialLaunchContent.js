@@ -100,11 +100,11 @@ export const officialLaunchContent = {
       title: 'Join the Federation',
       text:
         'Membership is open to individuals, athletes, coaches, clubs, and other relevant entities in accordance with the federation charter and internal requirements.',
-      highlights: ['Individuals and clubs', 'Charter-based process', 'Official email submission'],
+      highlights: ['Individuals and clubs', 'Live online registration', 'Official form download'],
       paragraphs: [
         'The federation welcomes the involvement of individuals and organizations that share the federation goals, ethical standards, and development-oriented vision.',
-        'An applicant must download the membership application form, complete it in full, and send it to the official federation email address.',
-        'Completed applications are accepted electronically at: office@gdsff.org',
+        'Applicants can complete the online membership registration form directly on the website or use the official downloadable membership document as a separate route.',
+        'Completed online applications are stored in the live federation register, while the downloadable form remains available at: office@gdsff.org',
       ],
       applicationTitle: 'Membership Application Form',
       applicationText:
@@ -175,7 +175,7 @@ export const officialLaunchContent = {
       membershipEyebrow: 'Membership Preview',
       membershipTitle: 'A clear application path for individuals, athletes, coaches, and clubs.',
       membershipText:
-        'Membership entry is structured through a formal application form and direct submission to the official federation email address.',
+        'Membership entry now supports both live online registration and the official downloadable membership form on the same page.',
       membershipActionLabel: 'Open Membership',
       documentsEyebrow: 'Documents Preview',
       documentsTitle: 'Essential federation documents available from one official download center.',

@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import PageHero from '../components/PageHero'
 import SafetyCheckboxSection from '../components/SafetyCheckboxSection'
 import SafetyField from '../components/SafetyField'
@@ -6,7 +6,11 @@ import { EmailLink } from '../components/SiteMetaLinks'
 import { membershipApplicationContent } from '../content/membershipApplicationContent'
 import { officialLaunchContent } from '../content/officialLaunchContent'
 import { logoSrc } from '../siteAssets'
-import { submitMembershipApplication } from '../utils/membershipApplicationSubmit'
+import {
+  formatMembershipApplicationSummary,
+  submitMembershipApplication,
+} from '../utils/membershipApplicationSubmit'
+import { getMembershipSummary } from '../utils/socialHubApi'
 
 function buildEmptyApplicationState(fields) {
   return fields.reduce((accumulator, field) => {
@@ -32,6 +36,39 @@ function groupFields(view) {
   }))
 }
 
+function buildEmptySummary() {
+  return {
+    totalApplications: 0,
+    statusCounts: {
+      submitted: 0,
+      'under-review': 0,
+      approved: 0,
+      'needs-info': 0,
+      closed: 0,
+    },
+    lastSubmittedAt: '',
+  }
+}
+
+function formatDateLabel(value, locale) {
+  if (!value) {
+    return '—'
+  }
+
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) {
+    return value
+  }
+
+  return new Intl.DateTimeFormat(locale, {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(date)
+}
+
 export default function MembershipPage({ copy, language = 'en', setLanguage }) {
   const localeKey = copy.locale === 'ka-GE' ? 'ka' : 'en'
   const launchView = officialLaunchContent[localeKey].membership
@@ -41,16 +78,63 @@ export default function MembershipPage({ copy, language = 'en', setLanguage }) {
   const [values, setValues] = useState(() => buildEmptyApplicationState(view.fields))
   const [consents, setConsents] = useState(() => buildConsentState(view.consentItems))
   const [feedback, setFeedback] = useState(null)
-  const [preparedSubmission, setPreparedSubmission] = useState(null)
+  const [submissionRecord, setSubmissionRecord] = useState(null)
+  const [summary, setSummary] = useState(() => buildEmptySummary())
+  const [summaryState, setSummaryState] = useState({ loading: true, error: false })
   const [isBusy, setIsBusy] = useState(false)
 
-  const busyLabel = localeKey === 'ka' ? '\u10db\u10dd\u10db\u10d6\u10d0\u10d3\u10d4\u10d1\u10d0...' : 'Preparing...'
-  const referenceLabel = localeKey === 'ka' ? '\u10e0\u10d4\u10e4\u10d4\u10e0\u10d4\u10dc\u10e1\u10d8' : 'Reference'
-  const languageTitle = localeKey === 'ka' ? '\u10e4\u10dd\u10e0\u10db\u10d8\u10e1 \u10d4\u10dc\u10d0' : 'Form Language'
+  const busyLabel = localeKey === 'ka' ? 'იგზავნება...' : 'Submitting...'
+  const languageTitle = localeKey === 'ka' ? 'ფორმის ენა' : 'Form Language'
   const languageText =
     localeKey === 'ka'
-      ? '\u10d0\u10d0\u10d8\u10e0\u10e9\u10d8\u10d4\u10d7 \u10e5\u10d0\u10e0\u10d7\u10e3\u10da\u10d8 \u10d0\u10dc \u10d8\u10dc\u10d2\u10da\u10d8\u10e1\u10e3\u10e0\u10d8 \u10d5\u10d4\u10e0\u10e1\u10d8\u10d0 \u10d0\u10db\u10d0\u10d5\u10d4 \u10d2\u10d5\u10d4\u10e0\u10d3\u10d6\u10d4.'
+      ? 'აირჩიეთ ქართული ან ინგლისური ვერსია პირდაპირ ამავე გვერდზე.'
       : 'Switch between Georgian and English directly on this page.'
+
+  const summaryText = useMemo(() => {
+    if (!submissionRecord) {
+      return ''
+    }
+
+    return formatMembershipApplicationSummary(submissionRecord, view, localeKey)
+  }, [localeKey, submissionRecord, view])
+
+  const statusMetrics = Object.entries(view.statusLabels).map(([key, label]) => ({
+    key,
+    label,
+    value: summary.statusCounts?.[key] ?? 0,
+  }))
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function loadSummary() {
+      try {
+        const result = await getMembershipSummary()
+        if (cancelled) {
+          return
+        }
+
+        setSummary({
+          ...buildEmptySummary(),
+          ...(result.summary || {}),
+        })
+        setSummaryState({ loading: false, error: false })
+      } catch {
+        if (cancelled) {
+          return
+        }
+
+        setSummaryState({ loading: false, error: true })
+      }
+    }
+
+    setSummaryState({ loading: true, error: false })
+    loadSummary()
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   function handleChange(name, value) {
     setValues((current) => ({
@@ -83,37 +167,7 @@ export default function MembershipPage({ copy, language = 'en', setLanguage }) {
   function handleReset() {
     setValues(buildEmptyApplicationState(view.fields))
     setConsents(buildConsentState(view.consentItems))
-    setPreparedSubmission(null)
     setFeedback(null)
-  }
-
-  async function handleCopySummary() {
-    if (!preparedSubmission?.summary) {
-      return
-    }
-
-    try {
-      await navigator.clipboard.writeText(preparedSubmission.summary)
-      setFeedback({
-        type: 'info',
-        title: view.copySuccessTitle,
-        text: view.copySuccessText,
-      })
-    } catch {
-      setFeedback({
-        type: 'error',
-        title: view.copyErrorTitle,
-        text: view.copyErrorText,
-      })
-    }
-  }
-
-  function handleOpenDraftAgain() {
-    if (!preparedSubmission?.mailtoHref) {
-      return
-    }
-
-    window.location.href = preparedSubmission.mailtoHref
   }
 
   async function handleSubmit(event) {
@@ -131,19 +185,21 @@ export default function MembershipPage({ copy, language = 'en', setLanguage }) {
         consents,
         view,
         localeKey,
-        destinationEmail: copy.meta.email,
       })
 
-      setPreparedSubmission(result)
+      setSubmissionRecord(result.application)
+      setSummary({
+        ...buildEmptySummary(),
+        ...(result.summary || {}),
+      })
+      setSummaryState({ loading: false, error: false })
       setFeedback({
         type: 'success',
         title: view.submitSuccessTitle,
-        text: `${view.submitSuccessText} ${referenceLabel}: ${result.reference}. ${view.submitSuccessHint}`,
+        text: `${view.submitSuccessText} ${view.referenceLabel}: ${result.reference}. ${view.submitSuccessHint}`,
       })
-
-      window.setTimeout(() => {
-        window.location.href = result.mailtoHref
-      }, 160)
+      setValues(buildEmptyApplicationState(view.fields))
+      setConsents(buildConsentState(view.consentItems))
     } catch {
       setFeedback({
         type: 'error',
@@ -199,7 +255,7 @@ export default function MembershipPage({ copy, language = 'en', setLanguage }) {
           </article>
         ) : null}
 
-        <div className="membership-intro-grid">
+        <div className="membership-intro-grid membership-intro-grid-wide">
           <article className="feature-card safety-brand-card membership-intro-card">
             <div className="safety-brand-lockup">
               <img src={logoSrc} alt="GDSFF logo" className="safety-brand-logo" />
@@ -211,15 +267,46 @@ export default function MembershipPage({ copy, language = 'en', setLanguage }) {
             </div>
 
             <div className="safety-note-callout membership-submission-note">
-              <span className="card-kicker">{view.summaryKicker}</span>
-              <p>{view.submissionNote}</p>
+              <span className="card-kicker">{view.processKicker}</span>
+              <p>{view.processText}</p>
+            </div>
+          </article>
+
+          <article className="feature-card membership-stats-card">
+            <span className="card-kicker">{view.statsKicker}</span>
+            <h2>{view.statsTitle}</h2>
+            <p>{view.statsText}</p>
+
+            <div className="membership-stat-total">
+              <span>{view.totalApplicationsLabel}</span>
+              <strong>{String(summary.totalApplications ?? 0).padStart(2, '0')}</strong>
+            </div>
+
+            <div className="membership-status-grid">
+              {statusMetrics.map((item) => (
+                <div key={item.key} className="membership-status-chip">
+                  <span>{item.label}</span>
+                  <strong>{String(item.value).padStart(2, '0')}</strong>
+                </div>
+              ))}
+            </div>
+
+            <div className="membership-stats-footer">
+              <span className="card-kicker">{view.lastSubmittedLabel}</span>
+              <p>
+                {summaryState.loading
+                  ? view.statsLoadingText
+                  : summaryState.error
+                    ? view.statsOfflineText
+                    : formatDateLabel(summary.lastSubmittedAt, copy.locale)}
+              </p>
             </div>
           </article>
 
           <article id="application-form" className="feature-card safety-summary-card membership-support-card anchor-section">
-            <span className="card-kicker">{view.processKicker}</span>
-            <h2>{view.processTitle}</h2>
-            <p>{view.processText}</p>
+            <span className="card-kicker">{view.supportKicker}</span>
+            <h2>{view.supportTitle}</h2>
+            <p>{view.supportText}</p>
 
             <div className="detail-list">
               {view.processSteps.map((item) => (
@@ -232,10 +319,7 @@ export default function MembershipPage({ copy, language = 'en', setLanguage }) {
 
             <div className="membership-support-divider" />
 
-            <span className="card-kicker">{view.supportKicker}</span>
-            <p>{view.supportText}</p>
             <p className="membership-support-note">{view.supportNote}</p>
-
             <div className="membership-support-actions">
               <a href={launchView.applicationHref} className="download-action" download>
                 {launchView.actionLabel}
@@ -257,7 +341,7 @@ export default function MembershipPage({ copy, language = 'en', setLanguage }) {
               </div>
 
               <div className="membership-destination-chip">
-                <span className="card-kicker">{copy.nav.contact}</span>
+                <span className="card-kicker">{view.onlineOptionLabel}</span>
                 <EmailLink email={copy.meta.email} className="contact-directory-link" />
               </div>
             </div>
@@ -296,51 +380,50 @@ export default function MembershipPage({ copy, language = 'en', setLanguage }) {
             />
 
             <article className="feature-card membership-summary-card">
-              <span className="card-kicker">{view.summaryKicker}</span>
-              <h3>{view.summaryTitle}</h3>
-              <p>{view.summaryText}</p>
+              <span className="card-kicker">{view.recordKicker}</span>
+              <h3>{view.recordTitle}</h3>
+              <p>{view.recordText}</p>
 
-              {preparedSubmission ? (
-                <div className="membership-reference-chip">
-                  <span>{referenceLabel}</span>
-                  <strong>{preparedSubmission.reference}</strong>
-                </div>
-              ) : null}
+              {submissionRecord ? (
+                <>
+                  <div className="membership-reference-chip">
+                    <span>{view.referenceLabel}</span>
+                    <strong>{submissionRecord.reference}</strong>
+                  </div>
 
-              <label className="safety-field">
-                <span className="safety-field-label">{view.copyLabel}</span>
-                <textarea
-                  className="safety-input safety-textarea membership-summary-textarea"
-                  value={preparedSubmission?.summary ?? ''}
-                  readOnly
-                  placeholder={view.submissionNote}
-                />
-              </label>
+                  <div className="membership-record-meta">
+                    <div className="membership-record-item">
+                      <span>{view.storedAtLabel}</span>
+                      <strong>{formatDateLabel(submissionRecord.submittedAt, copy.locale)}</strong>
+                    </div>
+                    <div className="membership-record-item">
+                      <span>{view.statusLabels[submissionRecord.status] ?? submissionRecord.status}</span>
+                      <strong>{submissionRecord.applicant?.email}</strong>
+                    </div>
+                  </div>
 
-              <div className="membership-summary-actions">
-                <button
-                  type="button"
-                  className="secondary-button"
-                  onClick={handleCopySummary}
-                  disabled={!preparedSubmission?.summary}
-                >
-                  {view.copyLabel}
-                </button>
+                  <label className="safety-field">
+                    <span className="safety-field-label">{view.summaryLabel}</span>
+                    <textarea
+                      className="safety-input safety-textarea membership-summary-textarea"
+                      value={summaryText}
+                      readOnly
+                    />
+                  </label>
+                </>
+              ) : (
+                <p className="membership-record-empty">{view.recordEmptyText}</p>
+              )}
 
-                <button
-                  type="button"
-                  className="ghost-button"
-                  onClick={handleOpenDraftAgain}
-                  disabled={!preparedSubmission?.mailtoHref}
-                >
-                  {view.reopenLabel}
-                </button>
+              <div className="membership-review-note">
+                <span className="card-kicker">{view.reviewNoteTitle}</span>
+                <p>{view.reviewNoteText}</p>
               </div>
             </article>
           </div>
 
           <div className="feature-card safety-actions-card membership-actions-card">
-            <p>{view.submissionNote}</p>
+            <p>{view.supportNote}</p>
 
             <div className="safety-actions">
               <button type="button" className="ghost-button" onClick={handleReset} disabled={isBusy}>

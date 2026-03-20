@@ -1,3 +1,5 @@
+import { submitMembershipApplication as submitMembershipApplicationRequest } from './socialHubApi'
+
 function resolveField(view, name) {
   return view.fields.find((field) => field.name === name)
 }
@@ -31,12 +33,22 @@ function buildApplicantRecord(values, view) {
   )
 }
 
-export function createMembershipApplicationPayload({ values, consents, view, localeKey, destinationEmail }) {
+export function createMembershipApplicationPayload({ values, consents, view, localeKey }) {
   return {
-    submittedAt: new Date().toISOString(),
     locale: localeKey,
-    destinationEmail,
-    applicant: buildApplicantRecord(values, view),
+    source: 'website-registration',
+    applicant: {
+      fullName: values.fullName ?? '',
+      birthDate: values.birthDate ?? '',
+      personalId: values.personalId ?? '',
+      citizenship: values.citizenship ?? '',
+      address: values.address ?? '',
+      phone: values.phone ?? '',
+      email: values.email ?? '',
+      membershipType: values.membershipType ?? '',
+      sportInterest: values.sportInterest ?? '',
+      additionalInfo: values.additionalInfo ?? '',
+    },
     confirmations: view.consentItems.map((label, index) => ({
       label,
       accepted: Boolean(consents[index]),
@@ -44,30 +56,31 @@ export function createMembershipApplicationPayload({ values, consents, view, loc
   }
 }
 
-export function formatMembershipApplicationSummary(payload, reference, view, localeKey) {
-  const applicant = payload.applicant
+export function formatMembershipApplicationSummary(application, view, localeKey) {
+  const applicant = buildApplicantRecord(application.applicant || {}, view)
   const isGeorgian = localeKey === 'ka'
-  const yesLabel = isGeorgian ? '\u10d3\u10d8\u10d0\u10ee' : 'Yes'
-  const noLabel = isGeorgian ? '\u10d0\u10e0\u10d0' : 'No'
   const headings = isGeorgian
     ? {
-        reference: '\u10e0\u10d4\u10e4\u10d4\u10e0\u10d4\u10dc\u10e1\u10d8',
-        submittedAt: '\u10d2\u10d0\u10d2\u10d6\u10d0\u10d5\u10dc\u10d8\u10e1 \u10d3\u10e0\u10dd',
-        locale: '\u10d4\u10dc\u10d0',
-        details: '\u10d0\u10de\u10da\u10d8\u10d9\u10d0\u10dc\u10e2\u10d8\u10e1 \u10db\u10dd\u10dc\u10d0\u10ea\u10d4\u10db\u10d4\u10d1\u10d8',
-        confirmations: '\u10d3\u10d0\u10d3\u10d0\u10e1\u10e2\u10e3\u10e0\u10d4\u10d1\u10d4\u10d1\u10d8',
+        reference: 'რეფერენსი',
+        submittedAt: 'გაგზავნის დრო',
+        status: 'სტატუსი',
+        details: 'აპლიკანტის მონაცემები',
+        confirmations: 'დადასტურებები',
       }
     : {
         reference: 'Reference',
         submittedAt: 'Submitted At',
-        locale: 'Locale',
+        status: 'Status',
         details: 'Applicant Details',
         confirmations: 'Confirmations',
       }
+
+  const yesLabel = isGeorgian ? 'დიახ' : 'Yes'
+  const noLabel = isGeorgian ? 'არა' : 'No'
   const lines = [
-    `${headings.reference}: ${reference}`,
-    `${headings.submittedAt}: ${payload.submittedAt}`,
-    `${headings.locale}: ${payload.locale}`,
+    `${headings.reference}: ${application.reference || ''}`,
+    `${headings.submittedAt}: ${application.submittedAt || ''}`,
+    `${headings.status}: ${application.status || ''}`,
     '',
     headings.details,
     `${resolveFieldLabel(view, 'fullName')}: ${applicant.fullName}`,
@@ -82,50 +95,25 @@ export function formatMembershipApplicationSummary(payload, reference, view, loc
     `${resolveFieldLabel(view, 'additionalInfo')}: ${applicant.additionalInfo || '-'}`,
     '',
     headings.confirmations,
-    ...payload.confirmations.map((item) => `- ${item.accepted ? yesLabel : noLabel}: ${item.label}`),
+    ...(application.confirmations || []).map((item) => `- ${item.accepted ? yesLabel : noLabel}: ${item.label}`),
   ]
 
   return lines.join('\n')
 }
 
-export function buildMembershipApplicationMailto({ destinationEmail, applicantName, reference, summary, localeKey }) {
-  const subjectPrefix =
-    localeKey === 'ka' ? 'GDSFF \u10ec\u10d4\u10d5\u10e0\u10dd\u10d1\u10d8\u10e1 \u10d2\u10d0\u10dc\u10d0\u10ea\u10ee\u10d0\u10d3\u10d8' : 'GDSFF Membership Application'
-  const subject = `${subjectPrefix} - ${applicantName || 'Applicant'} - ${reference}`
-  const body = `${summary}\n\n---\nPrepared via gdsff.org membership form`
-
-  return `mailto:${destinationEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-}
-
-export async function submitMembershipApplication({ values, consents, view, localeKey, destinationEmail }) {
-  const reference = `MA-${Date.now().toString(36).toUpperCase()}`
+export async function submitMembershipApplication({ values, consents, view, localeKey }) {
   const payload = createMembershipApplicationPayload({
     values,
     consents,
     view,
     localeKey,
-    destinationEmail,
   })
 
-  const summary = formatMembershipApplicationSummary(payload, reference, view, localeKey)
-  const mailtoHref = buildMembershipApplicationMailto({
-    destinationEmail,
-    applicantName: values.fullName,
-    reference,
-    summary,
-    localeKey,
-  })
-
-  // Frontend-ready handoff until direct API or email service delivery is connected.
-  await new Promise((resolve) => {
-    window.setTimeout(resolve, 700)
-  })
+  const result = await submitMembershipApplicationRequest(payload)
 
   return {
-    ok: true,
-    reference,
-    payload,
-    summary,
-    mailtoHref,
+    ...result,
+    reference: result.application?.reference || '',
+    summaryText: formatMembershipApplicationSummary(result.application || payload, view, localeKey),
   }
 }

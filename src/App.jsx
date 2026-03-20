@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useState } from 'react'
+﻿import { Suspense, lazy, useEffect, useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import SiteLayout from './components/SiteLayout'
 import HomePage from './pages/HomePage'
@@ -6,6 +6,7 @@ import AboutPage from './pages/AboutPage'
 import SportsPage from './pages/SportsPage'
 import LeadershipPage from './pages/LeadershipPage'
 import MembershipPage from './pages/MembershipPage'
+import MembershipAdminPage from './pages/MembershipAdminPage'
 import EventsPage from './pages/EventsPage'
 import PartnersPage from './pages/PartnersPage'
 import GalleryPage from './pages/GalleryPage'
@@ -25,7 +26,7 @@ export default function App() {
     }
   })
   const copy = siteContent[language] ?? siteContent.en
-  const loadingLabel = language === 'ka' ? 'იტვირთება...' : 'Loading...'
+  const loadingLabel = language === 'ka' ? 'áƒ˜áƒ¢áƒ•áƒ˜áƒ áƒ—áƒ”áƒ‘áƒ...' : 'Loading...'
 
   useEffect(() => {
     try {
@@ -53,6 +54,7 @@ export default function App() {
           <Route path="/sports" element={<SportsPage copy={copy} />} />
           <Route path="/leadership" element={<LeadershipPage copy={copy} />} />
           <Route path="/membership" element={<MembershipPage copy={copy} language={language} setLanguage={setLanguage} />} />
+          <Route path="/membership-admin" element={<MembershipAdminPage copy={copy} />} />
           <Route path="/events" element={<EventsPage copy={copy} />} />
           <Route path="/partners" element={<PartnersPage copy={copy} />} />
           <Route path="/gallery" element={<GalleryPage copy={copy} />} />
@@ -65,3 +67,4 @@ export default function App() {
     </SiteLayout>
   )
 }
+
