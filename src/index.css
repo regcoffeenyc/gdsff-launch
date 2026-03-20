@@ -4720,6 +4720,29 @@ img {
   gap: 1rem;
 }
 
+.membership-language-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.membership-language-copy {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.membership-language-copy p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.membership-page-toggle {
+  flex-shrink: 0;
+}
+
 .membership-intro-grid {
   grid-template-columns: minmax(0, 1.02fr) minmax(340px, 0.98fr);
 }
@@ -4888,6 +4911,7 @@ img {
   .safety-columns,
   .safety-signature-grid,
   .safety-guardian-grid,
+  .membership-language-card,
   .membership-intro-grid,
   .membership-form-secondary {
     grid-template-columns: 1fr;
@@ -4895,6 +4919,11 @@ img {
 
   .safety-fields-grid {
     grid-template-columns: 1fr;
+  }
+
+  .membership-language-card {
+    display: grid;
+    justify-items: start;
   }
 }
 

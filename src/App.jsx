@@ -52,7 +52,7 @@ export default function App() {
           <Route path="/about" element={<AboutPage copy={copy} />} />
           <Route path="/sports" element={<SportsPage copy={copy} />} />
           <Route path="/leadership" element={<LeadershipPage copy={copy} />} />
-          <Route path="/membership" element={<MembershipPage copy={copy} />} />
+          <Route path="/membership" element={<MembershipPage copy={copy} language={language} setLanguage={setLanguage} />} />
           <Route path="/events" element={<EventsPage copy={copy} />} />
           <Route path="/partners" element={<PartnersPage copy={copy} />} />
           <Route path="/gallery" element={<GalleryPage copy={copy} />} />

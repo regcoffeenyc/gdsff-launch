@@ -32,7 +32,7 @@ function groupFields(view) {
   }))
 }
 
-export default function MembershipPage({ copy }) {
+export default function MembershipPage({ copy, language = 'en', setLanguage }) {
   const localeKey = copy.locale === 'ka-GE' ? 'ka' : 'en'
   const launchView = officialLaunchContent[localeKey].membership
   const view = membershipApplicationContent[localeKey]
@@ -46,6 +46,11 @@ export default function MembershipPage({ copy }) {
 
   const busyLabel = localeKey === 'ka' ? '\u10db\u10dd\u10db\u10d6\u10d0\u10d3\u10d4\u10d1\u10d0...' : 'Preparing...'
   const referenceLabel = localeKey === 'ka' ? '\u10e0\u10d4\u10e4\u10d4\u10e0\u10d4\u10dc\u10e1\u10d8' : 'Reference'
+  const languageTitle = localeKey === 'ka' ? '\u10e4\u10dd\u10e0\u10db\u10d8\u10e1 \u10d4\u10dc\u10d0' : 'Form Language'
+  const languageText =
+    localeKey === 'ka'
+      ? '\u10d0\u10d0\u10d8\u10e0\u10e9\u10d8\u10d4\u10d7 \u10e5\u10d0\u10e0\u10d7\u10e3\u10da\u10d8 \u10d0\u10dc \u10d8\u10dc\u10d2\u10da\u10d8\u10e1\u10e3\u10e0\u10d8 \u10d5\u10d4\u10e0\u10e1\u10d8\u10d0 \u10d0\u10db\u10d0\u10d5\u10d4 \u10d2\u10d5\u10d4\u10e0\u10d3\u10d6\u10d4.'
+      : 'Switch between Georgian and English directly on this page.'
 
   function handleChange(name, value) {
     setValues((current) => ({
@@ -166,6 +171,32 @@ export default function MembershipPage({ copy }) {
             <strong>{feedback.title}</strong>
             <p>{feedback.text}</p>
           </div>
+        ) : null}
+
+        {typeof setLanguage === 'function' ? (
+          <article className="feature-card membership-language-card">
+            <div className="membership-language-copy">
+              <span className="card-kicker">{languageTitle}</span>
+              <p>{languageText}</p>
+            </div>
+
+            <div className="language-toggle membership-page-toggle" aria-label={copy.header.languageLabel}>
+              <button
+                type="button"
+                className={language === 'en' ? 'language-button active' : 'language-button'}
+                onClick={() => setLanguage('en')}
+              >
+                EN
+              </button>
+              <button
+                type="button"
+                className={language === 'ka' ? 'language-button active' : 'language-button'}
+                onClick={() => setLanguage('ka')}
+              >
+                KA
+              </button>
+            </div>
+          </article>
         ) : null}
 
         <div className="membership-intro-grid">
