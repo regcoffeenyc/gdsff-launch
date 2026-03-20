@@ -11,6 +11,7 @@ import { buildMetaAuthUrl, getPlatformCatalog, getRuntimeConfig, metaOAuthScopes
 import { processScheduledPosts } from './lib/scheduleQueue.js'
 import { generateDraft, generateReplySuggestion, runAssistantChat } from './lib/socialAi.js'
 import { getClientState, logActivity, readState, updateState, writeState } from './lib/socialStore.js'
+import { getSmtpRuntime, sendSmtpMail } from './lib/smtpEmail.js'
 
 ensureEnvLoaded()
 
@@ -281,6 +282,130 @@ function buildMembershipSummary(state) {
   }
 }
 
+function buildMembershipNotificationRecipients() {
+  const configuredRecipients =
+    process.env.EMAIL_MEMBERSHIP_NOTIFICATION_ADDRESS ||
+    process.env.MEMBERSHIP_NOTIFICATION_ADDRESS ||
+    runtime.membershipNotificationAddress ||
+    runtime.emailInboxAddress ||
+    'office@gdsff.org'
+
+  return unique(toArray(configuredRecipients))
+}
+
+function buildMembershipNotificationSubject(application) {
+  return `GDSFF Membership Application ${application.reference}`
+}
+
+function humanizeMembershipValue(value) {
+  return `${value || ''}`
+    .split('-')
+    .filter(Boolean)
+    .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
+    .join(' ')
+}
+
+function buildMembershipNotificationText(application) {
+  const applicant = application.applicant || {}
+  const confirmations = Array.isArray(application.confirmations) ? application.confirmations : []
+  const details = [
+    'Georgian Dynamic Shooting & Functional Fitness Federation',
+    'New membership application received from the website.',
+    '',
+    `Reference: ${application.reference}`,
+    `Submitted At: ${application.submittedAt}`,
+    `Status: ${application.status}`,
+    `Locale: ${application.locale}`,
+    `Source: ${application.source}`,
+    '',
+    'Applicant Details',
+    `Full Name / სახელი და გვარი: ${applicant.fullName || ''}`,
+    `Date of Birth / დაბადების თარიღი: ${applicant.birthDate || ''}`,
+    `Personal ID Number / პირადი ნომერი: ${applicant.personalId || ''}`,
+    `Citizenship / მოქალაქეობა: ${applicant.citizenship || ''}`,
+    `Address / მისამართი: ${applicant.address || ''}`,
+    `Phone Number / ტელეფონის ნომერი: ${applicant.phone || ''}`,
+    `Email / ელფოსტა: ${applicant.email || ''}`,
+    `Membership Type / წევრობის ტიპი: ${humanizeMembershipValue(applicant.membershipType)}`,
+    `Sport Interest / სპორტული მიმართულება: ${humanizeMembershipValue(applicant.sportInterest)}`,
+    `Additional Information / დამატებითი ინფორმაცია: ${applicant.additionalInfo || '-'}`,
+    '',
+    'Required Confirmations / სავალდებულო დადასტურებები',
+    ...confirmations.map((item) => `- ${item.accepted ? 'Accepted' : 'Not accepted'}: ${item.label}`),
+    '',
+    'This application is already stored in the GDSFF online membership register.',
+  ]
+
+  return details.join('\n')
+}
+
+function buildMembershipNotificationRecord(notification) {
+  const recipients = Array.isArray(notification.recipients) ? notification.recipients : []
+
+  return {
+    status: notification.status,
+    recipients,
+    recipientLabel: recipients.join(', '),
+    sentAt: notification.sentAt || '',
+    updatedAt: notification.updatedAt,
+    message: notification.message || '',
+  }
+}
+
+async function sendMembershipNotification(application) {
+  const smtpRuntime = getSmtpRuntime()
+  const recipients = buildMembershipNotificationRecipients()
+
+  if (!recipients.length) {
+    return {
+      status: 'not-configured',
+      recipients: [],
+      updatedAt: new Date().toISOString(),
+      message: 'No membership notification recipient is configured for outgoing email.',
+    }
+  }
+
+  if (!smtpRuntime.configured) {
+    return {
+      status: 'not-configured',
+      recipients,
+      updatedAt: new Date().toISOString(),
+      message:
+        'Outgoing membership email is not configured on the server yet. Set SMTP credentials to deliver each application to the federation inbox.',
+    }
+  }
+
+  try {
+    await sendSmtpMail({
+      to: recipients,
+      replyTo: application.applicant?.email || '',
+      subject: buildMembershipNotificationSubject(application),
+      text: buildMembershipNotificationText(application),
+      headers: {
+        'X-GDSFF-Application-Reference': application.reference,
+      },
+    })
+
+    return {
+      status: 'sent',
+      recipients,
+      sentAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      message: `Delivered to ${recipients.join(', ')}.`,
+    }
+  } catch (error) {
+    return {
+      status: 'failed',
+      recipients,
+      updatedAt: new Date().toISOString(),
+      message:
+        error instanceof Error
+          ? error.message
+          : 'Outgoing membership email could not be delivered from the server.',
+    }
+  }
+}
+
 function syncContactFromMembershipApplication(state, application) {
   const emailKey = normalizeMembershipEmail(application?.applicant?.email)
   if (!emailKey) {
@@ -322,6 +447,7 @@ function buildDashboardPayload(session) {
   const fullState = clientState.state
   const m365Runtime = getMicrosoftGraphEmailRuntime()
   const imapRuntime = getImapRuntime()
+  const smtpRuntime = getSmtpRuntime()
 
   return {
     ok: true,
@@ -336,6 +462,8 @@ function buildDashboardPayload(session) {
       metaInstagramAccessTokenConfigured: runtime.metaInstagramAccessTokenConfigured || runtime.metaPageAccessTokenConfigured,
       emailProvider: runtime.emailProvider,
       emailInboxAddress: runtime.emailInboxAddress,
+      emailOutboundAddress: runtime.emailOutboundAddress,
+      membershipNotificationAddress: runtime.membershipNotificationAddress,
       m365Configured: m365Runtime.configured,
       m365TenantConfigured: m365Runtime.tenantConfigured,
       m365ClientConfigured: m365Runtime.clientConfigured,
@@ -346,6 +474,13 @@ function buildDashboardPayload(session) {
       imapPort: imapRuntime.port,
       imapUsernameConfigured: imapRuntime.usernameConfigured,
       imapPasswordConfigured: imapRuntime.passwordConfigured,
+      smtpConfigured: smtpRuntime.configured,
+      smtpHost: smtpRuntime.host,
+      smtpPort: smtpRuntime.port,
+      smtpSecure: smtpRuntime.secure,
+      smtpStartTls: smtpRuntime.startTls,
+      smtpUsernameConfigured: smtpRuntime.usernameConfigured,
+      smtpPasswordConfigured: smtpRuntime.passwordConfigured,
     },
     platforms: getPlatformCatalog(fullState),
     auth: {
@@ -780,7 +915,7 @@ const server = createServer(async (request, response) => {
       const sanitized = sanitizeMembershipApplicationInput(body)
       let savedApplication = null
 
-      const nextState = updateState((state) => {
+      updateState((state) => {
         const now = new Date().toISOString()
         savedApplication = {
           id: randomUUID(),
@@ -793,6 +928,14 @@ const server = createServer(async (request, response) => {
           applicant: sanitized.applicant,
           confirmations: sanitized.confirmations,
           reviewNote: '',
+          notification: {
+            status: 'pending',
+            recipients: buildMembershipNotificationRecipients(),
+            recipientLabel: buildMembershipNotificationRecipients().join(', '),
+            sentAt: '',
+            updatedAt: now,
+            message: 'Membership application saved. Waiting for email delivery.',
+          },
           history: [
             {
               id: randomUUID(),
@@ -818,6 +961,52 @@ const server = createServer(async (request, response) => {
         return state
       })
 
+      const notification = await sendMembershipNotification(savedApplication)
+      const notificationRecord = buildMembershipNotificationRecord(notification)
+      const nextState = updateState((state) => {
+        const applications = Array.isArray(state.membershipApplications) ? state.membershipApplications : []
+        const targetApplication = applications.find((item) => item.id === savedApplication.id)
+        const historyList = Array.isArray(targetApplication?.history) ? targetApplication.history : []
+        const historyEntry = {
+          id: randomUUID(),
+          type: notification.status === 'sent' ? 'notification-sent' : 'notification-warning',
+          summary:
+            notification.status === 'sent'
+              ? `Application notification emailed to ${notificationRecord.recipientLabel}.`
+              : `Application stored, but email delivery was not confirmed. ${notificationRecord.message}`,
+          createdAt: notificationRecord.updatedAt,
+        }
+
+        if (targetApplication) {
+          targetApplication.notification = notificationRecord
+          targetApplication.updatedAt = notificationRecord.updatedAt
+          targetApplication.history = [historyEntry, ...historyList].slice(0, 12)
+          savedApplication = structuredClone(targetApplication)
+        } else {
+          savedApplication = {
+            ...savedApplication,
+            notification: notificationRecord,
+            updatedAt: notificationRecord.updatedAt,
+            history: [historyEntry, ...(savedApplication.history || [])].slice(0, 12),
+          }
+        }
+
+        state.activityLog = [
+          createActivityEntry({
+            type: notification.status === 'sent' ? 'membership-email' : 'membership-warning',
+            entityType: 'membership-application',
+            entityId: savedApplication.id,
+            summary:
+              notification.status === 'sent'
+                ? `Membership application ${savedApplication.reference} was emailed to ${notificationRecord.recipientLabel}.`
+                : `Membership application ${savedApplication.reference} was stored, but email delivery was not confirmed.`,
+          }),
+          ...(state.activityLog || []),
+        ].slice(0, 80)
+
+        return state
+      })
+
       sendJson(
         response,
         200,
@@ -825,6 +1014,7 @@ const server = createServer(async (request, response) => {
           ok: true,
           application: savedApplication,
           summary: buildMembershipSummary(nextState),
+          notification: notificationRecord,
         },
         origin,
       )

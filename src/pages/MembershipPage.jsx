@@ -69,6 +69,62 @@ function formatDateLabel(value, locale) {
   }).format(date)
 }
 
+function buildMembershipFeedback(result, view, localeKey) {
+  const notification = result.notification || result.application?.notification || {}
+  const recipients = Array.isArray(notification.recipients) ? notification.recipients.join(', ') : ''
+  const recipientLabel = notification.recipientLabel || recipients || 'office@gdsff.org'
+  const referenceText = `${view.referenceLabel}: ${result.reference}.`
+
+  if (notification.status === 'sent') {
+    return {
+      type: 'success',
+      title: view.submitSuccessTitle,
+      text:
+        localeKey === 'ka'
+          ? `${view.submitSuccessText} ${referenceText} განაცხადის ასლი წარმატებით გადაიგზავნა ${recipientLabel}-ზე. ${view.submitSuccessHint}`
+          : `${view.submitSuccessText} ${referenceText} A copy of the completed application was also delivered to ${recipientLabel}. ${view.submitSuccessHint}`,
+    }
+  }
+
+  const warningTitle =
+    localeKey === 'ka' ? 'განაცხადი შენახულია, მაგრამ იმეილი ვერ დადასტურდა' : 'Application Stored, Email Not Confirmed'
+  const warningText =
+    localeKey === 'ka'
+      ? `განაცხადი შენახულია და მინიჭებულია ცოცხალი ნომერი. ${referenceText} თუმცა ${recipientLabel}-ზე ელფოსტით გაგზავნა ვერ დადასტურდა.`
+      : `The application was stored and assigned a live reference. ${referenceText} However, email delivery to ${recipientLabel} could not be confirmed.`
+  const technicalNote = notification.message ? ` ${notification.message}` : ''
+  const fallbackHint =
+    localeKey === 'ka'
+      ? 'ჩანაწერი დაცულია წევრობის რეესტრში, ხოლო საჭიროების შემთხვევაში ჩამოსატვირთი ფორმაც ისევ ხელმისაწვდომია.'
+      : 'The application record is safe in the membership register, and the downloadable membership form remains available if needed.'
+
+  return {
+    type: 'warning',
+    title: warningTitle,
+    text: `${warningText}${technicalNote} ${fallbackHint}`,
+  }
+}
+
+function buildNotificationLabel(notification, localeKey) {
+  if (!notification) {
+    return ''
+  }
+
+  if (notification.status === 'sent') {
+    return localeKey === 'ka'
+      ? `ელფოსტა გაიგზავნა: ${notification.recipientLabel || notification.recipients?.join(', ')}`
+      : `Email delivered: ${notification.recipientLabel || notification.recipients?.join(', ')}`
+  }
+
+  if (notification.status === 'not-configured') {
+    return localeKey === 'ka' ? 'ელფოსტა ჯერ არ არის დაკონფიგურირებული სერვერზე.' : 'Email delivery is not configured on the server yet.'
+  }
+
+  return localeKey === 'ka'
+    ? 'ჩანაწერი შენახულია, მაგრამ ელფოსტის გაგზავნა ვერ დადასტურდა.'
+    : 'The application is stored, but email delivery could not be confirmed.'
+}
+
 export default function MembershipPage({ copy, language = 'en', setLanguage }) {
   const localeKey = copy.locale === 'ka-GE' ? 'ka' : 'en'
   const launchView = officialLaunchContent[localeKey].membership
@@ -193,18 +249,14 @@ export default function MembershipPage({ copy, language = 'en', setLanguage }) {
         ...(result.summary || {}),
       })
       setSummaryState({ loading: false, error: false })
-      setFeedback({
-        type: 'success',
-        title: view.submitSuccessTitle,
-        text: `${view.submitSuccessText} ${view.referenceLabel}: ${result.reference}. ${view.submitSuccessHint}`,
-      })
+      setFeedback(buildMembershipFeedback(result, view, localeKey))
       setValues(buildEmptyApplicationState(view.fields))
       setConsents(buildConsentState(view.consentItems))
-    } catch {
+    } catch (error) {
       setFeedback({
         type: 'error',
         title: view.submitErrorTitle,
-        text: view.submitErrorText,
+        text: error instanceof Error && error.message ? `${view.submitErrorText} ${error.message}` : view.submitErrorText,
       })
     } finally {
       setIsBusy(false)
@@ -401,6 +453,10 @@ export default function MembershipPage({ copy, language = 'en', setLanguage }) {
                       <strong>{submissionRecord.applicant?.email}</strong>
                     </div>
                   </div>
+
+                  <p className="membership-notification-status">
+                    {buildNotificationLabel(submissionRecord.notification, localeKey)}
+                  </p>
 
                   <label className="safety-field">
                     <span className="safety-field-label">{view.summaryLabel}</span>

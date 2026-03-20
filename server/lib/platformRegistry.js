@@ -42,6 +42,14 @@ function hasValue(value) {
   return typeof value === 'string' && value.trim().length > 0
 }
 
+function parseBooleanFlag(value, fallback = false) {
+  if (value === undefined || value === null || value === '') {
+    return fallback
+  }
+
+  return `${value}`.trim().toLowerCase() !== 'false'
+}
+
 export function getRuntimeConfig() {
   ensureEnvLoaded()
 
@@ -55,7 +63,51 @@ export function getRuntimeConfig() {
     process.env.EMAIL_INBOX_ADDRESS ||
     'office@gdsff.org'
   const imapPassword = process.env.TITAN_IMAP_PASSWORD || process.env.EMAIL_IMAP_PASSWORD || ''
-  const imapTls = `${process.env.TITAN_IMAP_TLS || process.env.EMAIL_IMAP_TLS || 'true'}`.toLowerCase() !== 'false'
+  const imapTls = parseBooleanFlag(process.env.TITAN_IMAP_TLS || process.env.EMAIL_IMAP_TLS, true)
+  const titanEmailCredentialsConfigured = hasValue(
+    process.env.TITAN_SMTP_USERNAME ||
+      process.env.EMAIL_SMTP_USERNAME ||
+      process.env.TITAN_IMAP_USERNAME ||
+      process.env.EMAIL_IMAP_USERNAME ||
+      process.env.TITAN_MAILBOX_ADDRESS ||
+      process.env.EMAIL_INBOX_ADDRESS,
+  )
+  const smtpHost =
+    process.env.TITAN_SMTP_HOST ||
+    process.env.EMAIL_SMTP_HOST ||
+    ((emailProvider === 'titan' || emailProvider === 'imap' || titanEmailCredentialsConfigured) ? 'smtp.titan.email' : '')
+  const smtpPort = Number(process.env.TITAN_SMTP_PORT || process.env.EMAIL_SMTP_PORT || (hasValue(smtpHost) ? 465 : 0))
+  const smtpUsername =
+    process.env.TITAN_SMTP_USERNAME ||
+    process.env.EMAIL_SMTP_USERNAME ||
+    imapUsername
+  const smtpPassword =
+    process.env.TITAN_SMTP_PASSWORD ||
+    process.env.EMAIL_SMTP_PASSWORD ||
+    imapPassword
+  const smtpSecure = parseBooleanFlag(
+    process.env.TITAN_SMTP_SECURE || process.env.EMAIL_SMTP_SECURE,
+    smtpPort === 465,
+  )
+  const smtpStartTls = parseBooleanFlag(
+    process.env.TITAN_SMTP_STARTTLS || process.env.EMAIL_SMTP_STARTTLS,
+    !smtpSecure && smtpPort === 587,
+  )
+  const smtpTlsRejectUnauthorized = parseBooleanFlag(
+    process.env.TITAN_SMTP_TLS_REJECT_UNAUTHORIZED || process.env.EMAIL_SMTP_TLS_REJECT_UNAUTHORIZED,
+    true,
+  )
+  const emailOutboundAddress =
+    process.env.TITAN_OUTBOUND_ADDRESS ||
+    process.env.EMAIL_OUTBOUND_ADDRESS ||
+    process.env.EMAIL_INBOX_ADDRESS ||
+    imapUsername ||
+    'office@gdsff.org'
+  const membershipNotificationAddress =
+    process.env.EMAIL_MEMBERSHIP_NOTIFICATION_ADDRESS ||
+    process.env.MEMBERSHIP_NOTIFICATION_ADDRESS ||
+    process.env.EMAIL_INBOX_ADDRESS ||
+    'office@gdsff.org'
   const m365TenantIdConfigured = hasValue(process.env.M365_TENANT_ID)
   const m365ClientIdConfigured = hasValue(process.env.M365_CLIENT_ID)
   const m365ClientSecretConfigured = hasValue(process.env.M365_CLIENT_SECRET)
@@ -75,6 +127,8 @@ export function getRuntimeConfig() {
     openAiConfigured: hasValue(process.env.OPENAI_API_KEY),
     emailProvider,
     emailInboxAddress: process.env.EMAIL_INBOX_ADDRESS || 'office@gdsff.org',
+    emailOutboundAddress,
+    membershipNotificationAddress,
     m365GraphBaseUrl: process.env.M365_GRAPH_BASE_URL || 'https://graph.microsoft.com/v1.0',
     m365TenantIdConfigured,
     m365ClientIdConfigured,
@@ -91,6 +145,19 @@ export function getRuntimeConfig() {
     imapUsernameConfigured: hasValue(imapUsername),
     imapPasswordConfigured: hasValue(imapPassword),
     imapTls,
+    smtpHost,
+    smtpPort,
+    smtpSecure,
+    smtpStartTls,
+    smtpTlsRejectUnauthorized,
+    smtpUsernameConfigured: hasValue(smtpUsername),
+    smtpPasswordConfigured: hasValue(smtpPassword),
+    smtpConfigured:
+      hasValue(smtpHost) &&
+      Number.isFinite(smtpPort) &&
+      smtpPort > 0 &&
+      hasValue(smtpUsername) &&
+      hasValue(smtpPassword),
     titanConfigured:
       (emailProvider === 'titan' || emailProvider === 'imap') &&
       hasValue(imapHost) &&

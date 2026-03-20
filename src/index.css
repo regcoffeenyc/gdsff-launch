@@ -4289,6 +4289,11 @@ img {
   border-color: rgba(212, 187, 131, 0.26);
 }
 
+.status-banner.is-warning {
+  border-color: rgba(212, 187, 131, 0.3);
+  background: rgba(212, 187, 131, 0.09);
+}
+
 /* Final launch polish */
 .contact-primary-card {
   height: auto;
@@ -4973,6 +4978,17 @@ img {
 .membership-record-item strong {
   color: var(--text);
   font-size: 0.96rem;
+}
+
+.membership-notification-status {
+  margin: 0;
+  padding: 0.9rem 1rem;
+  border-radius: 18px;
+  border: 1px solid rgba(212, 187, 131, 0.16);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 100%),
+    rgba(212, 187, 131, 0.05);
+  color: var(--muted-strong);
 }
 
 .membership-record-empty {
