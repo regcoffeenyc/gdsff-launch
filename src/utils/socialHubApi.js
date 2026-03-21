@@ -19,6 +19,13 @@ function resolveApiBase() {
 const apiBase = resolveApiBase()
 const AUTH_STORAGE_KEY = 'gdsff-media-bot-token'
 
+function createRequestError(message, statusCode = 0, details = null) {
+  const error = new Error(message)
+  error.statusCode = statusCode
+  error.details = details
+  return error
+}
+
 function canUseStorage() {
   return typeof window !== 'undefined' && Boolean(window.localStorage)
 }
@@ -69,7 +76,9 @@ async function request(path, options = {}) {
       headers,
     })
   } catch (error) {
-    throw new Error(`Online registration backend is unreachable at ${apiBase}.`)
+    throw createRequestError(`Online registration backend is unreachable at ${apiBase}.`, 0, {
+      apiBase,
+    })
   }
 
   const contentType = response.headers.get('content-type') || ''
@@ -80,7 +89,7 @@ async function request(path, options = {}) {
       clearSavedAuthToken()
     }
 
-    throw new Error(data?.error || 'Request failed.')
+    throw createRequestError(data?.error || 'Request failed.', response.status, data)
   }
 
   return data

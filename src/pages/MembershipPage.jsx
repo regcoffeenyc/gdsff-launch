@@ -105,6 +105,32 @@ function buildMembershipFeedback(result, view, localeKey) {
   }
 }
 
+function buildMembershipErrorFeedback(error, view, localeKey) {
+  const details = error && typeof error === 'object' ? error.details : null
+  const application = details?.application || null
+  const message = error instanceof Error && error.message ? error.message : view.submitErrorText
+
+  if (!application) {
+    return {
+      type: 'error',
+      title: view.submitErrorTitle,
+      text: error instanceof Error && error.message ? `${view.submitErrorText} ${error.message}` : view.submitErrorText,
+    }
+  }
+
+  const referenceText = application.reference ? `${view.referenceLabel}: ${application.reference}.` : ''
+  const storedHint =
+    localeKey === 'ka'
+      ? 'განაცხადი უკვე შენახულია სისტემაში, ამიტომ თავიდან ნუ გააგზავნით. დაუკავშირდით ფედერაციას და მიუთითეთ ეს ნომერი.'
+      : 'The application is already stored in the system, so please do not submit it again. Contact the federation and mention this reference.'
+
+  return {
+    type: 'error',
+    title: localeKey === 'ka' ? 'განაცხადი შენახულია, მაგრამ იმეილი ვერ გაიგზავნა' : 'Application Stored, Email Delivery Failed',
+    text: `${referenceText} ${message} ${storedHint}`.trim(),
+  }
+}
+
 function buildNotificationLabel(notification, localeKey) {
   if (!notification) {
     return ''
@@ -253,11 +279,21 @@ export default function MembershipPage({ copy, language = 'en', setLanguage }) {
       setValues(buildEmptyApplicationState(view.fields))
       setConsents(buildConsentState(view.consentItems))
     } catch (error) {
-      setFeedback({
-        type: 'error',
-        title: view.submitErrorTitle,
-        text: error instanceof Error && error.message ? `${view.submitErrorText} ${error.message}` : view.submitErrorText,
-      })
+      const storedApplication = error?.details?.application || null
+      const storedSummary = error?.details?.summary || null
+
+      if (storedApplication) {
+        setSubmissionRecord(storedApplication)
+        setSummary({
+          ...buildEmptySummary(),
+          ...(storedSummary || {}),
+        })
+        setSummaryState({ loading: false, error: false })
+        setValues(buildEmptyApplicationState(view.fields))
+        setConsents(buildConsentState(view.consentItems))
+      }
+
+      setFeedback(buildMembershipErrorFeedback(error, view, localeKey))
     } finally {
       setIsBusy(false)
     }

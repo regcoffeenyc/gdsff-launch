@@ -1,6 +1,10 @@
 import { validateAdminSession } from '../../_lib/adminAuth.js'
 import { readJson, sendEmpty, sendJson } from '../../_lib/http.js'
 import { createMembershipApplication, listMembershipApplications } from '../../_lib/membershipService.js'
+import {
+  buildMembershipNotificationFailureMessage,
+  membershipNotificationWasDelivered,
+} from '../../../server/lib/membershipNotification.js'
 
 export const config = {
   runtime: 'nodejs',
@@ -16,6 +20,19 @@ export default async function handler(request, response) {
     if (request.method === 'POST') {
       const body = await readJson(request)
       const result = await createMembershipApplication(body)
+
+      if (!membershipNotificationWasDelivered(result.notification)) {
+        sendJson(response, 502, {
+          ok: false,
+          error: buildMembershipNotificationFailureMessage(result.application, result.notification),
+          stored: true,
+          application: result.application,
+          summary: result.summary,
+          notification: result.notification,
+        })
+        return
+      }
+
       sendJson(response, 200, {
         ok: true,
         application: result.application,

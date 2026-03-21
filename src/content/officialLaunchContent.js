@@ -13,8 +13,8 @@ const documentItems = [
   },
   {
     id: 'ana-bio',
-    href: `${downloadBase}03_Ana_Fabchulidze_Short_Bio_Final.docx`,
-    fileName: '03_Ana_Fabchulidze_Short_Bio_Final.docx',
+    href: `${downloadBase}03_Ana_Panchulidze_Short_Bio_Final.docx`,
+    fileName: '03_Ana_Panchulidze_Short_Bio_Final.docx',
   },
   {
     id: 'membership-form',
@@ -87,10 +87,10 @@ export const officialLaunchContent = {
         {
           id: 'director',
           role: 'Director',
-          name: 'Ana Fabchulidze',
+          name: 'Ana Panchulidze',
           text:
-            'Ana Fabchulidze is the Director of the Georgian Dynamic Shooting & Functional Fitness Federation. She is responsible for administrative coordination, management of organizational processes, internal communication, and the effective execution of ongoing activity. Her work supports the stability of daily federation operations, the systematic development of organizational processes, and the practical delivery of federation programs.',
-          href: `${downloadBase}03_Ana_Fabchulidze_Short_Bio_Final.docx`,
+            'Ana Panchulidze is the Director of the Georgian Dynamic Shooting & Functional Fitness Federation. She is responsible for administrative coordination, management of organizational processes, internal communication, and the effective execution of ongoing activity. Her work supports the stability of daily federation operations, the systematic development of organizational processes, and the practical delivery of federation programs.',
+          href: `${downloadBase}03_Ana_Panchulidze_Short_Bio_Final.docx`,
           actionLabel: 'Download Bio',
         },
       ],
@@ -136,7 +136,7 @@ export const officialLaunchContent = {
         },
         {
           ...documentItems[2],
-          title: 'Ana Fabchulidze Short Bio',
+          title: 'Ana Panchulidze Short Bio',
           description: 'Official short biography for the federation director.',
           actionLabel: 'Download Bio',
         },
@@ -232,10 +232,10 @@ export const officialLaunchContent = {
         {
           id: 'director',
           role: 'დირექტორი',
-          name: 'ანა ფაბჩულიძე',
+          name: 'ანა ფანჩულიძე',
           text:
-            'ანა ფაბჩულიძე არის Georgian Dynamic Shooting & Functional Fitness Federation-ის დირექტორი. იგი პასუხისმგებელია ფედერაციის ადმინისტრაციულ კოორდინაციაზე, საორგანიზაციო პროცესების მართვაზე, შიდა კომუნიკაციის გამართულობაზე და მიმდინარე საქმიანობის ეფექტიან შესრულებაზე. მისი საქმიანობა ხელს უწყობს ფედერაციის ყოველდღიური ოპერაციების სტაბილურობას, ორგანიზაციული პროცესების სისტემურ განვითარებასა და პროგრამების განხორციელების პრაქტიკულ უზრუნველყოფას.',
-          href: `${downloadBase}03_Ana_Fabchulidze_Short_Bio_Final.docx`,
+            'ანა ფანჩულიძე არის Georgian Dynamic Shooting & Functional Fitness Federation-ის დირექტორი. იგი პასუხისმგებელია ფედერაციის ადმინისტრაციულ კოორდინაციაზე, საორგანიზაციო პროცესების მართვაზე, შიდა კომუნიკაციის გამართულობაზე და მიმდინარე საქმიანობის ეფექტიან შესრულებაზე. მისი საქმიანობა ხელს უწყობს ფედერაციის ყოველდღიური ოპერაციების სტაბილურობას, ორგანიზაციული პროცესების სისტემურ განვითარებასა და პროგრამების განხორციელების პრაქტიკულ უზრუნველყოფას.',
+          href: `${downloadBase}03_Ana_Panchulidze_Short_Bio_Final.docx`,
           actionLabel: 'ბიოს ჩამოტვირთვა',
         },
       ],

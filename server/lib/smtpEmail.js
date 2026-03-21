@@ -84,24 +84,12 @@ export async function sendSmtpMail({
 }) {
   const runtime = getRuntimeConfig()
   const recipients = toArray(to)
-  const username =
-    process.env.TITAN_SMTP_USERNAME ||
-    process.env.EMAIL_SMTP_USERNAME ||
-    process.env.TITAN_IMAP_USERNAME ||
-    process.env.EMAIL_IMAP_USERNAME ||
-    process.env.TITAN_MAILBOX_ADDRESS ||
-    process.env.EMAIL_INBOX_ADDRESS ||
-    ''
-  const password =
-    process.env.TITAN_SMTP_PASSWORD ||
-    process.env.EMAIL_SMTP_PASSWORD ||
-    process.env.TITAN_IMAP_PASSWORD ||
-    process.env.EMAIL_IMAP_PASSWORD ||
-    ''
+  const username = process.env.TITAN_SMTP_USERNAME || process.env.EMAIL_SMTP_USERNAME || ''
+  const password = process.env.TITAN_SMTP_PASSWORD || process.env.EMAIL_SMTP_PASSWORD || ''
 
   if (!runtime.smtpConfigured || !hasValue(username) || !hasValue(password)) {
     throw new Error(
-      'Outgoing email is not configured. Set EMAIL_SMTP_HOST, EMAIL_SMTP_PORT, EMAIL_SMTP_USERNAME, EMAIL_SMTP_PASSWORD, or provide Titan SMTP/IMAP credentials.',
+      'Outgoing email is not configured. Set explicit SMTP credentials with EMAIL_SMTP_HOST, EMAIL_SMTP_PORT, EMAIL_SMTP_USERNAME, and EMAIL_SMTP_PASSWORD (or TITAN_SMTP_* aliases). IMAP credentials are not used for sending.',
     )
   }
 

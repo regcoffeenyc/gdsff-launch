@@ -1,4 +1,5 @@
 import { getRuntimeConfig } from './platformRegistry.js'
+import { getSmtpRuntime } from './smtpEmail.js'
 import { humanizeMembershipValue } from './membershipApplication.js'
 import { sendSmtpMail } from './smtpEmail.js'
 
@@ -84,27 +85,63 @@ export function buildMembershipNotificationRecord(notification) {
   }
 }
 
+export function membershipNotificationWasDelivered(notification) {
+  return notification?.status === 'sent'
+}
+
+export function buildMembershipNotificationFailureMessage(application, notification) {
+  const recipients = Array.isArray(notification?.recipients) ? notification.recipients.filter(Boolean) : []
+  const recipientLabel = notification?.recipientLabel || recipients.join(', ') || 'office@gdsff.org'
+  const reference = application?.reference ? `Reference ${application.reference}. ` : ''
+  const baseMessage =
+    notification?.status === 'not-configured'
+      ? `The application was stored, but email delivery to ${recipientLabel} is not configured on the server.`
+      : `The application was stored, but email delivery to ${recipientLabel} failed.`
+  const detail = notification?.message ? ` ${notification.message}` : ''
+
+  return `${baseMessage} ${reference}Please do not submit the form again. Contact the federation and mention this reference if needed.${detail}`.trim()
+}
+
+function logMembershipNotificationIssue(level, application, notification) {
+  const runtime = getSmtpRuntime()
+  const logger = level === 'warn' ? console.warn : console.error
+
+  logger('[membership-email] delivery issue', {
+    reference: application?.reference || '',
+    status: notification?.status || '',
+    recipients: notification?.recipients || [],
+    message: notification?.message || '',
+    smtp: runtime,
+  })
+}
+
 export async function sendMembershipNotification(application) {
   const runtime = getRuntimeConfig()
   const recipients = buildMembershipNotificationRecipients()
 
   if (!recipients.length) {
-    return {
+    const notification = {
       status: 'not-configured',
       recipients: [],
       updatedAt: new Date().toISOString(),
       message: 'No membership notification recipient is configured for outgoing email.',
     }
+
+    logMembershipNotificationIssue('error', application, notification)
+    return notification
   }
 
   if (!runtime.smtpConfigured) {
-    return {
+    const notification = {
       status: 'not-configured',
       recipients,
       updatedAt: new Date().toISOString(),
       message:
         'Outgoing membership email is not configured on the server yet. Set SMTP credentials to deliver each application to the federation inbox.',
     }
+
+    logMembershipNotificationIssue('error', application, notification)
+    return notification
   }
 
   try {
@@ -126,7 +163,7 @@ export async function sendMembershipNotification(application) {
       message: `Delivered to ${recipients.join(', ')}.`,
     }
   } catch (error) {
-    return {
+    const notification = {
       status: 'failed',
       recipients,
       updatedAt: new Date().toISOString(),
@@ -135,5 +172,8 @@ export async function sendMembershipNotification(application) {
           ? error.message
           : 'Outgoing membership email could not be delivered from the server.',
     }
+
+    logMembershipNotificationIssue('error', application, notification)
+    return notification
   }
 }

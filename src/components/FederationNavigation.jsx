@@ -131,7 +131,7 @@ export function buildFederationNav(copy) {
         },
         {
           label: isGeorgian ? 'დირექტორი' : 'Director',
-          description: isGeorgian ? 'ანა ფაბჩულიძის ოფიციალური პროფილი.' : 'Official profile for Ana Fabchulidze.',
+          description: isGeorgian ? 'ანა ფანჩულიძის ოფიციალური პროფილი.' : 'Official profile for Ana Panchulidze.',
           to: '/leadership#director',
         },
       ],

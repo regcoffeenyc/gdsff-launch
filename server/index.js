@@ -352,27 +352,62 @@ function buildMembershipNotificationRecord(notification) {
   }
 }
 
+function membershipNotificationWasDelivered(notification) {
+  return notification?.status === 'sent'
+}
+
+function buildMembershipNotificationFailureMessage(application, notification) {
+  const recipients = Array.isArray(notification?.recipients) ? notification.recipients.filter(Boolean) : []
+  const recipientLabel = notification?.recipientLabel || recipients.join(', ') || 'office@gdsff.org'
+  const reference = application?.reference ? `Reference ${application.reference}. ` : ''
+  const baseMessage =
+    notification?.status === 'not-configured'
+      ? `The application was stored, but email delivery to ${recipientLabel} is not configured on the server.`
+      : `The application was stored, but email delivery to ${recipientLabel} failed.`
+  const detail = notification?.message ? ` ${notification.message}` : ''
+
+  return `${baseMessage} ${reference}Please do not submit the form again. Contact the federation and mention this reference if needed.${detail}`.trim()
+}
+
 async function sendMembershipNotification(application) {
   const smtpRuntime = getSmtpRuntime()
   const recipients = buildMembershipNotificationRecipients()
 
   if (!recipients.length) {
-    return {
+    const notification = {
       status: 'not-configured',
       recipients: [],
       updatedAt: new Date().toISOString(),
       message: 'No membership notification recipient is configured for outgoing email.',
     }
+
+    console.error('[membership-email] delivery issue', {
+      reference: application?.reference || '',
+      status: notification.status,
+      recipients: notification.recipients,
+      message: notification.message,
+      smtp: smtpRuntime,
+    })
+    return notification
   }
 
   if (!smtpRuntime.configured) {
-    return {
+    const notification = {
       status: 'not-configured',
       recipients,
       updatedAt: new Date().toISOString(),
       message:
         'Outgoing membership email is not configured on the server yet. Set SMTP credentials to deliver each application to the federation inbox.',
     }
+
+    console.error('[membership-email] delivery issue', {
+      reference: application?.reference || '',
+      status: notification.status,
+      recipients: notification.recipients,
+      message: notification.message,
+      smtp: smtpRuntime,
+    })
+    return notification
   }
 
   try {
@@ -394,7 +429,7 @@ async function sendMembershipNotification(application) {
       message: `Delivered to ${recipients.join(', ')}.`,
     }
   } catch (error) {
-    return {
+    const notification = {
       status: 'failed',
       recipients,
       updatedAt: new Date().toISOString(),
@@ -403,6 +438,15 @@ async function sendMembershipNotification(application) {
           ? error.message
           : 'Outgoing membership email could not be delivered from the server.',
     }
+
+    console.error('[membership-email] delivery issue', {
+      reference: application?.reference || '',
+      status: notification.status,
+      recipients: notification.recipients,
+      message: notification.message,
+      smtp: smtpRuntime,
+    })
+    return notification
   }
 }
 
@@ -1007,13 +1051,32 @@ const server = createServer(async (request, response) => {
         return state
       })
 
+      const summary = buildMembershipSummary(nextState)
+
+      if (!membershipNotificationWasDelivered(notificationRecord)) {
+        sendJson(
+          response,
+          502,
+          {
+            ok: false,
+            error: buildMembershipNotificationFailureMessage(savedApplication, notificationRecord),
+            stored: true,
+            application: savedApplication,
+            summary,
+            notification: notificationRecord,
+          },
+          origin,
+        )
+        return
+      }
+
       sendJson(
         response,
         200,
         {
           ok: true,
           application: savedApplication,
-          summary: buildMembershipSummary(nextState),
+          summary,
           notification: notificationRecord,
         },
         origin,

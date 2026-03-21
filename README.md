@@ -194,7 +194,7 @@ This keeps the tool usable locally without falsely claiming hardened auth.
 
 ### Email
 Add one provider adapter at a time:
-- Gmail API
+- Gmail SMTP (app password)
 - IMAP sync
 
 Recommended next steps:
@@ -204,7 +204,7 @@ Recommended next steps:
 For the public membership page in production:
 - deploy the API from `server/`
 - set `VITE_GDSFF_API_BASE` if the frontend and API are on different origins
-- configure SMTP credentials so membership submissions can email `office@gdsff.org`
+- configure explicit SMTP credentials so membership submissions can email `office@gdsff.org`
 
 ## Vercel Production Setup
 
@@ -228,6 +228,11 @@ Recommended setup:
    - `ADMIN_USERNAME`
    - `ADMIN_PASSWORD`
 4. Redeploy after the environment variables are saved.
+
+Important:
+- membership delivery uses SMTP only
+- IMAP credentials are for inbox sync only
+- do not rely on IMAP passwords to send outgoing membership emails
 
 What this enables on Vercel:
 - `POST /api/membership/applications` stores the application and sends the notification email
@@ -271,6 +276,13 @@ Required values:
 6. `EMAIL_IMAP_USERNAME` (usually the full mailbox address)
 7. `EMAIL_IMAP_PASSWORD` (use app password if your Titan setup requires it)
 
+For outgoing membership email with Titan, also set:
+- `EMAIL_SMTP_HOST=smtp.titan.email`
+- `EMAIL_SMTP_PORT=465`
+- `EMAIL_SMTP_SECURE=true`
+- `EMAIL_SMTP_USERNAME` (usually `office@gdsff.org`)
+- `EMAIL_SMTP_PASSWORD`
+
 Optional Titan-specific aliases:
 - `TITAN_IMAP_USERNAME`
 - `TITAN_IMAP_PASSWORD`
@@ -281,6 +293,26 @@ Run flow:
 2. Open `#/media-bot`
 3. In Settings set provider to `titan` and save
 4. In Email Inbox click `Sync Titan Inbox`
+
+## Gmail SMTP Setup (Optional Alternative)
+
+Keep Titan as the primary GDSFF provider unless you intentionally decide to run an alternate SMTP mailbox.
+
+Required values:
+1. `EMAIL_PROVIDER=gmail`
+2. `EMAIL_INBOX_ADDRESS=office@gdsff.org` (or your target inbox)
+3. `EMAIL_OUTBOUND_ADDRESS=office@gdsff.org` (or the mailbox that sends the message)
+4. `EMAIL_MEMBERSHIP_NOTIFICATION_ADDRESS=office@gdsff.org`
+5. `EMAIL_SMTP_HOST=smtp.gmail.com`
+6. `EMAIL_SMTP_PORT=465`
+7. `EMAIL_SMTP_SECURE=true`
+8. `EMAIL_SMTP_USERNAME` (full Gmail address)
+9. `EMAIL_SMTP_PASSWORD` (Google app password)
+
+Notes:
+- enable 2-Step Verification on the Gmail account first
+- generate an app password and use that instead of the normal Gmail password
+- Gmail SMTP is for sending; add IMAP only if you also want inbox sync
 
 ### Meta
 Recommended next steps:

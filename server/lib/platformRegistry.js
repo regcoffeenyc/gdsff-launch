@@ -50,6 +50,26 @@ function parseBooleanFlag(value, fallback = false) {
   return `${value}`.trim().toLowerCase() !== 'false'
 }
 
+function getDefaultSmtpHost(emailProvider) {
+  if (emailProvider === 'titan') {
+    return 'smtp.titan.email'
+  }
+
+  if (emailProvider === 'gmail') {
+    return 'smtp.gmail.com'
+  }
+
+  return ''
+}
+
+function getDefaultSmtpPort(emailProvider) {
+  if (emailProvider === 'titan' || emailProvider === 'gmail') {
+    return 465
+  }
+
+  return 0
+}
+
 export function getRuntimeConfig() {
   ensureEnvLoaded()
 
@@ -64,27 +84,12 @@ export function getRuntimeConfig() {
     'office@gdsff.org'
   const imapPassword = process.env.TITAN_IMAP_PASSWORD || process.env.EMAIL_IMAP_PASSWORD || ''
   const imapTls = parseBooleanFlag(process.env.TITAN_IMAP_TLS || process.env.EMAIL_IMAP_TLS, true)
-  const titanEmailCredentialsConfigured = hasValue(
-    process.env.TITAN_SMTP_USERNAME ||
-      process.env.EMAIL_SMTP_USERNAME ||
-      process.env.TITAN_IMAP_USERNAME ||
-      process.env.EMAIL_IMAP_USERNAME ||
-      process.env.TITAN_MAILBOX_ADDRESS ||
-      process.env.EMAIL_INBOX_ADDRESS,
+  const smtpHost = process.env.TITAN_SMTP_HOST || process.env.EMAIL_SMTP_HOST || getDefaultSmtpHost(emailProvider)
+  const smtpPort = Number(
+    process.env.TITAN_SMTP_PORT || process.env.EMAIL_SMTP_PORT || getDefaultSmtpPort(emailProvider),
   )
-  const smtpHost =
-    process.env.TITAN_SMTP_HOST ||
-    process.env.EMAIL_SMTP_HOST ||
-    ((emailProvider === 'titan' || emailProvider === 'imap' || titanEmailCredentialsConfigured) ? 'smtp.titan.email' : '')
-  const smtpPort = Number(process.env.TITAN_SMTP_PORT || process.env.EMAIL_SMTP_PORT || (hasValue(smtpHost) ? 465 : 0))
-  const smtpUsername =
-    process.env.TITAN_SMTP_USERNAME ||
-    process.env.EMAIL_SMTP_USERNAME ||
-    imapUsername
-  const smtpPassword =
-    process.env.TITAN_SMTP_PASSWORD ||
-    process.env.EMAIL_SMTP_PASSWORD ||
-    imapPassword
+  const smtpUsername = process.env.TITAN_SMTP_USERNAME || process.env.EMAIL_SMTP_USERNAME || ''
+  const smtpPassword = process.env.TITAN_SMTP_PASSWORD || process.env.EMAIL_SMTP_PASSWORD || ''
   const smtpSecure = parseBooleanFlag(
     process.env.TITAN_SMTP_SECURE || process.env.EMAIL_SMTP_SECURE,
     smtpPort === 465,
