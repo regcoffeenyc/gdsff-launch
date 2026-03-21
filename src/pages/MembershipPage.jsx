@@ -94,23 +94,27 @@ function buildMembershipFeedback(result, view, localeKey) {
     localeKey === 'ka'
       ? 'ჩანაწერი დაცულია წევრობის რეესტრში, ხოლო საჭიროების შემთხვევაში ჩამოსატვირთი ფორმაც ისევ ხელმისაწვდომია.'
       : 'The application record is safe in the membership register, and the downloadable membership form remains available if needed.'
+  const detail = notification.message ? ` ${notification.message}` : ''
 
   return {
     type: 'warning',
     title: warningTitle,
-    text: `${warningText} ${fallbackHint}`,
+    text: `${warningText}${detail} ${fallbackHint}`,
   }
 }
 
 function buildMembershipErrorFeedback(error, view, localeKey) {
   const details = error && typeof error === 'object' ? error.details : null
   const application = details?.application || null
+  const notificationMessage = details?.notification?.message || details?.application?.notification?.message || ''
+  const errorMessage = error instanceof Error && error.message ? error.message : ''
+  const exactMessage = notificationMessage || errorMessage
 
   if (!application) {
     return {
       type: 'error',
       title: view.submitErrorTitle,
-      text: view.submitErrorText,
+      text: exactMessage ? `${view.submitErrorText} ${exactMessage}` : view.submitErrorText,
     }
   }
 
@@ -123,7 +127,7 @@ function buildMembershipErrorFeedback(error, view, localeKey) {
   return {
     type: 'error',
     title: localeKey === 'ka' ? 'განაცხადი შენახულია, მაგრამ იმეილი ვერ გაიგზავნა' : 'Application Stored, Email Delivery Failed',
-    text: `${referenceText} ${storedHint}`.trim(),
+    text: `${referenceText} ${exactMessage} ${storedHint}`.trim(),
   }
 }
 
@@ -139,12 +143,18 @@ function buildNotificationLabel(notification, localeKey) {
   }
 
   if (notification.status === 'not-configured') {
-    return localeKey === 'ka' ? 'ელფოსტა ჯერ არ არის დაკონფიგურირებული სერვერზე.' : 'Email delivery is not configured on the server yet.'
+    return notification.message
+      ? notification.message
+      : localeKey === 'ka'
+        ? 'ელფოსტა ჯერ არ არის დაკონფიგურირებული სერვერზე.'
+        : 'Email delivery is not configured on the server yet.'
   }
 
-  return localeKey === 'ka'
-    ? 'ჩანაწერი შენახულია, მაგრამ ელფოსტის გაგზავნა ვერ დადასტურდა.'
-    : 'The application is stored, but email delivery could not be confirmed.'
+  return notification.message
+    ? notification.message
+    : localeKey === 'ka'
+      ? 'ჩანაწერი შენახულია, მაგრამ ელფოსტის გაგზავნა ვერ დადასტურდა.'
+      : 'The application is stored, but email delivery could not be confirmed.'
 }
 
 export default function MembershipPage({ copy, language = 'en', setLanguage }) {
@@ -275,6 +285,11 @@ export default function MembershipPage({ copy, language = 'en', setLanguage }) {
       setValues(buildEmptyApplicationState(view.fields))
       setConsents(buildConsentState(view.consentItems))
     } catch (error) {
+      console.error('[membership] submission failed', {
+        error,
+        details: error?.details || null,
+      })
+
       const storedApplication = error?.details?.application || null
       const storedSummary = error?.details?.summary || null
 

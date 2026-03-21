@@ -35,6 +35,22 @@ function isBlobConfigured() {
   return typeof process.env.BLOB_READ_WRITE_TOKEN === 'string' && process.env.BLOB_READ_WRITE_TOKEN.trim().length > 0
 }
 
+function isVercelRuntime() {
+  return (
+    process.env.VERCEL === '1' ||
+    (typeof process.env.VERCEL_ENV === 'string' && process.env.VERCEL_ENV.trim().length > 0) ||
+    (typeof process.env.VERCEL_URL === 'string' && process.env.VERCEL_URL.trim().length > 0)
+  )
+}
+
+function assertDurableStorageConfigured() {
+  if (isVercelRuntime() && !isBlobConfigured()) {
+    throw new Error(
+      'Durable membership storage is not configured for Vercel. Set BLOB_READ_WRITE_TOKEN before using the live online registration form.',
+    )
+  }
+}
+
 async function readBlobDocument() {
   try {
     const result = await get(blobPathname, {
@@ -103,6 +119,8 @@ function writeLocalDocument(document) {
 }
 
 export async function readMembershipDocument() {
+  assertDurableStorageConfigured()
+
   if (isBlobConfigured()) {
     return readBlobDocument()
   }
@@ -111,6 +129,8 @@ export async function readMembershipDocument() {
 }
 
 export async function writeMembershipDocument(document) {
+  assertDurableStorageConfigured()
+
   if (isBlobConfigured()) {
     return writeBlobDocument(document)
   }

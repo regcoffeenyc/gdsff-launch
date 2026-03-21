@@ -57,8 +57,51 @@ function normalizeErrorMessage(error) {
   return [responseCode, code, command, message].filter(Boolean).join(' | ') || 'Outgoing membership email could not be delivered from the server.'
 }
 
+function getConfiguredSmtpCredentials() {
+  return {
+    username: process.env.TITAN_SMTP_USERNAME || process.env.EMAIL_SMTP_USERNAME || '',
+    password: process.env.TITAN_SMTP_PASSWORD || process.env.EMAIL_SMTP_PASSWORD || '',
+  }
+}
+
+function buildMissingSmtpKeys(runtime, username, password) {
+  const missing = []
+
+  if (!hasValue(runtime.smtpHost)) {
+    missing.push('EMAIL_SMTP_HOST')
+  }
+
+  if (!(Number.isFinite(runtime.smtpPort) && runtime.smtpPort > 0)) {
+    missing.push('EMAIL_SMTP_PORT')
+  }
+
+  if (!hasValue(username)) {
+    missing.push('EMAIL_SMTP_USERNAME')
+  }
+
+  if (!hasValue(password)) {
+    missing.push('EMAIL_SMTP_PASSWORD')
+  }
+
+  return missing
+}
+
+export function getSmtpConfigurationIssue() {
+  const runtime = getRuntimeConfig()
+  const { username, password } = getConfiguredSmtpCredentials()
+  const missing = buildMissingSmtpKeys(runtime, username, password)
+
+  if (!missing.length) {
+    return ''
+  }
+
+  return `Outgoing email is not configured. Missing: ${missing.join(', ')}.`
+}
+
 export function getSmtpRuntime() {
   const runtime = getRuntimeConfig()
+  const { username, password } = getConfiguredSmtpCredentials()
+  const configurationIssue = getSmtpConfigurationIssue()
 
   return {
     provider: runtime.emailProvider,
@@ -71,6 +114,8 @@ export function getSmtpRuntime() {
     passwordConfigured: runtime.smtpPasswordConfigured,
     senderAddress: runtime.emailOutboundAddress,
     membershipNotificationAddress: runtime.membershipNotificationAddress,
+    configurationIssue,
+    missingKeys: buildMissingSmtpKeys(runtime, username, password),
   }
 }
 
@@ -84,13 +129,10 @@ export async function sendSmtpMail({
 }) {
   const runtime = getRuntimeConfig()
   const recipients = toArray(to)
-  const username = process.env.TITAN_SMTP_USERNAME || process.env.EMAIL_SMTP_USERNAME || ''
-  const password = process.env.TITAN_SMTP_PASSWORD || process.env.EMAIL_SMTP_PASSWORD || ''
+  const { username, password } = getConfiguredSmtpCredentials()
 
   if (!runtime.smtpConfigured || !hasValue(username) || !hasValue(password)) {
-    throw new Error(
-      'Outgoing email is not configured. Set explicit SMTP credentials with EMAIL_SMTP_HOST, EMAIL_SMTP_PORT, EMAIL_SMTP_USERNAME, and EMAIL_SMTP_PASSWORD (or TITAN_SMTP_* aliases). IMAP credentials are not used for sending.',
-    )
+    throw new Error(getSmtpConfigurationIssue())
   }
 
   if (!recipients.length) {

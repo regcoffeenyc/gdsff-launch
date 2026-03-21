@@ -11,7 +11,7 @@ import { buildMetaAuthUrl, getPlatformCatalog, getRuntimeConfig, metaOAuthScopes
 import { processScheduledPosts } from './lib/scheduleQueue.js'
 import { generateDraft, generateReplySuggestion, runAssistantChat } from './lib/socialAi.js'
 import { getClientState, logActivity, readState, updateState, writeState } from './lib/socialStore.js'
-import { getSmtpRuntime, sendSmtpMail } from './lib/smtpEmail.js'
+import { getSmtpConfigurationIssue, getSmtpRuntime, sendSmtpMail } from './lib/smtpEmail.js'
 
 ensureEnvLoaded()
 
@@ -361,8 +361,9 @@ function buildMembershipNotificationFailureMessage(application, notification) {
     notification?.status === 'not-configured'
       ? 'The application was stored, but email delivery is not configured on the server.'
       : 'The application was stored, but email delivery failed.'
+  const detail = notification?.message ? ` ${notification.message}` : ''
 
-  return `${baseMessage} ${reference}Please do not submit the form again. Contact the federation and mention this reference if needed.`.trim()
+  return `${baseMessage} ${reference}Please do not submit the form again. Contact the federation and mention this reference if needed.${detail}`.trim()
 }
 
 async function sendMembershipNotification(application) {
@@ -392,8 +393,7 @@ async function sendMembershipNotification(application) {
       status: 'not-configured',
       recipients,
       updatedAt: new Date().toISOString(),
-      message:
-        'Outgoing membership email is not configured on the server yet. Set SMTP credentials to deliver each application to the federation inbox.',
+      message: getSmtpConfigurationIssue(),
     }
 
     console.error('[membership-email] delivery issue', {

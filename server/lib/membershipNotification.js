@@ -1,5 +1,5 @@
 import { getRuntimeConfig } from './platformRegistry.js'
-import { getSmtpRuntime } from './smtpEmail.js'
+import { getSmtpConfigurationIssue, getSmtpRuntime } from './smtpEmail.js'
 import { humanizeMembershipValue } from './membershipApplication.js'
 import { sendSmtpMail } from './smtpEmail.js'
 
@@ -94,8 +94,9 @@ export function buildMembershipNotificationFailureMessage(application, notificat
     notification?.status === 'not-configured'
       ? 'The application was stored, but email delivery is not configured on the server.'
       : 'The application was stored, but email delivery failed.'
+  const detail = notification?.message ? ` ${notification.message}` : ''
 
-  return `${baseMessage} ${reference}Please do not submit the form again. Contact the federation and mention this reference if needed.`.trim()
+  return `${baseMessage} ${reference}Please do not submit the form again. Contact the federation and mention this reference if needed.${detail}`.trim()
 }
 
 function logMembershipNotificationIssue(level, application, notification) {
@@ -132,8 +133,7 @@ export async function sendMembershipNotification(application) {
       status: 'not-configured',
       recipients,
       updatedAt: new Date().toISOString(),
-      message:
-        'Outgoing membership email is not configured on the server yet. Set SMTP credentials to deliver each application to the federation inbox.',
+      message: getSmtpConfigurationIssue(),
     }
 
     logMembershipNotificationIssue('error', application, notification)
