@@ -18,6 +18,8 @@ const pageLabelKeys = {
   '/documents': 'documents',
   '/safety-consent': 'safetyConsent',
   '/contact': 'contact',
+  '/social-hub': 'socialHub',
+  '/media-bot': 'socialHub',
   '/search': 'search',
 }
 
@@ -60,6 +62,7 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
   const navigate = useNavigate()
   const navGroups = useMemo(() => buildFederationNav(copy), [copy])
   const searchCopy = useMemo(() => getSearchUiCopy(copy.locale), [copy.locale])
+  const socialHubLabel = copy.locale === 'ka-GE' ? 'სოციალური მართვის ცენტრი' : 'Social Hub'
 
   const clearDesktopCloseTimer = () => {
     if (desktopCloseTimerRef.current) {
@@ -133,7 +136,9 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
 
     const routeLabelKey = pageLabelKeys[location.pathname]
     const routeLabel =
-      routeLabelKey === 'search'
+      routeLabelKey === 'socialHub'
+        ? socialHubLabel
+        : routeLabelKey === 'search'
         ? searchCopy.navLabel
         : routeLabelKey
           ? copy.nav[routeLabelKey]
@@ -154,7 +159,7 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
     if (themeTag) {
       themeTag.setAttribute('content', '#0d0f12')
     }
-  }, [copy, language, location.pathname, searchCopy.navLabel])
+  }, [copy, language, location.pathname, searchCopy.navLabel, socialHubLabel])
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
@@ -337,6 +342,15 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
               </button>
             </div>
 
+            <MobileFederationNav
+              groups={navGroups}
+              location={location}
+              openKey={openMobileSection}
+              setOpenKey={setOpenMobileSection}
+              closeMenu={closeMobileMenu}
+              ariaLabel={copy.header.mobileNavigation}
+            />
+
             <div className="mobile-drawer-tools">
               <SearchForm
                 className="site-search-form mobile-search-form"
@@ -376,15 +390,6 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
                 </button>
               </div>
             </div>
-
-            <MobileFederationNav
-              groups={navGroups}
-              location={location}
-              openKey={openMobileSection}
-              setOpenKey={setOpenMobileSection}
-              closeMenu={closeMobileMenu}
-              ariaLabel={copy.header.mobileNavigation}
-            />
 
             <Link className="header-utility-link mobile-calendar-link" to="/events#calendar-2026" onClick={closeMobileMenu}>
               {copy.header.quickAction}
