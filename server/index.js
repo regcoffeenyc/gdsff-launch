@@ -11,7 +11,14 @@ import { buildMetaAuthUrl, getPlatformCatalog, getRuntimeConfig, metaOAuthScopes
 import { processScheduledPosts } from './lib/scheduleQueue.js'
 import { generateDraft, generateReplySuggestion, runAssistantChat } from './lib/socialAi.js'
 import { getClientState, logActivity, readState, updateState, writeState } from './lib/socialStore.js'
-import { getSmtpConfigurationIssue, getSmtpRuntime, sendSmtpMail } from './lib/smtpEmail.js'
+import {
+  buildMembershipNotificationFailureMessage as sharedBuildMembershipNotificationFailureMessage,
+  buildMembershipNotificationRecipients as sharedBuildMembershipNotificationRecipients,
+  buildMembershipNotificationRecord as sharedBuildMembershipNotificationRecord,
+  membershipNotificationWasDelivered as sharedMembershipNotificationWasDelivered,
+  sendMembershipNotification as sharedSendMembershipNotification,
+} from './lib/membershipNotification.js'
+import { getSmtpRuntime } from './lib/smtpEmail.js'
 
 ensureEnvLoaded()
 
@@ -283,25 +290,7 @@ function buildMembershipSummary(state) {
 }
 
 function buildMembershipNotificationRecipients() {
-  const configuredRecipients =
-    process.env.EMAIL_MEMBERSHIP_NOTIFICATION_ADDRESS ||
-    process.env.MEMBERSHIP_NOTIFICATION_ADDRESS ||
-    runtime.membershipNotificationAddress ||
-    'metreveligod@gmail.com'
-
-  return unique(toArray(configuredRecipients))
-}
-
-function buildMembershipNotificationSubject(application) {
-  return `GDSFF Membership Application ${application.reference}`
-}
-
-function humanizeMembershipValue(value) {
-  return `${value || ''}`
-    .split('-')
-    .filter(Boolean)
-    .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
-    .join(' ')
+  return sharedBuildMembershipNotificationRecipients()
 }
 
 function buildMembershipNotificationText(application) {
@@ -339,111 +328,19 @@ function buildMembershipNotificationText(application) {
 }
 
 function buildMembershipNotificationRecord(notification) {
-  const recipients = Array.isArray(notification.recipients) ? notification.recipients : []
-
-  return {
-    status: notification.status,
-    recipients,
-    recipientLabel: recipients.join(', '),
-    sentAt: notification.sentAt || '',
-    updatedAt: notification.updatedAt,
-    message: notification.message || '',
-  }
+  return sharedBuildMembershipNotificationRecord(notification)
 }
 
 function membershipNotificationWasDelivered(notification) {
-  return notification?.status === 'sent'
+  return sharedMembershipNotificationWasDelivered(notification)
 }
 
 function buildMembershipNotificationFailureMessage(application, notification) {
-  const reference = application?.reference ? `Reference ${application.reference}. ` : ''
-  const baseMessage =
-    notification?.status === 'not-configured'
-      ? 'The application was stored, but email delivery is not configured on the server.'
-      : 'The application was stored, but email delivery failed.'
-  const detail = notification?.message ? ` ${notification.message}` : ''
-
-  return `${baseMessage} ${reference}Please do not submit the form again. Contact the federation and mention this reference if needed.${detail}`.trim()
+  return sharedBuildMembershipNotificationFailureMessage(application, notification)
 }
 
 async function sendMembershipNotification(application) {
-  const smtpRuntime = getSmtpRuntime()
-  const recipients = buildMembershipNotificationRecipients()
-
-  if (!recipients.length) {
-    const notification = {
-      status: 'not-configured',
-      recipients: [],
-      updatedAt: new Date().toISOString(),
-      message: 'No membership notification recipient is configured for outgoing email.',
-    }
-
-    console.error('[membership-email] delivery issue', {
-      reference: application?.reference || '',
-      status: notification.status,
-      recipients: notification.recipients,
-      message: notification.message,
-      smtp: smtpRuntime,
-    })
-    return notification
-  }
-
-  if (!smtpRuntime.configured) {
-    const notification = {
-      status: 'not-configured',
-      recipients,
-      updatedAt: new Date().toISOString(),
-      message: getSmtpConfigurationIssue(),
-    }
-
-    console.error('[membership-email] delivery issue', {
-      reference: application?.reference || '',
-      status: notification.status,
-      recipients: notification.recipients,
-      message: notification.message,
-      smtp: smtpRuntime,
-    })
-    return notification
-  }
-
-  try {
-    await sendSmtpMail({
-      to: recipients,
-      replyTo: application.applicant?.email || '',
-      subject: buildMembershipNotificationSubject(application),
-      text: buildMembershipNotificationText(application),
-      headers: {
-        'X-GDSFF-Application-Reference': application.reference,
-      },
-    })
-
-    return {
-      status: 'sent',
-      recipients,
-      sentAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      message: `Delivered to ${recipients.join(', ')}.`,
-    }
-  } catch (error) {
-    const notification = {
-      status: 'failed',
-      recipients,
-      updatedAt: new Date().toISOString(),
-      message:
-        error instanceof Error
-          ? error.message
-          : 'Outgoing membership email could not be delivered from the server.',
-    }
-
-    console.error('[membership-email] delivery issue', {
-      reference: application?.reference || '',
-      status: notification.status,
-      recipients: notification.recipients,
-      message: notification.message,
-      smtp: smtpRuntime,
-    })
-    return notification
-  }
+  return sharedSendMembershipNotification(application)
 }
 
 function syncContactFromMembershipApplication(state, application) {

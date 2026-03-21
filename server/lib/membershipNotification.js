@@ -1,7 +1,7 @@
-import { getRuntimeConfig } from './platformRegistry.js'
-import { getSmtpConfigurationIssue, getSmtpRuntime } from './smtpEmail.js'
 import { humanizeMembershipValue } from './membershipApplication.js'
-import { sendSmtpMail } from './smtpEmail.js'
+import { buildMembershipApplicationPdfAttachment } from './membershipApplicationPdf.js'
+import { getRuntimeConfig } from './platformRegistry.js'
+import { getSmtpConfigurationIssue, getSmtpRuntime, sendSmtpMail } from './smtpEmail.js'
 
 function toArray(value) {
   if (Array.isArray(value)) {
@@ -39,36 +39,24 @@ export function buildMembershipNotificationSubject(application) {
 
 export function buildMembershipNotificationText(application) {
   const applicant = application.applicant || {}
-  const confirmations = Array.isArray(application.confirmations) ? application.confirmations : []
-  const details = [
+  const lines = [
     'Georgian Dynamic Shooting & Functional Fitness Federation',
-    'New membership application received from the website.',
+    'A new membership application was submitted through the GDSFF website.',
     '',
-    `Reference: ${application.reference}`,
-    `Submitted At: ${application.submittedAt}`,
-    `Status: ${application.status}`,
-    `Locale: ${application.locale}`,
-    `Source: ${application.source}`,
+    `Applicant: ${applicant.fullName || '-'}`,
+    `Membership Type: ${humanizeMembershipValue(applicant.membershipType) || '-'}`,
+    `Sport Interest: ${humanizeMembershipValue(applicant.sportInterest) || '-'}`,
+    `Reference: ${application.reference || '-'}`,
+    `Submitted At: ${application.submittedAt || '-'}`,
     '',
-    'Applicant Details',
-    `Full Name / სახელი და გვარი: ${applicant.fullName || ''}`,
-    `Date of Birth / დაბადების თარიღი: ${applicant.birthDate || ''}`,
-    `Personal ID Number / პირადი ნომერი: ${applicant.personalId || ''}`,
-    `Citizenship / მოქალაქეობა: ${applicant.citizenship || ''}`,
-    `Address / მისამართი: ${applicant.address || ''}`,
-    `Phone Number / ტელეფონის ნომერი: ${applicant.phone || ''}`,
-    `Email / ელფოსტა: ${applicant.email || ''}`,
-    `Membership Type / წევრობის ტიპი: ${humanizeMembershipValue(applicant.membershipType)}`,
-    `Sport Interest / სპორტული მიმართულება: ${humanizeMembershipValue(applicant.sportInterest)}`,
-    `Additional Information / დამატებითი ინფორმაცია: ${applicant.additionalInfo || '-'}`,
-    '',
-    'Required Confirmations / სავალდებულო დადასტურებები',
-    ...confirmations.map((item) => `- ${item.accepted ? 'Accepted' : 'Not accepted'}: ${item.label}`),
-    '',
-    'This application is already stored in the GDSFF online membership register.',
+    'The full submitted application is attached as a PDF document.',
   ]
 
-  return details.join('\n')
+  return lines.join('\n')
+}
+
+export async function buildMembershipNotificationAttachments(application) {
+  return [await buildMembershipApplicationPdfAttachment(application)]
 }
 
 export function buildMembershipNotificationRecord(notification) {
@@ -141,11 +129,14 @@ export async function sendMembershipNotification(application) {
   }
 
   try {
+    const attachments = await buildMembershipNotificationAttachments(application)
+
     await sendSmtpMail({
       to: recipients,
       replyTo: application.applicant?.email || '',
       subject: buildMembershipNotificationSubject(application),
       text: buildMembershipNotificationText(application),
+      attachments,
       headers: {
         'X-GDSFF-Application-Reference': application.reference,
       },
@@ -156,7 +147,7 @@ export async function sendMembershipNotification(application) {
       recipients,
       sentAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      message: `Delivered to ${recipients.join(', ')}.`,
+      message: `Delivered to ${recipients.join(', ')} with PDF attachment ${attachments.map((item) => item.filename).join(', ')}.`,
     }
   } catch (error) {
     const notification = {

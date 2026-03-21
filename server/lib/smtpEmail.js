@@ -126,6 +126,7 @@ export async function sendSmtpMail({
   replyTo = '',
   senderName = 'GDSFF Website',
   headers = {},
+  attachments = [],
 }) {
   const runtime = getRuntimeConfig()
   const recipients = toArray(to)
@@ -150,6 +151,7 @@ export async function sendSmtpMail({
       subject,
       text,
       headers,
+      attachments: Array.isArray(attachments) && attachments.length ? attachments : undefined,
     })
 
     return {
