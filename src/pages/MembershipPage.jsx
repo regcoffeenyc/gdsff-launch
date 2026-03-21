@@ -71,8 +71,6 @@ function formatDateLabel(value, locale) {
 
 function buildMembershipFeedback(result, view, localeKey) {
   const notification = result.notification || result.application?.notification || {}
-  const recipients = Array.isArray(notification.recipients) ? notification.recipients.join(', ') : ''
-  const recipientLabel = notification.recipientLabel || recipients || 'office@gdsff.org'
   const referenceText = `${view.referenceLabel}: ${result.reference}.`
 
   if (notification.status === 'sent') {
@@ -81,8 +79,8 @@ function buildMembershipFeedback(result, view, localeKey) {
       title: view.submitSuccessTitle,
       text:
         localeKey === 'ka'
-          ? `${view.submitSuccessText} ${referenceText} განაცხადის ასლი წარმატებით გადაიგზავნა ${recipientLabel}-ზე. ${view.submitSuccessHint}`
-          : `${view.submitSuccessText} ${referenceText} A copy of the completed application was also delivered to ${recipientLabel}. ${view.submitSuccessHint}`,
+          ? `${view.submitSuccessText} ${referenceText} განაცხადი წარმატებით გადაიგზავნა ფედერაციის სარეგისტრაციო დამუშავების არხზე. ${view.submitSuccessHint}`
+          : `${view.submitSuccessText} ${referenceText} The completed application was also delivered through the federation registration processing channel. ${view.submitSuccessHint}`,
     }
   }
 
@@ -90,9 +88,8 @@ function buildMembershipFeedback(result, view, localeKey) {
     localeKey === 'ka' ? 'განაცხადი შენახულია, მაგრამ იმეილი ვერ დადასტურდა' : 'Application Stored, Email Not Confirmed'
   const warningText =
     localeKey === 'ka'
-      ? `განაცხადი შენახულია და მინიჭებულია ცოცხალი ნომერი. ${referenceText} თუმცა ${recipientLabel}-ზე ელფოსტით გაგზავნა ვერ დადასტურდა.`
-      : `The application was stored and assigned a live reference. ${referenceText} However, email delivery to ${recipientLabel} could not be confirmed.`
-  const technicalNote = notification.message ? ` ${notification.message}` : ''
+      ? `განაცხადი შენახულია და მინიჭებულია ცოცხალი ნომერი. ${referenceText} თუმცა ფედერაციის სარეგისტრაციო დამუშავების არხზე ელფოსტით გაგზავნა ვერ დადასტურდა.`
+      : `The application was stored and assigned a live reference. ${referenceText} However, email delivery through the federation registration processing channel could not be confirmed.`
   const fallbackHint =
     localeKey === 'ka'
       ? 'ჩანაწერი დაცულია წევრობის რეესტრში, ხოლო საჭიროების შემთხვევაში ჩამოსატვირთი ფორმაც ისევ ხელმისაწვდომია.'
@@ -101,20 +98,19 @@ function buildMembershipFeedback(result, view, localeKey) {
   return {
     type: 'warning',
     title: warningTitle,
-    text: `${warningText}${technicalNote} ${fallbackHint}`,
+    text: `${warningText} ${fallbackHint}`,
   }
 }
 
 function buildMembershipErrorFeedback(error, view, localeKey) {
   const details = error && typeof error === 'object' ? error.details : null
   const application = details?.application || null
-  const message = error instanceof Error && error.message ? error.message : view.submitErrorText
 
   if (!application) {
     return {
       type: 'error',
       title: view.submitErrorTitle,
-      text: error instanceof Error && error.message ? `${view.submitErrorText} ${error.message}` : view.submitErrorText,
+      text: view.submitErrorText,
     }
   }
 
@@ -127,7 +123,7 @@ function buildMembershipErrorFeedback(error, view, localeKey) {
   return {
     type: 'error',
     title: localeKey === 'ka' ? 'განაცხადი შენახულია, მაგრამ იმეილი ვერ გაიგზავნა' : 'Application Stored, Email Delivery Failed',
-    text: `${referenceText} ${message} ${storedHint}`.trim(),
+    text: `${referenceText} ${storedHint}`.trim(),
   }
 }
 
@@ -138,8 +134,8 @@ function buildNotificationLabel(notification, localeKey) {
 
   if (notification.status === 'sent') {
     return localeKey === 'ka'
-      ? `ელფოსტა გაიგზავნა: ${notification.recipientLabel || notification.recipients?.join(', ')}`
-      : `Email delivered: ${notification.recipientLabel || notification.recipients?.join(', ')}`
+      ? 'ელფოსტა წარმატებით გაიგზავნა.'
+      : 'Email delivered successfully.'
   }
 
   if (notification.status === 'not-configured') {

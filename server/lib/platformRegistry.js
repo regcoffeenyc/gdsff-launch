@@ -111,8 +111,7 @@ export function getRuntimeConfig() {
   const membershipNotificationAddress =
     process.env.EMAIL_MEMBERSHIP_NOTIFICATION_ADDRESS ||
     process.env.MEMBERSHIP_NOTIFICATION_ADDRESS ||
-    process.env.EMAIL_INBOX_ADDRESS ||
-    'office@gdsff.org'
+    'metreveligod@gmail.com'
   const m365TenantIdConfigured = hasValue(process.env.M365_TENANT_ID)
   const m365ClientIdConfigured = hasValue(process.env.M365_CLIENT_ID)
   const m365ClientSecretConfigured = hasValue(process.env.M365_CLIENT_SECRET)

@@ -218,7 +218,7 @@ Recommended setup:
    - `BLOB_READ_WRITE_TOKEN`
    - `EMAIL_INBOX_ADDRESS=office@gdsff.org`
    - `EMAIL_OUTBOUND_ADDRESS=office@gdsff.org`
-   - `EMAIL_MEMBERSHIP_NOTIFICATION_ADDRESS=office@gdsff.org`
+   - `EMAIL_MEMBERSHIP_NOTIFICATION_ADDRESS=metreveligod@gmail.com`
    - `EMAIL_SMTP_HOST`
    - `EMAIL_SMTP_PORT`
    - `EMAIL_SMTP_USERNAME`
@@ -302,7 +302,7 @@ Required values:
 1. `EMAIL_PROVIDER=gmail`
 2. `EMAIL_INBOX_ADDRESS=office@gdsff.org` (or your target inbox)
 3. `EMAIL_OUTBOUND_ADDRESS=office@gdsff.org` (or the mailbox that sends the message)
-4. `EMAIL_MEMBERSHIP_NOTIFICATION_ADDRESS=office@gdsff.org`
+4. `EMAIL_MEMBERSHIP_NOTIFICATION_ADDRESS=metreveligod@gmail.com`
 5. `EMAIL_SMTP_HOST=smtp.gmail.com`
 6. `EMAIL_SMTP_PORT=465`
 7. `EMAIL_SMTP_SECURE=true`

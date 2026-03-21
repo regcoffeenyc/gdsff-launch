@@ -287,8 +287,7 @@ function buildMembershipNotificationRecipients() {
     process.env.EMAIL_MEMBERSHIP_NOTIFICATION_ADDRESS ||
     process.env.MEMBERSHIP_NOTIFICATION_ADDRESS ||
     runtime.membershipNotificationAddress ||
-    runtime.emailInboxAddress ||
-    'office@gdsff.org'
+    'metreveligod@gmail.com'
 
   return unique(toArray(configuredRecipients))
 }
@@ -357,16 +356,13 @@ function membershipNotificationWasDelivered(notification) {
 }
 
 function buildMembershipNotificationFailureMessage(application, notification) {
-  const recipients = Array.isArray(notification?.recipients) ? notification.recipients.filter(Boolean) : []
-  const recipientLabel = notification?.recipientLabel || recipients.join(', ') || 'office@gdsff.org'
   const reference = application?.reference ? `Reference ${application.reference}. ` : ''
   const baseMessage =
     notification?.status === 'not-configured'
-      ? `The application was stored, but email delivery to ${recipientLabel} is not configured on the server.`
-      : `The application was stored, but email delivery to ${recipientLabel} failed.`
-  const detail = notification?.message ? ` ${notification.message}` : ''
+      ? 'The application was stored, but email delivery is not configured on the server.'
+      : 'The application was stored, but email delivery failed.'
 
-  return `${baseMessage} ${reference}Please do not submit the form again. Contact the federation and mention this reference if needed.${detail}`.trim()
+  return `${baseMessage} ${reference}Please do not submit the form again. Contact the federation and mention this reference if needed.`.trim()
 }
 
 async function sendMembershipNotification(application) {

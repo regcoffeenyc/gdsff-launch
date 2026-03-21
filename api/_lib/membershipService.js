@@ -19,7 +19,10 @@ export async function getMembershipSummaryPayload() {
 export async function createMembershipApplication(payload) {
   const sanitized = sanitizeMembershipApplicationInput(payload)
   const now = new Date().toISOString()
-  const baseRecipients = process.env.EMAIL_MEMBERSHIP_NOTIFICATION_ADDRESS || process.env.MEMBERSHIP_NOTIFICATION_ADDRESS || 'office@gdsff.org'
+  const baseRecipients =
+    process.env.EMAIL_MEMBERSHIP_NOTIFICATION_ADDRESS ||
+    process.env.MEMBERSHIP_NOTIFICATION_ADDRESS ||
+    'metreveligod@gmail.com'
   const savedApplication = {
     id: randomUUID(),
     reference: buildMembershipReference(),
