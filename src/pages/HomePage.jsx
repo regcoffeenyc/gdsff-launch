@@ -467,14 +467,24 @@ export default function HomePage({ copy }) {
 
         <div className="card-grid two-col">
           {launch.leadership.profiles.map((profile) => (
-            <article key={profile.id} className="feature-card">
-              <span className="card-kicker">{profile.role}</span>
-              <h3>{profile.name}</h3>
-              <p>{profile.text}</p>
-              <div className="document-actions">
-                <Link className="download-action" to={`/leadership#${profile.id}`}>
-                  {view.closing.profileActionLabel}
-                </Link>
+            <article key={profile.id} className="feature-card leadership-preview-card">
+              {profile.imageSrc ? (
+                <div className="leadership-preview-media">
+                  <img src={profile.imageSrc} alt={profile.imageAlt ?? `${profile.name} portrait`} loading="lazy" />
+                </div>
+              ) : (
+                <div className="profile-avatar leadership-preview-avatar">{profile.name.slice(0, 2).toUpperCase()}</div>
+              )}
+
+              <div className="leadership-preview-copy">
+                <span className="card-kicker">{profile.role}</span>
+                <h3>{profile.name}</h3>
+                <p>{profile.text}</p>
+                <div className="document-actions">
+                  <Link className="download-action" to={`/leadership#${profile.id}`}>
+                    {view.closing.profileActionLabel}
+                  </Link>
+                </div>
               </div>
             </article>
           ))}

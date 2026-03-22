@@ -1,3 +1,5 @@
+import { anaPanchulidzeDirectorSrc } from '../siteAssets'
+
 const downloadBase = `${import.meta.env.BASE_URL}downloads/`
 
 const documentItems = [
@@ -88,6 +90,8 @@ export const officialLaunchContent = {
           id: 'director',
           role: 'Director',
           name: 'Ana Panchulidze',
+          imageSrc: anaPanchulidzeDirectorSrc,
+          imageAlt: 'Ana Panchulidze, Director of GDSFF',
           text:
             'Ana Panchulidze is the Director of the Georgian Dynamic Shooting & Functional Fitness Federation. She is responsible for administrative coordination, management of organizational processes, internal communication, and the effective execution of ongoing activity. Her work supports the stability of daily federation operations, the systematic development of organizational processes, and the practical delivery of federation programs.',
           href: `${downloadBase}03_Ana_Panchulidze_Short_Bio_Final.docx`,
@@ -233,6 +237,8 @@ export const officialLaunchContent = {
           id: 'director',
           role: 'დირექტორი',
           name: 'ანა ფანჩულიძე',
+          imageSrc: anaPanchulidzeDirectorSrc,
+          imageAlt: 'ანა ფანჩულიძე - GDSFF-ის დირექტორი',
           text:
             'ანა ფანჩულიძე არის Georgian Dynamic Shooting & Functional Fitness Federation-ის დირექტორი. იგი პასუხისმგებელია ფედერაციის ადმინისტრაციულ კოორდინაციაზე, საორგანიზაციო პროცესების მართვაზე, შიდა კომუნიკაციის გამართულობაზე და მიმდინარე საქმიანობის ეფექტიან შესრულებაზე. მისი საქმიანობა ხელს უწყობს ფედერაციის ყოველდღიური ოპერაციების სტაბილურობას, ორგანიზაციული პროცესების სისტემურ განვითარებასა და პროგრამების განხორციელების პრაქტიკულ უზრუნველყოფას.',
           href: `${downloadBase}03_Ana_Panchulidze_Short_Bio_Final.docx`,

@@ -26,7 +26,13 @@ export default function LeadershipPage({ copy }) {
         <div className="card-grid two-col">
           {view.profiles.map((profile) => (
             <article key={profile.id} id={profile.id} className="feature-card profile-card anchor-section">
-              <div className="profile-avatar">{profile.name.slice(0, 2).toUpperCase()}</div>
+              {profile.imageSrc ? (
+                <div className="profile-portrait">
+                  <img src={profile.imageSrc} alt={profile.imageAlt ?? `${profile.name} portrait`} loading="lazy" />
+                </div>
+              ) : (
+                <div className="profile-avatar">{profile.name.slice(0, 2).toUpperCase()}</div>
+              )}
               <span className="card-kicker">{profile.role}</span>
               <h3>{profile.name}</h3>
               <p>{profile.text}</p>

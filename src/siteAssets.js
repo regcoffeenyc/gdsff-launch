@@ -4,6 +4,7 @@ export const functionalFitnessCollageSrc = `${import.meta.env.BASE_URL}gallery/f
 export const tacticalRifleLineSrc = `${import.meta.env.BASE_URL}gallery/tactical-rifle-line.jpg`
 export const weightedCarryLaneSrc = `${import.meta.env.BASE_URL}gallery/weighted-carry-lane.jpg`
 export const ropeClimbCourseSrc = `${import.meta.env.BASE_URL}gallery/rope-climb-course.jpg`
+export const anaPanchulidzeDirectorSrc = `${import.meta.env.BASE_URL}leadership/ana-panchulidze-director.jpg`
 export const promoLoopSrc = `${import.meta.env.BASE_URL}media/gdsff_promo_loop.mp4`
 export const promoLoopPosterSrc = `${import.meta.env.BASE_URL}media/gdsff_promo_loop_poster.jpg`
 export const federationBadgeArtSrc = logoSrc
