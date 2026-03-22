@@ -6749,6 +6749,340 @@ body::before {
   }
 }
 
+/* Georgian locale layout safeguards */
+html[lang='ka'] body,
+html[lang='ka'] button,
+html[lang='ka'] input,
+html[lang='ka'] textarea,
+html[lang='ka'] select {
+  font-family: 'Segoe UI', 'Segoe UI Variable Text', 'Noto Sans Georgian', 'DejaVu Sans', sans-serif;
+}
+
+html[lang='ka'] .brand-title,
+html[lang='ka'] .hero-copy h1,
+html[lang='ka'] .section-intro h1,
+html[lang='ka'] .section-intro h2,
+html[lang='ka'] .split-section h2,
+html[lang='ka'] .calendar-topline h2,
+html[lang='ka'] .cta-panel h2,
+html[lang='ka'] .feature-card h3,
+html[lang='ka'] .event-card h3,
+html[lang='ka'] .timeline-card h3,
+html[lang='ka'] .gallery-copy-block h3,
+html[lang='ka'] .dropdown-panel-copy h3,
+html[lang='ka'] .document-library-toggle-copy h3,
+html[lang='ka'] .document-item-copy h3,
+html[lang='ka'] .contact-primary-card h3,
+html[lang='ka'] .contact-channel-card h3,
+html[lang='ka'] .membership-support-card h2,
+html[lang='ka'] .membership-form-header h2,
+html[lang='ka'] .membership-summary-card h3 {
+  font-family: 'Segoe UI Variable Display', 'Segoe UI', 'Noto Sans Georgian', 'DejaVu Sans', sans-serif;
+  letter-spacing: 0.005em;
+  line-height: 1.12;
+}
+
+html[lang='ka'] .hero-badge,
+html[lang='ka'] .eyebrow,
+html[lang='ka'] .card-kicker,
+html[lang='ka'] .overlay-kicker,
+html[lang='ka'] .panel-kicker,
+html[lang='ka'] .timeline-phase,
+html[lang='ka'] .calendar-panel-kicker,
+html[lang='ka'] .dropdown-panel-kicker,
+html[lang='ka'] .brand-kicker,
+html[lang='ka'] .brand-meta,
+html[lang='ka'] .gallery-panel-hint,
+html[lang='ka'] .gallery-view-hint {
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+}
+
+html[lang='ka'] .brand-mark {
+  max-width: 610px;
+}
+
+html[lang='ka'] .brand-subtitle {
+  max-width: 38ch;
+  font-size: 0.76rem;
+  line-height: 1.48;
+}
+
+html[lang='ka'] .brand-meta {
+  font-size: 0.62rem;
+}
+
+html[lang='ka'] .brand-kicker {
+  font-size: 0.58rem;
+}
+
+html[lang='ka'] .header-calendar-link,
+html[lang='ka'] .primary-button,
+html[lang='ka'] .secondary-button,
+html[lang='ka'] .download-action,
+html[lang='ka'] .contact-value-link,
+html[lang='ka'] .contact-directory-link,
+html[lang='ka'] .footer-info-link {
+  white-space: normal;
+  text-align: center;
+  line-height: 1.32;
+}
+
+html[lang='ka'] .header-calendar-link,
+html[lang='ka'] .download-action {
+  padding-inline: 1rem;
+}
+
+html[lang='ka'] .hero-side-chip,
+html[lang='ka'] .membership-reference-chip,
+html[lang='ka'] .document-library-count,
+html[lang='ka'] .document-format {
+  white-space: normal;
+  text-align: center;
+  line-height: 1.3;
+}
+
+html[lang='ka'] .section-copy,
+html[lang='ka'] .feature-card p,
+html[lang='ka'] .event-card p,
+html[lang='ka'] .nav-entry-copy,
+html[lang='ka'] .mobile-accordion-copy,
+html[lang='ka'] .document-library-toggle-copy p,
+html[lang='ka'] .document-item-row .document-description,
+html[lang='ka'] .contact-primary-card p,
+html[lang='ka'] .contact-channel-card p,
+html[lang='ka'] .membership-support-card p,
+html[lang='ka'] .membership-summary-card p,
+html[lang='ka'] .membership-group-copy p,
+html[lang='ka'] .membership-actions-card p,
+html[lang='ka'] .membership-destination-chip p,
+html[lang='ka'] .membership-stats-card p,
+html[lang='ka'] .membership-admin-shell p,
+html[lang='ka'] .membership-admin-item p,
+html[lang='ka'] .footer-list,
+html[lang='ka'] .footer-note {
+  line-height: 1.74;
+}
+
+html[lang='ka'] .footer-list li + li {
+  margin-top: 0.4rem;
+}
+
+html[lang='ka'] .contact-primary-card h3 {
+  max-width: 22ch;
+}
+
+html[lang='ka'] .footer-brand h3 {
+  max-width: 18ch;
+  line-height: 1.12;
+}
+
+html[lang='ka'] .federation-nav {
+  flex-wrap: wrap;
+  row-gap: 0.38rem;
+}
+
+html[lang='ka'] .nav-trigger-shell {
+  align-items: stretch;
+}
+
+html[lang='ka'] .nav-group-link {
+  align-items: center;
+  padding: 0.54rem 0.4rem 0.54rem 0.84rem;
+  font-size: 0.8rem;
+  line-height: 1.18;
+}
+
+html[lang='ka'] .nav-group-link span {
+  display: block;
+  max-width: 10.5ch;
+  white-space: normal;
+  text-align: left;
+}
+
+html[lang='ka'] .dropdown-panel {
+  width: min(500px, 44vw);
+}
+
+html[lang='ka'] .dropdown-link,
+html[lang='ka'] .mobile-subnav-link {
+  gap: 0.34rem;
+}
+
+html[lang='ka'] .nav-entry-title {
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+html[lang='ka'] .nav-entry-copy {
+  font-size: 0.76rem;
+  line-height: 1.58;
+}
+
+html[lang='ka'] .mobile-accordion-link {
+  align-items: flex-start;
+  line-height: 1.28;
+}
+
+html[lang='ka'] .mobile-drawer-title {
+  max-width: 24ch;
+  line-height: 1.42;
+}
+
+html[lang='ka'] .home-hero-copy h1 {
+  max-width: 11ch;
+  line-height: 1.01;
+}
+
+html[lang='ka'] .page-hero-section .section-intro h1,
+html[lang='ka'] .page-hero-section .section-intro h2 {
+  max-width: 16ch;
+}
+
+html[lang='ka'] .hero-side-stack {
+  align-items: flex-start;
+}
+
+html[lang='ka'] .hero-side-chip {
+  max-width: 100%;
+}
+
+html[lang='ka'] .membership-status-grid {
+  grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+}
+
+html[lang='ka'] .membership-status-chip {
+  gap: 0.42rem;
+}
+
+html[lang='ka'] .membership-status-chip span,
+html[lang='ka'] .membership-record-item span {
+  line-height: 1.42;
+}
+
+html[lang='ka'] .home-membership-live-stat {
+  align-items: start;
+  gap: 0.7rem;
+}
+
+html[lang='ka'] .contact-card-value-link,
+html[lang='ka'] .contact-value-link,
+html[lang='ka'] .contact-directory-link span,
+html[lang='ka'] .footer-info-link span,
+html[lang='ka'] .mobile-location span {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1180px) {
+  html[lang='ka'] .brand-mark {
+    max-width: 100%;
+  }
+
+  html[lang='ka'] .nav-group-link span {
+    max-width: 9.4ch;
+  }
+
+  html[lang='ka'] .dropdown-panel {
+    width: min(440px, 48vw);
+  }
+}
+
+@media (max-width: 900px) {
+  html[lang='ka'] .header-main-row {
+    gap: 0.9rem;
+  }
+
+  html[lang='ka'] .brand-mark {
+    max-width: calc(100% - 4.2rem);
+  }
+
+  html[lang='ka'] .mobile-drawer-title {
+    max-width: 20ch;
+  }
+}
+
+@media (max-width: 760px) {
+  html[lang='ka'] .brand-subtitle {
+    max-width: 30ch;
+    font-size: 0.72rem;
+  }
+
+  html[lang='ka'] .brand-meta,
+  html[lang='ka'] .brand-kicker {
+    letter-spacing: 0.1em;
+  }
+
+  html[lang='ka'] .home-hero-copy h1 {
+    font-size: clamp(1.94rem, 9vw, 2.55rem);
+    line-height: 1.04;
+  }
+
+  html[lang='ka'] .page-hero-section .section-intro h1,
+  html[lang='ka'] .page-hero-section .section-intro h2 {
+    font-size: clamp(1.8rem, 8.2vw, 2.45rem);
+    line-height: 1.08;
+  }
+
+  html[lang='ka'] .hero-badge,
+  html[lang='ka'] .hero-side-chip,
+  html[lang='ka'] .card-kicker,
+  html[lang='ka'] .panel-kicker,
+  html[lang='ka'] .eyebrow {
+    letter-spacing: 0.06em;
+  }
+
+  html[lang='ka'] .mobile-accordion-link {
+    min-height: 58px;
+  }
+
+  html[lang='ka'] .mobile-subnav-link .nav-entry-title {
+    font-size: 0.88rem;
+  }
+
+  html[lang='ka'] .contact-channel-card h3,
+  html[lang='ka'] .document-library-toggle-copy h3,
+  html[lang='ka'] .document-item-copy h3 {
+    font-size: 0.98rem;
+    line-height: 1.3;
+  }
+
+  html[lang='ka'] .membership-status-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  html[lang='ka'] .brand-subtitle {
+    max-width: 24ch;
+    font-size: 0.68rem;
+  }
+
+  html[lang='ka'] .mobile-drawer-title {
+    max-width: 16ch;
+    font-size: 0.84rem;
+  }
+
+  html[lang='ka'] .home-hero-copy h1 {
+    font-size: clamp(1.72rem, 8.4vw, 2.16rem);
+  }
+
+  html[lang='ka'] .page-hero-section .section-intro h1,
+  html[lang='ka'] .page-hero-section .section-intro h2 {
+    font-size: clamp(1.56rem, 7.6vw, 2rem);
+  }
+
+  html[lang='ka'] .primary-button,
+  html[lang='ka'] .secondary-button,
+  html[lang='ka'] .download-action,
+  html[lang='ka'] .contact-value-link {
+    font-size: 0.92rem;
+  }
+
+  html[lang='ka'] .membership-status-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Final mobile audit repair pass */
 body.mobile-menu-active::before {
   opacity: 0.05;
