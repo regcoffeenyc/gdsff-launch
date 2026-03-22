@@ -11,6 +11,7 @@ export default function GalleryLightbox({
   const dialogRef = useRef(null)
   const touchStartXRef = useRef(null)
   const touchStartYRef = useRef(null)
+  const hasMultipleItems = items.length > 1
 
   useEffect(() => {
     if (activeIndex === null) {
@@ -33,6 +34,10 @@ export default function GalleryLightbox({
         return
       }
 
+      if (!hasMultipleItems) {
+        return
+      }
+
       if (event.key === 'ArrowLeft') {
         event.preventDefault()
         onNavigate((activeIndex - 1 + items.length) % items.length)
@@ -52,7 +57,7 @@ export default function GalleryLightbox({
       window.cancelAnimationFrame(focusFrame)
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [activeIndex, items.length, onClose, onNavigate])
+  }, [activeIndex, hasMultipleItems, items.length, onClose, onNavigate])
 
   if (activeIndex === null) {
     return null
@@ -110,14 +115,16 @@ export default function GalleryLightbox({
         </button>
 
         <div className="gallery-lightbox-stage">
-          <button
-            type="button"
-            className="gallery-lightbox-nav gallery-lightbox-nav-prev"
-            onClick={() => onNavigate(previousIndex)}
-            aria-label={labels.previous}
-          >
-            <ChevronLeftIcon className="gallery-lightbox-icon" />
-          </button>
+          {hasMultipleItems ? (
+            <button
+              type="button"
+              className="gallery-lightbox-nav gallery-lightbox-nav-prev"
+              onClick={() => onNavigate(previousIndex)}
+              aria-label={labels.previous}
+            >
+              <ChevronLeftIcon className="gallery-lightbox-icon" />
+            </button>
+          ) : null}
 
           <figure className="gallery-lightbox-figure">
             <div className="gallery-lightbox-frame" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
@@ -138,21 +145,25 @@ export default function GalleryLightbox({
             <figcaption className="gallery-lightbox-caption">
               <div className="gallery-lightbox-caption-row">
                 <span className="overlay-kicker">{item.eyebrow}</span>
-                <span className="gallery-lightbox-count">{slideLabel}</span>
+                {hasMultipleItems ? <span className="gallery-lightbox-count">{slideLabel}</span> : null}
               </div>
               <h3>{item.title}</h3>
               <p>{item.text}</p>
             </figcaption>
           </figure>
 
-          <button
-            type="button"
-            className="gallery-lightbox-nav gallery-lightbox-nav-next"
-            onClick={() => onNavigate(nextIndex)}
-            aria-label={labels.next}
-          >
-            <ChevronRightIcon className="gallery-lightbox-icon" />
-          </button>
+          {hasMultipleItems ? (
+            <>
+              <button
+                type="button"
+                className="gallery-lightbox-nav gallery-lightbox-nav-next"
+                onClick={() => onNavigate(nextIndex)}
+                aria-label={labels.next}
+              >
+                <ChevronRightIcon className="gallery-lightbox-icon" />
+              </button>
+            </>
+          ) : null}
         </div>
       </div>
     </div>

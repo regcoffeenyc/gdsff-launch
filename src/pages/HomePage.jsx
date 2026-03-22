@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import GalleryLightbox from '../components/GalleryLightbox'
 import { membershipApplicationContent } from '../content/membershipApplicationContent'
 import { officialLaunchContent } from '../content/officialLaunchContent'
 import { EmailLink, LocationLink, PhoneLink, SocialLinks } from '../components/SiteMetaLinks'
@@ -261,6 +262,7 @@ export default function HomePage({ copy }) {
   const launch = officialLaunchContent[localeKey]
   const membershipFormView = membershipApplicationContent[localeKey]
   const [membershipSummary, setMembershipSummary] = useState({ totalApplications: 0 })
+  const [leadershipLightboxIndex, setLeadershipLightboxIndex] = useState(null)
   const featuredEvents = copy.events.calendar.events.slice(0, 4)
   const facebookLink =
     copy.meta.socials.find((item) => item.id === 'facebook')?.href ??
@@ -268,6 +270,30 @@ export default function HomePage({ copy }) {
   const instagramLink =
     copy.meta.socials.find((item) => item.id === 'instagram')?.href ??
     'https://www.instagram.com/gdsffofficial/?hl=en'
+  const leadershipLightboxLabels =
+    localeKey === 'ka'
+      ? {
+          view: 'პორტრეტის ნახვა',
+          close: 'პორტრეტის დახურვა',
+          previous: 'წინა ფოტო',
+          next: 'შემდეგი ფოტო',
+        }
+      : {
+          view: 'View portrait',
+          close: 'Close portrait viewer',
+          previous: 'Previous portrait',
+          next: 'Next portrait',
+        }
+  const leadershipLightboxItems = launch.leadership.profiles
+    .filter((profile) => profile.imageSrc)
+    .map((profile) => ({
+      id: profile.id,
+      src: profile.imageSrc,
+      alt: profile.imageAlt ?? `${profile.name} portrait`,
+      eyebrow: profile.role,
+      title: profile.name,
+      text: profile.text,
+    }))
 
   useEffect(() => {
     let cancelled = false
@@ -469,9 +495,23 @@ export default function HomePage({ copy }) {
           {launch.leadership.profiles.map((profile) => (
             <article key={profile.id} className="feature-card leadership-preview-card">
               {profile.imageSrc ? (
-                <div className="leadership-preview-media">
-                  <img src={profile.imageSrc} alt={profile.imageAlt ?? `${profile.name} portrait`} loading="lazy" />
-                </div>
+                <button
+                  type="button"
+                  className="leadership-preview-media-button"
+                  aria-haspopup="dialog"
+                  aria-label={`${leadershipLightboxLabels.view}: ${profile.name}`}
+                  onClick={() => {
+                    const profileIndex = leadershipLightboxItems.findIndex((item) => item.id === profile.id)
+
+                    if (profileIndex >= 0) {
+                      setLeadershipLightboxIndex(profileIndex)
+                    }
+                  }}
+                >
+                  <div className="leadership-preview-media">
+                    <img src={profile.imageSrc} alt={profile.imageAlt ?? `${profile.name} portrait`} loading="lazy" />
+                  </div>
+                </button>
               ) : (
                 <div className="profile-avatar leadership-preview-avatar">{profile.name.slice(0, 2).toUpperCase()}</div>
               )}
@@ -586,6 +626,18 @@ export default function HomePage({ copy }) {
           </div>
         </div>
       </section>
+
+      <GalleryLightbox
+        items={leadershipLightboxItems}
+        activeIndex={leadershipLightboxIndex}
+        onClose={() => setLeadershipLightboxIndex(null)}
+        onNavigate={setLeadershipLightboxIndex}
+        labels={{
+          close: leadershipLightboxLabels.close,
+          previous: leadershipLightboxLabels.previous,
+          next: leadershipLightboxLabels.next,
+        }}
+      />
     </>
   )
 }
