@@ -224,7 +224,7 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
         {copy.header.skipLink}
       </a>
 
-      <header ref={headerRef} className="site-header">
+      <header ref={headerRef} className={menuOpen ? 'site-header is-mobile-menu-open' : 'site-header'}>
         <div className="site-topbar">
           <div className="container site-topbar-inner">
             <div className="topbar-contacts">

@@ -5905,6 +5905,11 @@ body::before {
   box-shadow: 0 14px 32px rgba(0, 0, 0, 0.15);
 }
 
+.site-header.is-mobile-menu-open {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
 .site-topbar {
   border-bottom-color: rgba(255, 255, 255, 0.07);
   background: rgba(255, 255, 255, 0.028);
@@ -6005,14 +6010,25 @@ body::before {
 }
 
 .mobile-drawer-backdrop {
-  background: rgba(7, 9, 12, 0.46);
+  background: rgba(6, 8, 10, 0.72);
 }
 
 .mobile-drawer-panel {
+  isolation: isolate;
+  border-left-color: rgba(212, 187, 131, 0.22);
+  background: rgb(14, 17, 20);
+  box-shadow: -24px 0 56px rgba(0, 0, 0, 0.42);
+}
+
+.mobile-drawer-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 32%),
-    rgba(20, 24, 28, 0.93);
-  box-shadow: -20px 0 46px rgba(0, 0, 0, 0.28);
+    linear-gradient(180deg, rgb(26, 31, 36), rgb(14, 17, 20) 32%, rgb(12, 15, 18) 100%),
+    rgb(12, 15, 18);
+  pointer-events: none;
 }
 
 .page-hero-section {
@@ -6265,9 +6281,8 @@ body::before {
     padding: 0.85rem 0.85rem 0.62rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     background:
-      linear-gradient(180deg, rgba(21, 25, 29, 0.98), rgba(21, 25, 29, 0.92)),
-      rgba(21, 25, 29, 0.95);
-    backdrop-filter: blur(14px);
+      linear-gradient(180deg, rgba(23, 27, 31, 1), rgba(17, 20, 23, 0.98)),
+      rgba(17, 20, 23, 0.99);
   }
 
   .mobile-drawer-title {
@@ -6409,12 +6424,16 @@ body::before {
     width: 100%;
     max-width: none;
     padding: 0.8rem 0.8rem calc(0.9rem + env(safe-area-inset-bottom));
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 28px 64px rgba(0, 0, 0, 0.52);
   }
 
   .mobile-drawer-header {
     top: -0.8rem;
     margin: -0.8rem -0.8rem 0;
     padding: 0.8rem 0.8rem 0.55rem;
+    background:
+      linear-gradient(180deg, rgba(20, 24, 28, 1), rgba(15, 18, 21, 0.99)),
+      rgba(15, 18, 21, 0.99);
   }
 
   .mobile-drawer-kicker {
@@ -6600,6 +6619,10 @@ body::before {
     top: -0.72rem;
     margin: -0.72rem -0.72rem 0;
     padding: 0.72rem 0.72rem 0.5rem;
+  }
+
+  .mobile-drawer-backdrop {
+    background: rgba(4, 6, 8, 0.82);
   }
 
   .mobile-accordion-link {
