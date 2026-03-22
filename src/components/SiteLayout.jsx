@@ -163,9 +163,29 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
+    document.body.classList.toggle('mobile-menu-active', menuOpen)
 
     return () => {
       document.body.style.overflow = ''
+      document.body.classList.remove('mobile-menu-active')
+    }
+  }, [menuOpen])
+
+  useEffect(() => {
+    if (!menuOpen) {
+      return
+    }
+
+    function handleEscape(event) {
+      if (event.key === 'Escape') {
+        closeMobileMenu()
+      }
+    }
+
+    document.addEventListener('keydown', handleEscape)
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
     }
   }, [menuOpen])
 

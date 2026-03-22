@@ -6748,3 +6748,502 @@ body::before {
     border-radius: 18px;
   }
 }
+
+/* Final mobile audit repair pass */
+body.mobile-menu-active::before {
+  opacity: 0.05;
+}
+
+@media (max-width: 900px) {
+  .site-header {
+    overflow: visible;
+  }
+
+  .header-main-row {
+    align-items: flex-start;
+  }
+
+  .brand-mark {
+    flex: 1 1 auto;
+    max-width: calc(100% - 4.5rem);
+  }
+
+  .header-actions {
+    flex-shrink: 0;
+    margin-left: auto;
+    align-self: flex-start;
+  }
+
+  .nav-toggle {
+    align-self: flex-start;
+  }
+
+  .mobile-drawer {
+    overscroll-behavior: none;
+  }
+
+  .mobile-drawer-panel {
+    position: fixed;
+    inset: 0 0 0 auto;
+    width: min(100vw, 420px);
+    min-height: 100dvh;
+    height: 100dvh;
+    padding: 0;
+    grid-template-rows: auto minmax(0, 1fr) auto auto;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  .mobile-drawer-panel > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .mobile-drawer-header {
+    top: 0;
+    margin: 0;
+    padding: max(0.9rem, env(safe-area-inset-top)) 0.9rem 0.75rem;
+  }
+
+  .mobile-drawer-close {
+    width: 46px;
+    height: 46px;
+  }
+
+  .mobile-accordion-nav {
+    padding: 0.82rem 0.9rem 0.3rem;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mobile-accordion-group {
+    overflow: clip;
+  }
+
+  .mobile-accordion-link,
+  .mobile-accordion-toggle,
+  .mobile-subnav-link,
+  .mobile-meta-link,
+  .mobile-calendar-link {
+    touch-action: manipulation;
+  }
+
+  .mobile-accordion-link,
+  .mobile-subnav-link,
+  .mobile-location span {
+    overflow-wrap: anywhere;
+  }
+
+  .mobile-drawer-tools {
+    padding: 0.85rem 0.9rem 0;
+    gap: 0.7rem;
+  }
+
+  .mobile-calendar-link {
+    margin: 0.85rem 0.9rem max(0.9rem, calc(0.9rem + env(safe-area-inset-bottom)));
+    width: auto;
+  }
+
+  .page-hero-grid {
+    gap: 1rem;
+  }
+
+  .page-hero-section .section-intro {
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .page-hero-section {
+    overflow: clip;
+  }
+
+  .page-hero-grid {
+    gap: 0.95rem;
+    padding: 1.35rem 0 0.2rem;
+  }
+
+  .page-hero-section .section-intro h1,
+  .page-hero-section .section-intro h2 {
+    margin-top: 0.58rem;
+    font-size: clamp(1.9rem, 9.8vw, 2.75rem);
+    line-height: 1.01;
+  }
+
+  .page-hero-section .section-copy {
+    font-size: 0.92rem;
+    line-height: 1.62;
+  }
+
+  .hero-side-panel {
+    padding: 1rem;
+  }
+
+  .hero-side-stack {
+    gap: 0.55rem;
+    margin-top: 0.8rem;
+  }
+
+  .hero-side-chip {
+    padding: 0.48rem 0.72rem;
+    font-size: 0.7rem;
+    line-height: 1.35;
+  }
+
+  .home-hero {
+    min-height: clamp(480px, 66svh, 560px);
+  }
+
+  .home-hero-grid {
+    gap: 0.78rem;
+    padding: 1.75rem 0 1.2rem;
+  }
+
+  .home-hero-brand {
+    gap: 0.8rem;
+    align-items: flex-start;
+  }
+
+  .home-hero-copy h1 {
+    font-size: clamp(2rem, 9.9vw, 2.8rem);
+    line-height: 0.97;
+  }
+
+  .home-hero-lead {
+    max-width: 34ch;
+    margin-top: 0.82rem;
+    font-size: 0.92rem;
+    line-height: 1.52;
+  }
+
+  .home-hero-text {
+    max-width: 36ch;
+    font-size: 0.84rem;
+    line-height: 1.55;
+  }
+
+  .hero-actions {
+    margin-top: 1rem;
+  }
+
+  .home-hero-metrics {
+    margin-top: 0.9rem;
+  }
+
+  .hero-metric-card,
+  .hero-aside-card {
+    border-radius: 20px;
+    padding: 0.88rem 0.92rem;
+  }
+
+  .hero-command-item p {
+    font-size: 0.78rem;
+  }
+
+  .section-space,
+  .page-section {
+    padding-block: 2.35rem;
+  }
+
+  .page-section {
+    padding-top: 1.45rem;
+  }
+
+  .document-library-shell {
+    gap: 0.85rem;
+    padding: 0.92rem;
+  }
+
+  .document-library-group {
+    border-radius: 20px;
+  }
+
+  .document-library-toggle {
+    padding: 0.92rem;
+    gap: 0.7rem;
+  }
+
+  .document-library-toggle-copy h3,
+  .document-item-copy h3 {
+    font-size: 1rem;
+    line-height: 1.28;
+  }
+
+  .document-library-toggle-copy p,
+  .document-item-row .document-description {
+    font-size: 0.82rem;
+    line-height: 1.58;
+  }
+
+  .document-library-panel-inner {
+    gap: 0.65rem;
+    padding: 0 0.92rem 0.92rem;
+  }
+
+  .document-item-row {
+    gap: 0.75rem;
+    padding: 0.88rem;
+    border-radius: 18px;
+  }
+
+  .document-item-row .download-action {
+    min-height: 48px;
+  }
+
+  .gallery-panel,
+  .gallery-photo-card,
+  .gallery-photo-card.is-featured,
+  .contact-primary-card,
+  .contact-channel-card,
+  .contact-support-card,
+  .membership-language-card,
+  .membership-intro-card,
+  .membership-support-card,
+  .membership-summary-card,
+  .membership-form-panel,
+  .membership-actions-card,
+  .membership-stats-card,
+  .profile-card,
+  .leadership-preview-card {
+    border-radius: 20px;
+  }
+
+  .gallery-photo-card,
+  .gallery-photo-card.is-featured {
+    min-height: 290px;
+  }
+
+  .gallery-photo-overlay {
+    padding: 0.92rem;
+  }
+
+  .gallery-photo-overlay h3 {
+    font-size: 1.04rem;
+    line-height: 1.15;
+  }
+
+  .gallery-photo-overlay p {
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  .gallery-lightbox-dialog {
+    width: min(100%, calc(100vw - 0.9rem));
+    max-height: calc(100dvh - 1rem);
+  }
+
+  .gallery-lightbox-stage {
+    gap: 0.8rem;
+    padding: 0.82rem;
+  }
+
+  .gallery-lightbox-caption {
+    padding: 0.92rem;
+  }
+
+  .gallery-lightbox-image,
+  .gallery-lightbox-video {
+    max-height: 54svh;
+  }
+
+  .contact-card-header {
+    gap: 0.72rem;
+  }
+
+  .contact-card-icon-shell {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+  }
+
+  .contact-channel-card h3 {
+    font-size: 1.08rem;
+  }
+
+  .contact-card-value-link,
+  .contact-value-link,
+  .contact-directory-link span,
+  .footer-info-link span {
+    overflow-wrap: anywhere;
+  }
+
+  .federation-cta-panel {
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .federation-contact-grid,
+  .footer-grid {
+    gap: 1rem;
+  }
+
+  .footer-brand {
+    gap: 0.9rem;
+  }
+
+  .membership-page-toggle {
+    justify-content: flex-start;
+  }
+
+  .membership-page-toggle .language-button {
+    min-width: 46px;
+    min-height: 36px;
+  }
+
+  .membership-form-shell,
+  .membership-form-groups,
+  .membership-field-group {
+    gap: 0.9rem;
+  }
+
+  .membership-fields-grid,
+  .membership-record-meta {
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .brand-mark {
+    max-width: calc(100% - 4rem);
+  }
+
+  .hero-kicker-row .muted-badge {
+    display: none;
+  }
+
+  .page-hero-grid {
+    gap: 0.8rem;
+    padding: 1.15rem 0 0.1rem;
+  }
+
+  .page-hero-section .section-intro h1,
+  .page-hero-section .section-intro h2 {
+    font-size: clamp(1.72rem, 8.8vw, 2.28rem);
+  }
+
+  .page-hero-section .section-copy {
+    font-size: 0.86rem;
+  }
+
+  .hero-side-panel {
+    padding: 0.9rem;
+  }
+
+  .hero-side-chip {
+    font-size: 0.66rem;
+  }
+
+  .home-hero {
+    min-height: clamp(430px, 60svh, 510px);
+  }
+
+  .home-hero-grid {
+    padding: 1.38rem 0 1rem;
+  }
+
+  .home-hero-logo {
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+  }
+
+  .home-hero-copy h1 {
+    font-size: clamp(1.82rem, 9.2vw, 2.4rem);
+  }
+
+  .home-hero-lead {
+    margin-top: 0.7rem;
+    font-size: 0.88rem;
+  }
+
+  .home-hero-text {
+    font-size: 0.8rem;
+  }
+
+  .hero-metric-card,
+  .hero-aside-card {
+    padding: 0.8rem 0.82rem;
+  }
+
+  .mobile-drawer-panel {
+    width: 100vw;
+  }
+
+  .mobile-drawer-header {
+    padding: max(0.82rem, env(safe-area-inset-top)) 0.72rem 0.62rem;
+  }
+
+  .mobile-drawer-title {
+    max-width: 18ch;
+    font-size: 0.9rem;
+  }
+
+  .mobile-accordion-nav {
+    padding: 0.7rem 0.72rem 0.2rem;
+    gap: 0.5rem;
+  }
+
+  .mobile-drawer-tools {
+    padding: 0.72rem 0.72rem 0;
+  }
+
+  .mobile-calendar-link {
+    margin: 0.72rem 0.72rem max(0.8rem, calc(0.8rem + env(safe-area-inset-bottom)));
+  }
+
+  .document-library-shell {
+    padding: 0.82rem;
+  }
+
+  .document-library-toggle,
+  .document-item-row {
+    padding: 0.82rem;
+  }
+
+  .gallery-photo-card,
+  .gallery-photo-card.is-featured {
+    min-height: 246px;
+  }
+
+  .gallery-photo-overlay {
+    padding: 0.8rem;
+  }
+
+  .gallery-lightbox {
+    padding: 0.5rem;
+  }
+
+  .gallery-lightbox-dialog {
+    width: calc(100vw - 0.5rem);
+    max-height: calc(100dvh - 0.75rem);
+  }
+
+  .gallery-lightbox-stage {
+    padding: 0.7rem;
+  }
+
+  .gallery-lightbox-caption {
+    padding: 0.82rem;
+  }
+
+  .gallery-lightbox-image,
+  .gallery-lightbox-video {
+    max-height: 50svh;
+  }
+
+  .federation-cta-panel,
+  .contact-primary-card,
+  .contact-channel-card,
+  .contact-support-card,
+  .membership-language-card,
+  .membership-intro-card,
+  .membership-support-card,
+  .membership-summary-card,
+  .membership-form-panel,
+  .membership-actions-card,
+  .membership-stats-card,
+  .profile-card,
+  .leadership-preview-card {
+    padding: 0.92rem;
+  }
+}
