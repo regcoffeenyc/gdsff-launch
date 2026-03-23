@@ -258,6 +258,7 @@ const homePageCopy = {
 
 export default function HomePage({ copy }) {
   const localeKey = copy.locale === 'ka-GE' ? 'ka' : 'en'
+  const showLocation = copy.meta.showLocation !== false
   const view = homePageCopy[localeKey]
   const launch = officialLaunchContent[localeKey]
   const membershipFormView = membershipApplicationContent[localeKey]
@@ -475,11 +476,13 @@ export default function HomePage({ copy }) {
 
           <div className="geo-hub-visual">
             <img src={weightedCarryLaneSrc} alt="Weighted carry competition lane" loading="lazy" />
-            <div className="geo-hub-badge">
-              <span className="panel-kicker">{view.closing.coordinatesLabel}</span>
-              <strong>{copy.meta.locationLabel}</strong>
-              <LocationLink href={copy.meta.locationHref} label={view.closing.mapsLabel} className="geo-hub-link" />
-            </div>
+            {showLocation ? (
+              <div className="geo-hub-badge">
+                <span className="panel-kicker">{view.closing.coordinatesLabel}</span>
+                <strong>{copy.meta.locationLabel}</strong>
+                <LocationLink href={copy.meta.locationHref} label={view.closing.mapsLabel} className="geo-hub-link" />
+              </div>
+            ) : null}
           </div>
         </div>
       </section>
@@ -609,7 +612,9 @@ export default function HomePage({ copy }) {
           <div className="federation-contact-grid">
             <EmailLink email={copy.meta.email} className="contact-directory-link" />
             <PhoneLink phone={copy.meta.phone} className="contact-directory-link" />
-            <LocationLink href={copy.meta.locationHref} label={copy.meta.locationLabel} className="contact-directory-link" />
+            {showLocation ? (
+              <LocationLink href={copy.meta.locationHref} label={copy.meta.locationLabel} className="contact-directory-link" />
+            ) : null}
             <a href={facebookLink} className="contact-directory-link" target="_blank" rel="noreferrer">
               <span>{copy.meta.facebookPageName}</span>
             </a>

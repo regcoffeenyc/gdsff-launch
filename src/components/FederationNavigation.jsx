@@ -47,6 +47,7 @@ function attachGroupTargets(groups) {
 
 export function buildFederationNav(copy) {
   const isGeorgian = copy.locale === 'ka-GE'
+  const showLocation = copy.meta.showLocation !== false
 
   const labels = isGeorgian
     ? {
@@ -256,8 +257,12 @@ export function buildFederationNav(copy) {
       panelAlign: 'end',
       overline: labels.contactOverline,
       description: isGeorgian
-        ? 'საკონტაქტო გვერდი, ლოკაცია და ოფიციალური სოციალური არხები.'
-        : 'Contact page, location, and official social channels.',
+        ? showLocation
+          ? 'საკონტაქტო გვერდი, ლოკაცია და ოფიციალური სოციალური არხები.'
+          : 'საკონტაქტო გვერდი და ოფიციალური სოციალური არხები.'
+        : showLocation
+          ? 'Contact page, location, and official social channels.'
+          : 'Contact page and official social channels.',
       matchPaths: ['/contact'],
       items: [
         {
@@ -265,12 +270,16 @@ export function buildFederationNav(copy) {
           description: isGeorgian ? 'ოფიციალური საკონტაქტო ინფორმაცია.' : 'Official federation contact directory.',
           to: '/contact#contact-directory',
         },
-        {
-          label: isGeorgian ? 'ლოკაცია' : 'Location',
-          description: copy.meta.locationLabel,
-          href: copy.meta.locationHref,
-          external: true,
-        },
+        ...(showLocation
+          ? [
+              {
+                label: isGeorgian ? 'ლოკაცია' : 'Location',
+                description: copy.meta.locationLabel,
+                href: copy.meta.locationHref,
+                external: true,
+              },
+            ]
+          : []),
         {
           label: 'Facebook',
           description: copy.meta.facebookPageName,

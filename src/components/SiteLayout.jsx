@@ -63,6 +63,7 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
   const navGroups = useMemo(() => buildFederationNav(copy), [copy])
   const searchCopy = useMemo(() => getSearchUiCopy(copy.locale), [copy.locale])
   const socialHubLabel = copy.locale === 'ka-GE' ? 'სოციალური მართვის ცენტრი' : 'Social Hub'
+  const showLocation = copy.meta.showLocation !== false
 
   const clearDesktopCloseTimer = () => {
     if (desktopCloseTimerRef.current) {
@@ -250,11 +251,13 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
             <div className="topbar-contacts">
               <EmailLink email={copy.meta.email} className="topbar-contact-link" />
               <PhoneLink phone={copy.meta.phone} className="topbar-contact-link" />
-              <LocationLink
-                href={copy.meta.locationHref}
-                label={copy.meta.locationLabel}
-                className="topbar-contact-link topbar-location-link"
-              />
+              {showLocation ? (
+                <LocationLink
+                  href={copy.meta.locationHref}
+                  label={copy.meta.locationLabel}
+                  className="topbar-contact-link topbar-location-link"
+                />
+              ) : null}
             </div>
 
             <div className="topbar-actions">
@@ -384,11 +387,13 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
               <div className="mobile-contact-links">
                 <EmailLink email={copy.meta.email} className="mobile-meta-link" />
                 <PhoneLink phone={copy.meta.phone} className="mobile-meta-link" />
-                <LocationLink
-                  href={copy.meta.locationHref}
-                  label={copy.meta.locationLabel}
-                  className="mobile-meta-link mobile-location"
-                />
+                {showLocation ? (
+                  <LocationLink
+                    href={copy.meta.locationHref}
+                    label={copy.meta.locationLabel}
+                    className="mobile-meta-link mobile-location"
+                  />
+                ) : null}
               </div>
 
               <SocialLinks items={copy.meta.socials} className="mobile-socials" />
@@ -446,7 +451,9 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
             <div className="footer-contact-links">
               <EmailLink email={copy.meta.email} className="footer-info-link" />
               <PhoneLink phone={copy.meta.phone} className="footer-info-link" />
-              <LocationLink href={copy.meta.locationHref} label={copy.meta.locationLabel} className="footer-info-link" />
+              {showLocation ? (
+                <LocationLink href={copy.meta.locationHref} label={copy.meta.locationLabel} className="footer-info-link" />
+              ) : null}
             </div>
             <ul className="footer-list footer-support-list">
               {copy.footer.contactItems.map((item) => (

@@ -127,6 +127,7 @@ function buildSafetyDownloadEntry(localeKey) {
 
 function buildContactEntries(copy, localeKey) {
   const section = localeKey === 'ka' ? 'კონტაქტი' : 'Contact'
+  const showLocation = copy.meta.showLocation !== false
 
   return [
     {
@@ -150,19 +151,23 @@ function buildContactEntries(copy, localeKey) {
       meta: 'Phone',
       keywords: ['phone', 'call', 'contact', copy.meta.phone],
     },
-    {
-      kind: 'contact',
-      title: copy.meta.locationLabel,
-      description:
-        localeKey === 'ka'
-          ? 'ოფიციალური ლოკაცია Google Maps-ის ბმულით.'
-          : 'Official federation location with Google Maps link.',
-      href: copy.meta.locationHref,
-      external: true,
-      section,
-      meta: 'Maps',
-      keywords: ['location', 'map', 'coordinates', copy.meta.locationLabel],
-    },
+    ...(showLocation
+      ? [
+          {
+            kind: 'contact',
+            title: copy.meta.locationLabel,
+            description:
+              localeKey === 'ka'
+                ? 'ოფიციალური ლოკაცია Google Maps-ის ბმულით.'
+                : 'Official federation location with Google Maps link.',
+            href: copy.meta.locationHref,
+            external: true,
+            section,
+            meta: 'Maps',
+            keywords: ['location', 'map', 'coordinates', copy.meta.locationLabel],
+          },
+        ]
+      : []),
   ]
 }
 

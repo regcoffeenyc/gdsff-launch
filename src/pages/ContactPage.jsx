@@ -132,6 +132,7 @@ function ContactValueLink({ card }) {
 
 export default function ContactPage({ copy }) {
   const localeKey = copy.locale === 'ka-GE' ? 'ka' : 'en'
+  const showLocation = copy.meta.showLocation !== false
   const directory = normalizeLaunchValue(contactCopy[localeKey])
   const facebookLink =
     copy.meta.socials.find((item) => item.id === 'facebook')?.href ??
@@ -160,11 +161,15 @@ export default function ContactPage({ copy }) {
       value: copy.meta.instagramHandle,
       href: instagramLink,
     },
-    {
-      ...directory.cards[4],
-      value: copy.meta.locationLabel,
-      href: copy.meta.locationHref,
-    },
+    ...(showLocation
+      ? [
+          {
+            ...directory.cards[4],
+            value: copy.meta.locationLabel,
+            href: copy.meta.locationHref,
+          },
+        ]
+      : []),
   ]
 
   return (
@@ -187,11 +192,13 @@ export default function ContactPage({ copy }) {
             <div className="contact-link-stack">
               <EmailLink email={copy.meta.email} className="contact-directory-link" />
               <PhoneLink phone={copy.meta.phone} className="contact-directory-link" />
-              <LocationLink
-                href={copy.meta.locationHref}
-                label={copy.meta.locationLabel}
-                className="contact-directory-link"
-              />
+              {showLocation ? (
+                <LocationLink
+                  href={copy.meta.locationHref}
+                  label={copy.meta.locationLabel}
+                  className="contact-directory-link"
+                />
+              ) : null}
             </div>
           </article>
 
