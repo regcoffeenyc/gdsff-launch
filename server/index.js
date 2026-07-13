@@ -19,6 +19,13 @@ import {
   sendMembershipNotification as sharedSendMembershipNotification,
 } from './lib/membershipNotification.js'
 import { getSmtpRuntime } from './lib/smtpEmail.js'
+import {
+  buildSupportInquiryFailureMessage,
+  buildSupportInquiryNotificationRecord,
+  createSupportInquiryRecord,
+  sendSupportInquiryNotification,
+  supportInquiryNotificationWasDelivered,
+} from './lib/supportInquiry.js'
 
 ensureEnvLoaded()
 
@@ -970,6 +977,40 @@ const server = createServer(async (request, response) => {
           ok: true,
           application: savedApplication,
           summary,
+          notification: notificationRecord,
+        },
+        origin,
+      )
+      return
+    }
+
+    if (request.method === 'POST' && url.pathname === '/api/support/inquiries') {
+      const body = await readJson(request)
+      const inquiry = createSupportInquiryRecord(body)
+      const notification = await sendSupportInquiryNotification(inquiry)
+      const notificationRecord = buildSupportInquiryNotificationRecord(notification)
+
+      if (!supportInquiryNotificationWasDelivered(notificationRecord)) {
+        sendJson(
+          response,
+          502,
+          {
+            ok: false,
+            error: buildSupportInquiryFailureMessage(inquiry, notificationRecord),
+            inquiry,
+            notification: notificationRecord,
+          },
+          origin,
+        )
+        return
+      }
+
+      sendJson(
+        response,
+        200,
+        {
+          ok: true,
+          inquiry,
           notification: notificationRecord,
         },
         origin,

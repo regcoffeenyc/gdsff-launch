@@ -35,6 +35,7 @@ function applyLaunchOverrides(rawContent, locale) {
       events: isGeorgian ? 'ღონისძიებები' : 'Events',
       gallery: isGeorgian ? 'მედია' : 'Media',
       membership: isGeorgian ? 'გაწევრიანება' : 'Membership',
+      support: isGeorgian ? 'მხარდაჭერა' : 'Support',
       documents: isGeorgian ? 'დოკუმენტები' : 'Documents',
       safetyConsent: isGeorgian ? 'უსაფრთხოების თანხმობა' : 'Safety Consent',
     },

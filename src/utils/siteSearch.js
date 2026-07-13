@@ -1,5 +1,6 @@
 import { buildFederationNav } from '../components/FederationNavigation'
 import { officialLaunchContent } from '../content/officialLaunchContent'
+import { supportContent } from '../content/supportContent'
 
 const sportsAnchorIds = ['dynamic-shooting', 'functional-fitness', 'tactical-performance']
 const hiddenDocumentIds = new Set(['content-pack', 'upload-checklist'])
@@ -35,6 +36,7 @@ const searchUiCopy = {
     shortcuts: [
       { label: 'Document library', to: '/documents#downloads' },
       { label: 'Online membership application', to: '/membership#online-application' },
+      { label: 'Sponsorship & donations', to: '/support#sponsorship-donations' },
       { label: 'Safety consent', to: '/safety-consent' },
       { label: 'Contact directory', to: '/contact#contact-directory' },
     ],
@@ -179,9 +181,11 @@ function buildPageEntries(copy, localeKey) {
   const membershipSection = copy.nav.membership
   const eventsSection = copy.nav.events
   const partnersSection = copy.nav.partners
+  const supportSection = copy.nav.support ?? (localeKey === 'ka' ? 'მხარდაჭერა' : 'Support')
   const gallerySection = copy.nav.gallery
   const documentsSection = copy.nav.documents
   const contactSection = copy.nav.contact
+  const supportPageCopy = supportContent[localeKey]
 
   return [
     {
@@ -246,6 +250,15 @@ function buildPageEntries(copy, localeKey) {
       section: partnersSection,
       meta: '/partners',
       keywords: [copy.partners?.eyebrow, copy.partners?.highlights],
+    },
+    {
+      kind: 'page',
+      title: supportPageCopy.title,
+      description: supportPageCopy.heroSubtitle,
+      to: '/support',
+      section: supportSection,
+      meta: '/support',
+      keywords: [supportPageCopy.heroEyebrow, supportPageCopy.supportAreasTitle, supportPageCopy.whyTitle],
     },
     {
       kind: 'page',
@@ -340,6 +353,41 @@ function buildPartnerEntries(copy) {
   ]
 }
 
+function buildSupportEntries(copy, localeKey) {
+  const section = copy.nav.support ?? (localeKey === 'ka' ? 'მხარდაჭერა' : 'Support')
+  const page = supportContent[localeKey]
+
+  return [
+    {
+      kind: 'section',
+      title: page.supportAreasTitle,
+      description: page.supportAreas.map((item) => item.title).slice(0, 3).join(', '),
+      to: '/support#support-areas',
+      section,
+      meta: '/support#support-areas',
+      keywords: [page.supportAreasTitle, page.supportAreas.map((item) => item.text)],
+    },
+    {
+      kind: 'section',
+      title: page.inquiryTitle,
+      description: page.inquiryText,
+      to: '/support#support-inquiry-form',
+      section,
+      meta: '/support#support-inquiry-form',
+      keywords: [page.inquiryTitle, page.discussionItems, page.ctas],
+    },
+    {
+      kind: 'section',
+      title: page.transparencyTitle,
+      description: page.transparencyNote,
+      to: '/support#transparency-note',
+      section,
+      meta: '/support#transparency-note',
+      keywords: [page.transparencyTitle, page.transparencyNote],
+    },
+  ]
+}
+
 export function getSearchUiCopy(locale) {
   return searchUiCopy[isGeorgianLocale(locale) ? 'ka' : 'en']
 }
@@ -377,6 +425,7 @@ export function buildSiteSearchIndex(copy) {
     ...navEntries,
     ...buildSportsEntries(copy),
     ...buildPartnerEntries(copy),
+    ...buildSupportEntries(copy, localeKey),
     ...documentEntries,
     ...buildContactEntries(copy, localeKey),
   ]

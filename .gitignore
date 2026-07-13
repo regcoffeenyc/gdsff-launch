@@ -23,3 +23,5 @@ safety-consent-desktop-fresh.png
 safety-consent-mobile.png
 safety-consent-mobile-fresh.png
 gdsff-github-ready/
+.vercel
+.env*

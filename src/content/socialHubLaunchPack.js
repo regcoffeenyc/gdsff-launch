@@ -1,6 +1,6 @@
 export const socialHubLaunchPack = {
   brand: {
-    officialName: 'Georgian Dynamic Shooting & Functional Fitness Federation',
+    officialName: 'Georgian Dynamic Shooting and Functional Fitness Federation',
     shortName: 'GDSFF',
     slogan: 'Precision. Strength. Discipline.',
     website: 'https://gdsff.org',
@@ -8,7 +8,7 @@ export const socialHubLaunchPack = {
     phone: '+995 511 560038',
   },
   facebook: {
-    pageName: 'GDSFF | Georgian Dynamic Shooting & Functional Fitness Federation',
+    pageName: 'GDSFF | Georgian Dynamic Shooting and Functional Fitness Federation',
     usernameOptions: ['@GDSFFOfficial', '@GDSFFFederation', '@GDSFForg'],
     recommendedUsername: '@GDSFFOfficial',
     categories: ['Sports Club', 'Nonprofit Organization', 'Sports & Recreation'],
@@ -33,6 +33,12 @@ export const socialHubLaunchPack = {
           'საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციაში გაწევრიანება შესაძლებელია სპორტსმენებისთვის, მწვრთნელებისთვის, კლუბებისთვის და სხვა შესაბამისი პირებისა თუ ორგანიზაციებისთვის, ფედერაციის წესებისა და შიდა პროცედურების შესაბამისად.\n\nგაწევრიანებისთვის:\n- ჩამოტვირთეთ ოფიციალური განაცხადის ფორმა\n- შეავსეთ სრულად\n- გადმოაგზავნეთ შემდეგ მისამართზე: office@gdsff.org\n\nდამატებითი ინფორმაციისთვის:\ngdsff.org\noffice@gdsff.org\n+995 511 560038',
       },
       {
+        id: 'printable-target',
+        title: 'Printable GDSFF Target + Membership Links',
+        body:
+          'GDSFF has added an official printable 1-inch grid training target to the website.\n\nDownload target PDF:\nhttps://gdsff.org/downloads/gdsff-printable-target-1in-grid.pdf\n\nMembership form:\nhttps://gdsff.org/membership#online-application\n\nSafety consent and signature workflow:\nhttps://gdsff.org/safety-consent\n\nUse only the official website links for applications, downloads, and signed consent.\n\nContact:\noffice@gdsff.org\n+995 511 560038\n\n#GDSFF #DynamicShooting #FunctionalFitness #GeorgiaSports',
+      },
+      {
         id: 'documents',
         title: 'ოფიციალური დოკუმენტები',
         body:
@@ -53,8 +59,8 @@ export const socialHubLaunchPack = {
     ],
   },
   instagram: {
-    usernameOptions: ['@gdsffofficial', '@gdsff_official', '@gdsff.federation', '@gdsfforg'],
-    recommendedUsername: '@gdsffofficial',
+    usernameOptions: ['@gdsff.org', '@gdsff_official', '@gdsff.federation', '@gdsfforg'],
+    recommendedUsername: '@gdsff.org',
     displayName: 'GDSFF Georgia',
     shortBio:
       'Official GDSFF\nDynamic Shooting & Functional Fitness\nEvents | Membership | Documents\ngdsff.org',

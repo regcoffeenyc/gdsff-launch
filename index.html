@@ -31,6 +31,34 @@
     <meta name="twitter:image:alt" content="Official GDSFF federation logo" />
   </head>
   <body>
+    <script>
+      ;(() => {
+        const knownClientRoutes = new Set([
+          '/about',
+          '/sports',
+          '/leadership',
+          '/membership',
+          '/membership-admin',
+          '/events',
+          '/partners',
+          '/support',
+          '/gallery',
+          '/documents',
+          '/safety-consent',
+          '/contact',
+          '/social-hub',
+          '/media-bot',
+          '/search',
+        ])
+        const normalizedPath = window.location.pathname.replace(/\/+$/, '') || '/'
+        const hasHashRouterPath = window.location.hash.startsWith('#/')
+
+        if (normalizedPath !== '/' && knownClientRoutes.has(normalizedPath) && !hasHashRouterPath) {
+          const redirectedPath = `/#${normalizedPath}${window.location.search}${window.location.hash}`
+          window.location.replace(redirectedPath)
+        }
+      })()
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

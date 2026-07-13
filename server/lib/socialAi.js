@@ -64,6 +64,7 @@ function findPresetFromInput(input) {
   const isInstagram = combined.includes('instagram')
   const presetSource = isInstagram ? socialHubLaunchPack.instagram.posts : socialHubLaunchPack.facebook.posts
   const presetMatchers = [
+    { id: 'printable-target', keywords: ['target', 'printable', 'pdf', 'download target', 'practice target'] },
     { id: 'launch', keywords: ['launch', 'official opening', 'გახსნა'] },
     { id: 'membership', keywords: ['membership', 'join', 'გაწევრიანება'] },
     { id: 'documents', keywords: ['documents', 'docs', 'დოკუმენტები'] },

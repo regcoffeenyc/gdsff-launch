@@ -1,21 +1,21 @@
 {
-  "updatedAt": "2026-03-16T17:20:59.446Z",
+  "updatedAt": "2026-07-06T19:30:35.902Z",
   "settings": {
     "meta": {
       "facebookPageId": "",
       "instagramBusinessId": "",
-      "facebookPageName": "GDSFF | Georgian Dynamic Shooting & Functional Fitness Federation",
-      "instagramHandle": "@gdsff.ge"
+      "facebookPageName": "GDSFF | Georgian Dynamic Shooting and Functional Fitness Federation",
+      "instagramHandle": "@gdsff.org"
     },
     "email": {
       "inboxAddress": "office@gdsff.org",
-      "provider": "titan",
-      "providerStatus": "error",
-      "lastSyncAt": "2026-03-16T17:20:59.442Z",
-      "lastSyncStatus": "error",
+      "provider": "manual",
+      "providerStatus": "placeholder",
+      "lastSyncAt": "",
+      "lastSyncStatus": "never",
       "lastSyncCount": 0,
-      "lastSyncError": "IMAP authentication failed. Verify EMAIL_IMAP_USERNAME and EMAIL_IMAP_PASSWORD (or app password).",
-      "lastSyncProvider": "titan",
+      "lastSyncError": "",
+      "lastSyncProvider": "",
       "nextSyncCursor": ""
     },
     "automation": {
@@ -23,662 +23,872 @@
     }
   },
   "auth": {
-    "lastLoginAt": "2026-03-16T17:20:58.578Z",
+    "lastLoginAt": "",
     "lastCallbackAt": "",
     "lastCallbackCode": "",
-    "notes": "Configure ADMIN_USERNAME and ADMIN_PASSWORD for protected mode."
+    "notes": "Demo mode keeps approval-first workflow. Configure ADMIN_USERNAME and ADMIN_PASSWORD for protected mode."
   },
   "socialPosts": [
     {
-      "id": "fb-launch",
-      "title": "ოფიციალური გახსნა",
-      "category": "announcement",
+      "id": "printable-target-download",
+      "title": "Printable Target Download and Membership Links",
+      "category": "documents",
       "platforms": [
         "facebook"
       ],
       "status": "approved",
       "captions": {
-        "short": "ოფიციალური გახსნა\n\nმოგესალმებით საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციის ოფიციალურ გვერდზე.",
-        "medium": "მოგესალმებით საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციის ოფიციალურ გვერდზე.\n\nGeorgian Dynamic Shooting & Functional Fitness Federation ემსახურება საქართველოში დინამიური სროლისა და ფუნქციური ფიტნესის განვითარებას, სპორტსმენთა მხარდაჭერას, უსაფრთხო სპორტული სტანდარტების დამკვიდრებას, შეჯიბრებების ორგანიზებას, პარტნიორული თანამშრომლობის გაძლიერებასა და საერთაშორისო ურთიერთობების განვითარებას.\n\nჩვენი მიზანია ჩამოვაყალიბოთ ძლიერი ეროვნული პლატფორმა, რომელიც ხელს შეუწყობს თანამედროვე სპორტული მიმართულებების განვითარებას, სპორტსმენების წინსვლას და საქართველოს პოზიციონირებას რეგიონულ სპორტულ ჰაბად.\n\nოფიციალური ვებ-გვერდი: gdsff.org\nელფოსტა: office@gdsff.org\nტელეფონი: +995 511 560038\n\nGeorgian Dynamic Shooting & Functional Fitness Federation\nGDSFF\nPrecision. Strength. Discipline.",
-        "long": "მოგესალმებით საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციის ოფიციალურ გვერდზე.\n\nGeorgian Dynamic Shooting & Functional Fitness Federation ემსახურება საქართველოში დინამიური სროლისა და ფუნქციური ფიტნესის განვითარებას, სპორტსმენთა მხარდაჭერას, უსაფრთხო სპორტული სტანდარტების დამკვიდრებას, შეჯიბრებების ორგანიზებას, პარტნიორული თანამშრომლობის გაძლიერებასა და საერთაშორისო ურთიერთობების განვითარებას.\n\nჩვენი მიზანია ჩამოვაყალიბოთ ძლიერი ეროვნული პლატფორმა, რომელიც ხელს შეუწყობს თანამედროვე სპორტული მიმართულებების განვითარებას, სპორტსმენების წინსვლას და საქართველოს პოზიციონირებას რეგიონულ სპორტულ ჰაბად.\n\nოფიციალური ვებ-გვერდი: gdsff.org\nელფოსტა: office@gdsff.org\nტელეფონი: +995 511 560038\n\nGeorgian Dynamic Shooting & Functional Fitness Federation\nGDSFF\nPrecision. Strength. Discipline.\n\nhttps://gdsff.org\noffice@gdsff.org\n+995 511 560038"
+        "short": "Printable Target Download and Membership Links\n\nGDSFF has added an official printable 1-inch grid training target to the documents page.",
+        "medium": "GDSFF has added an official printable 1-inch grid training target to the documents page.\n\nDownload target PDF: https://gdsff.org/downloads/gdsff-printable-target-1in-grid.pdf\nMembership application: https://gdsff.org/membership#online-application\nSafety consent and signature workflow: https://gdsff.org/safety-consent",
+        "long": "GDSFF has added an official printable 1-inch grid training target to the documents page.\n\nDownload target PDF: https://gdsff.org/downloads/gdsff-printable-target-1in-grid.pdf\nMembership application: https://gdsff.org/membership#online-application\nSafety consent and signature workflow: https://gdsff.org/safety-consent\n\nUse only official website links for applications, downloads, and signed consent.\n\nhttps://gdsff.org\noffice@gdsff.org\n+995 511 560038"
       },
-      "englishCaption": "",
+      "englishCaption": "GDSFF printable target and membership links are ready for Facebook.",
       "hashtags": [
         "#GDSFF",
         "#DynamicShooting",
         "#FunctionalFitness",
         "#GeorgiaSports",
-        "#ShootingSport"
+        "#ShootingSport",
+        "#FitnessSport"
       ],
-      "imagePlaceholder": "/media/logo-approved",
+      "imagePlaceholder": "/media/printable-target-preview",
       "mediaAssetIds": [
-        "logo-approved"
+        "printable-target-preview"
       ],
-      "link": "https://gdsff.org",
+      "link": "https://gdsff.org/documents#printable-target",
       "approval": {
-        "approvedBy": "admin",
-        "approvedAt": "2026-03-15T15:16:16.643Z"
+        "approvedBy": "communications.lead",
+        "approvedAt": "2026-07-06T19:30:35.902Z"
       },
-      "notes": "",
+      "notes": "Facebook pinned-post candidate. Publish only from the official Page after owner approval.",
       "scheduledFor": "",
-      "createdAt": "2026-03-13T15:16:16.643Z",
-      "updatedAt": "2026-03-15T15:16:16.643Z"
+      "createdAt": "2026-07-06T19:30:35.902Z",
+      "updatedAt": "2026-07-06T19:30:35.902Z"
     },
     {
-      "id": "fb-membership",
-      "title": "გაწევრიანება ფედერაციაში",
-      "category": "membership",
-      "platforms": [
-        "facebook"
-      ],
-      "status": "draft",
-      "captions": {
-        "short": "გაწევრიანება ფედერაციაში\n\nსაქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციაში გაწევრიანება შესაძლებელია სპორტსმენებისთვის, მწვრთნელებისთვის, კლუბებისთვის და სხვა შესაბამისი პირებისა თუ ორგანიზაციებისთვის, ფედერაციის წესებისა და შიდა პროცედურების შესაბამისად.",
-        "medium": "საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციაში გაწევრიანება შესაძლებელია სპორტსმენებისთვის, მწვრთნელებისთვის, კლუბებისთვის და სხვა შესაბამისი პირებისა თუ ორგანიზაციებისთვის, ფედერაციის წესებისა და შიდა პროცედურების შესაბამისად.\n\nგაწევრიანებისთვის:\n- ჩამოტვირთეთ ოფიციალური განაცხადის ფორმა\n- შეავსეთ სრულად\n- გადმოაგზავნეთ შემდეგ მისამართზე: office@gdsff.org\n\nდამატებითი ინფორმაციისთვის:\ngdsff.org\noffice@gdsff.org\n+995 511 560038",
-        "long": "საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციაში გაწევრიანება შესაძლებელია სპორტსმენებისთვის, მწვრთნელებისთვის, კლუბებისთვის და სხვა შესაბამისი პირებისა თუ ორგანიზაციებისთვის, ფედერაციის წესებისა და შიდა პროცედურების შესაბამისად.\n\nგაწევრიანებისთვის:\n- ჩამოტვირთეთ ოფიციალური განაცხადის ფორმა\n- შეავსეთ სრულად\n- გადმოაგზავნეთ შემდეგ მისამართზე: office@gdsff.org\n\nდამატებითი ინფორმაციისთვის:\ngdsff.org\noffice@gdsff.org\n+995 511 560038\n\nhttps://gdsff.org\noffice@gdsff.org\n+995 511 560038"
-      },
-      "englishCaption": "",
-      "hashtags": [
-        "#GDSFF",
-        "#DynamicShooting",
-        "#FunctionalFitness",
-        "#GeorgiaSports",
-        "#ShootingSport"
-      ],
-      "imagePlaceholder": "/media/range-hero",
-      "mediaAssetIds": [
-        "range-hero"
-      ],
-      "link": "https://gdsff.org",
-      "approval": {
-        "approvedBy": "",
-        "approvedAt": ""
-      },
-      "notes": "",
-      "scheduledFor": "",
-      "createdAt": "2026-03-13T15:16:16.643Z",
-      "updatedAt": "2026-03-15T15:16:16.643Z"
-    },
-    {
-      "id": "fb-leadership",
-      "title": "ფედერაციის ხელმძღვანელობა",
-      "category": "leadership",
-      "platforms": [
-        "facebook"
-      ],
-      "status": "scheduled",
-      "captions": {
-        "short": "ფედერაციის ხელმძღვანელობა\n\nსაქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციის პრეზიდენტია გიორგი გაგნიძე, ხოლო დირექტორი — ანა ფანჩულიძე.",
-        "medium": "საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციის პრეზიდენტია გიორგი გაგნიძე, ხოლო დირექტორი — ანა ფანჩულიძე.\n\nფედერაციის ხელმძღვანელობა უზრუნველყოფს ორგანიზაციის სტრატეგიულ განვითარებას, ადმინისტრაციულ მართვას, პარტნიორულ თანამშრომლობასა და სპორტული მიმართულებების ორგანიზებულ განვითარებას.\n\nოფიციალური ინფორმაცია და ბიოგრაფიული მასალები ხელმისაწვდომია ვებ-გვერდზე:\ngdsff.org",
-        "long": "საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციის პრეზიდენტია გიორგი გაგნიძე, ხოლო დირექტორი — ანა ფანჩულიძე.\n\nფედერაციის ხელმძღვანელობა უზრუნველყოფს ორგანიზაციის სტრატეგიულ განვითარებას, ადმინისტრაციულ მართვას, პარტნიორულ თანამშრომლობასა და სპორტული მიმართულებების ორგანიზებულ განვითარებას.\n\nოფიციალური ინფორმაცია და ბიოგრაფიული მასალები ხელმისაწვდომია ვებ-გვერდზე:\ngdsff.org\n\nhttps://gdsff.org\noffice@gdsff.org\n+995 511 560038"
-      },
-      "englishCaption": "",
-      "hashtags": [
-        "#GDSFF",
-        "#DynamicShooting",
-        "#FunctionalFitness",
-        "#GeorgiaSports",
-        "#ShootingSport"
-      ],
-      "imagePlaceholder": "/media/logo-approved",
-      "mediaAssetIds": [
-        "logo-approved"
-      ],
-      "link": "https://gdsff.org",
-      "approval": {
-        "approvedBy": "admin",
-        "approvedAt": "2026-03-15T15:16:16.643Z"
-      },
-      "notes": "",
-      "scheduledFor": "2026-03-17T15:16:16.643Z",
-      "createdAt": "2026-03-13T15:16:16.643Z",
-      "updatedAt": "2026-03-15T15:16:16.643Z"
-    },
-    {
-      "id": "ig-launch",
-      "title": "ოფიციალური გახსნა",
+      "id": "official-statement-governance",
+      "title": "Official Federation Statement: 2026 Competition Governance",
       "category": "announcement",
       "platforms": [
+        "facebook",
         "instagram"
       ],
-      "status": "published",
+      "status": "approved",
       "captions": {
-        "short": "ოფიციალური გახსნა\n\nსაქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციის ოფიციალური გვერდი უკვე აქტიურია.",
-        "medium": "საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციის ოფიციალური გვერდი უკვე აქტიურია.\n\nWebsite: gdsff.org\nEmail: office@gdsff.org",
-        "long": "საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციის ოფიციალური გვერდი უკვე აქტიურია.\n\nWebsite: gdsff.org\nEmail: office@gdsff.org\n\nhttps://gdsff.org\noffice@gdsff.org\n+995 511 560038"
+        "short": "Official Federation Statement: 2026 Competition Governance\n\nGDSFF confirms the 2026 governance protocol for dynamic shooting and functional fitness competitions. All regional events will apply standardized safety briefings, judge procedures, and athlete verification.",
+        "medium": "GDSFF confirms the 2026 governance protocol for dynamic shooting and functional fitness competitions. All regional events will apply standardized safety briefings, judge procedures, and athlete verification.\n\nFor official documents and compliance references, use gdsff.org.",
+        "long": "GDSFF confirms the 2026 governance protocol for dynamic shooting and functional fitness competitions. All regional events will apply standardized safety briefings, judge procedures, and athlete verification.\n\nFor official documents and compliance references, use gdsff.org.\n\nhttps://gdsff.org\noffice@gdsff.org\n+995 511 560038"
       },
-      "englishCaption": "",
+      "englishCaption": "GDSFF confirms the 2026 governance protocol. Standardized safety and athlete verification will apply at all regional events.",
       "hashtags": [
         "#GDSFF",
         "#DynamicShooting",
         "#FunctionalFitness",
         "#GeorgiaSports",
-        "#ShootingSport"
+        "#ShootingSport",
+        "#FitnessSport"
       ],
-      "imagePlaceholder": "/media/logo-approved",
+      "imagePlaceholder": "/media/brand-shield",
       "mediaAssetIds": [
-        "logo-approved"
+        "brand-shield"
       ],
       "link": "https://gdsff.org",
       "approval": {
-        "approvedBy": "",
-        "approvedAt": ""
+        "approvedBy": "communications.lead",
+        "approvedAt": "2026-03-28T19:22:46.832Z"
       },
-      "notes": "",
+      "notes": "Ready for president-level sign-off publish window.",
       "scheduledFor": "",
-      "createdAt": "2026-03-13T15:16:16.643Z",
-      "updatedAt": "2026-03-15T15:16:16.643Z"
+      "createdAt": "2026-03-24T19:22:46.832Z",
+      "updatedAt": "2026-03-28T19:22:46.832Z"
     },
     {
-      "id": "ig-safety",
-      "title": "უსაფრთხოება",
-      "category": "safety",
-      "platforms": [
-        "instagram"
-      ],
-      "status": "draft",
-      "captions": {
-        "short": "უსაფრთხოება\n\nფედერაცია განსაკუთრებულ მნიშვნელობას ანიჭებს უსაფრთხოების სტანდარტებს, დისციპლინას და პასუხისმგებლობას.",
-        "medium": "ფედერაცია განსაკუთრებულ მნიშვნელობას ანიჭებს უსაფრთხოების სტანდარტებს, დისციპლინას და პასუხისმგებლობას.",
-        "long": "ფედერაცია განსაკუთრებულ მნიშვნელობას ანიჭებს უსაფრთხოების სტანდარტებს, დისციპლინას და პასუხისმგებლობას.\n\nhttps://gdsff.org\noffice@gdsff.org\n+995 511 560038"
-      },
-      "englishCaption": "",
-      "hashtags": [
-        "#GDSFF",
-        "#DynamicShooting",
-        "#FunctionalFitness",
-        "#GeorgiaSports",
-        "#ShootingSport"
-      ],
-      "imagePlaceholder": "/media/tactical-line",
-      "mediaAssetIds": [
-        "tactical-line"
-      ],
-      "link": "https://gdsff.org",
-      "approval": {
-        "approvedBy": "",
-        "approvedAt": ""
-      },
-      "notes": "",
-      "scheduledFor": "",
-      "createdAt": "2026-03-13T15:16:16.643Z",
-      "updatedAt": "2026-03-15T15:16:16.643Z"
-    },
-    {
-      "id": "both-partnership",
-      "title": "თანამშრომლობა და ოფიციალური კომუნიკაცია",
-      "category": "partnership",
+      "id": "event-batumi-tactical-games",
+      "title": "Batumi Tactical Games 2026 - Event Promotion Queue",
+      "category": "event",
       "platforms": [
         "facebook",
         "instagram"
       ],
       "status": "scheduled",
       "captions": {
-        "short": "თანამშრომლობა და ოფიციალური კომუნიკაცია\n\nფედერაცია ღიაა პარტნიორული ურთიერთობებისთვის, ინსტიტუციური თანამშრომლობისთვის, სპორტული ღონისძიებების მხარდაჭერისთვის და საერთაშორისო კავშირების გაძლიერებისთვის.",
-        "medium": "ფედერაცია ღიაა პარტნიორული ურთიერთობებისთვის, ინსტიტუციური თანამშრომლობისთვის, სპორტული ღონისძიებების მხარდაჭერისთვის და საერთაშორისო კავშირების გაძლიერებისთვის.\n\nსაკონტაქტო ინფორმაცია:\noffice@gdsff.org\n+995 511 560038\ngdsff.org",
-        "long": "ფედერაცია ღიაა პარტნიორული ურთიერთობებისთვის, ინსტიტუციური თანამშრომლობისთვის, სპორტული ღონისძიებების მხარდაჭერისთვის და საერთაშორისო კავშირების გაძლიერებისთვის.\n\nსაკონტაქტო ინფორმაცია:\noffice@gdsff.org\n+995 511 560038\ngdsff.org\n\nhttps://gdsff.org\noffice@gdsff.org\n+995 511 560038"
+        "short": "Batumi Tactical Games 2026 - Event Promotion Queue\n\nEvent promotion is open for Batumi Tactical Games 2026.",
+        "medium": "Event promotion is open for Batumi Tactical Games 2026.\n\nDate: 24 May 2026\nVenue: Batumi Coastal Sports Range\nFormat: Dynamic Shooting + Functional Fitness Hybrid Stages\nRegistration route: office@gdsff.org",
+        "long": "Event promotion is open for Batumi Tactical Games 2026.\n\nDate: 24 May 2026\nVenue: Batumi Coastal Sports Range\nFormat: Dynamic Shooting + Functional Fitness Hybrid Stages\nRegistration route: office@gdsff.org\n\nhttps://gdsff.org\noffice@gdsff.org\n+995 511 560038"
       },
-      "englishCaption": "",
+      "englishCaption": "Batumi Tactical Games 2026 promotion post queued for approved release.",
       "hashtags": [
         "#GDSFF",
         "#DynamicShooting",
         "#FunctionalFitness",
         "#GeorgiaSports",
-        "#ShootingSport"
+        "#ShootingSport",
+        "#FitnessSport"
       ],
-      "imagePlaceholder": "/media/weighted-carry",
+      "imagePlaceholder": "/media/tactical-games-stage",
       "mediaAssetIds": [
-        "weighted-carry"
+        "tactical-games-stage"
       ],
       "link": "https://gdsff.org",
       "approval": {
-        "approvedBy": "admin",
-        "approvedAt": "2026-03-15T15:16:16.643Z"
+        "approvedBy": "communications.lead",
+        "approvedAt": "2026-03-28T19:22:46.832Z"
       },
-      "notes": "",
-      "scheduledFor": "2026-03-18T15:16:16.643Z",
-      "createdAt": "2026-03-13T15:16:16.643Z",
-      "updatedAt": "2026-03-15T15:16:16.643Z"
+      "notes": "Queue for 10:00 local publication after approval confirmation.",
+      "scheduledFor": "2026-03-31T19:22:46.832Z",
+      "createdAt": "2026-03-24T19:22:46.832Z",
+      "updatedAt": "2026-03-28T19:22:46.832Z"
+    },
+    {
+      "id": "registration-open-athletes",
+      "title": "Athlete Registration Open - Regional Qualifier",
+      "category": "membership",
+      "platforms": [
+        "facebook"
+      ],
+      "status": "draft",
+      "captions": {
+        "short": "Athlete Registration Open - Regional Qualifier\n\nRegistration is open for athletes joining the regional qualifier cycle.",
+        "medium": "Registration is open for athletes joining the regional qualifier cycle.\n\nRequired: membership eligibility, valid ID, and safety acknowledgement.\n\nContact: office@gdsff.org",
+        "long": "Registration is open for athletes joining the regional qualifier cycle.\n\nRequired: membership eligibility, valid ID, and safety acknowledgement.\n\nContact: office@gdsff.org\n\nhttps://gdsff.org\noffice@gdsff.org\n+995 511 560038"
+      },
+      "englishCaption": "Registration opens for the regional qualifier cycle.",
+      "hashtags": [
+        "#GDSFF",
+        "#DynamicShooting",
+        "#FunctionalFitness",
+        "#GeorgiaSports",
+        "#ShootingSport",
+        "#FitnessSport"
+      ],
+      "imagePlaceholder": "/media/fitness-lane",
+      "mediaAssetIds": [
+        "fitness-lane"
+      ],
+      "link": "https://gdsff.org",
+      "approval": {
+        "approvedBy": "",
+        "approvedAt": ""
+      },
+      "notes": "Awaiting final fee confirmation from finance office.",
+      "scheduledFor": "",
+      "createdAt": "2026-03-24T19:22:46.832Z",
+      "updatedAt": "2026-03-28T19:22:46.832Z"
+    },
+    {
+      "id": "partnership-sports-tourism",
+      "title": "Institutional Partnership Track - Sports Tourism",
+      "category": "partnership",
+      "platforms": [
+        "facebook",
+        "instagram"
+      ],
+      "status": "approved",
+      "captions": {
+        "short": "Institutional Partnership Track - Sports Tourism\n\nGDSFF opens an institutional partnership track for sports tourism and international cooperation projects that support safe, high-standard tactical-style competition hosting in Georgia.",
+        "medium": "GDSFF opens an institutional partnership track for sports tourism and international cooperation projects that support safe, high-standard tactical-style competition hosting in Georgia.",
+        "long": "GDSFF opens an institutional partnership track for sports tourism and international cooperation projects that support safe, high-standard tactical-style competition hosting in Georgia.\n\nhttps://gdsff.org\noffice@gdsff.org\n+995 511 560038"
+      },
+      "englishCaption": "Institutional sports tourism partnership track is active.",
+      "hashtags": [
+        "#GDSFF",
+        "#DynamicShooting",
+        "#FunctionalFitness",
+        "#GeorgiaSports",
+        "#ShootingSport",
+        "#FitnessSport"
+      ],
+      "imagePlaceholder": "/media/partner-briefing-room",
+      "mediaAssetIds": [
+        "partner-briefing-room"
+      ],
+      "link": "https://gdsff.org",
+      "approval": {
+        "approvedBy": "communications.lead",
+        "approvedAt": "2026-03-28T19:22:46.833Z"
+      },
+      "notes": "Prepared for partner outreach campaign.",
+      "scheduledFor": "",
+      "createdAt": "2026-03-24T19:22:46.833Z",
+      "updatedAt": "2026-03-28T19:22:46.833Z"
+    },
+    {
+      "id": "athlete-result-highlight",
+      "title": "Athlete Achievement: Elite Hybrid Stage Result",
+      "category": "gallery",
+      "platforms": [
+        "instagram"
+      ],
+      "status": "draft",
+      "captions": {
+        "short": "Athlete Achievement: Elite Hybrid Stage Result\n\nCongratulations to Mariam Tsereteli for securing a top finish in the elite hybrid stage block.",
+        "medium": "Congratulations to Mariam Tsereteli for securing a top finish in the elite hybrid stage block.\n\nOfficial ranking and timing verification will be published in the event bulletin.",
+        "long": "Congratulations to Mariam Tsereteli for securing a top finish in the elite hybrid stage block.\n\nOfficial ranking and timing verification will be published in the event bulletin.\n\nhttps://gdsff.org\noffice@gdsff.org\n+995 511 560038"
+      },
+      "englishCaption": "Elite hybrid stage achievement highlight ready for media approval.",
+      "hashtags": [
+        "#GDSFF",
+        "#DynamicShooting",
+        "#FunctionalFitness",
+        "#GeorgiaSports",
+        "#ShootingSport",
+        "#FitnessSport"
+      ],
+      "imagePlaceholder": "/media/fitness-lane",
+      "mediaAssetIds": [
+        "fitness-lane"
+      ],
+      "link": "https://gdsff.org",
+      "approval": {
+        "approvedBy": "",
+        "approvedAt": ""
+      },
+      "notes": "Waiting for signed photo release from athlete manager.",
+      "scheduledFor": "",
+      "createdAt": "2026-03-24T19:22:46.833Z",
+      "updatedAt": "2026-03-28T19:22:46.833Z"
+    },
+    {
+      "id": "youth-development-week",
+      "title": "Youth Development Week - Safety and Discipline Module",
+      "category": "announcement",
+      "platforms": [
+        "facebook",
+        "instagram"
+      ],
+      "status": "scheduled",
+      "captions": {
+        "short": "Youth Development Week - Safety and Discipline Module\n\nGDSFF youth development week includes coach-supervised safety drills, discipline routines, and age-appropriate functional conditioning.",
+        "medium": "GDSFF youth development week includes coach-supervised safety drills, discipline routines, and age-appropriate functional conditioning.\n\nParent information and safety standards are available at gdsff.org.",
+        "long": "GDSFF youth development week includes coach-supervised safety drills, discipline routines, and age-appropriate functional conditioning.\n\nParent information and safety standards are available at gdsff.org.\n\nhttps://gdsff.org\noffice@gdsff.org\n+995 511 560038"
+      },
+      "englishCaption": "Youth safety and discipline module scheduled for publication.",
+      "hashtags": [
+        "#GDSFF",
+        "#DynamicShooting",
+        "#FunctionalFitness",
+        "#GeorgiaSports",
+        "#ShootingSport",
+        "#FitnessSport"
+      ],
+      "imagePlaceholder": "/media/youth-clinic",
+      "mediaAssetIds": [
+        "youth-clinic"
+      ],
+      "link": "https://gdsff.org",
+      "approval": {
+        "approvedBy": "communications.lead",
+        "approvedAt": "2026-03-28T19:22:46.833Z"
+      },
+      "notes": "Queue alongside youth registration reminder story set.",
+      "scheduledFor": "2026-04-02T19:22:46.833Z",
+      "createdAt": "2026-03-24T19:22:46.833Z",
+      "updatedAt": "2026-03-28T19:22:46.833Z"
+    },
+    {
+      "id": "sponsor-thank-you-post",
+      "title": "Sponsor Appreciation - Equipment and Recovery Support",
+      "category": "partnership",
+      "platforms": [
+        "facebook",
+        "instagram"
+      ],
+      "status": "published",
+      "captions": {
+        "short": "Sponsor Appreciation - Equipment and Recovery Support\n\nGDSFF thanks partner organizations supporting athlete preparation, safety operations, and event logistics.",
+        "medium": "GDSFF thanks partner organizations supporting athlete preparation, safety operations, and event logistics.\n\nSponsor visibility is managed under official federation communication standards.",
+        "long": "GDSFF thanks partner organizations supporting athlete preparation, safety operations, and event logistics.\n\nSponsor visibility is managed under official federation communication standards.\n\nhttps://gdsff.org\noffice@gdsff.org\n+995 511 560038"
+      },
+      "englishCaption": "Sponsor appreciation post published with compliance sign-off.",
+      "hashtags": [
+        "#GDSFF",
+        "#DynamicShooting",
+        "#FunctionalFitness",
+        "#GeorgiaSports",
+        "#ShootingSport",
+        "#FitnessSport"
+      ],
+      "imagePlaceholder": "/media/partner-briefing-room",
+      "mediaAssetIds": [
+        "partner-briefing-room"
+      ],
+      "link": "https://gdsff.org",
+      "approval": {
+        "approvedBy": "",
+        "approvedAt": ""
+      },
+      "notes": "Published after sponsor legal sign-off.",
+      "scheduledFor": "",
+      "createdAt": "2026-03-24T19:22:46.833Z",
+      "updatedAt": "2026-03-28T19:22:46.833Z"
+    },
+    {
+      "id": "documents-and-rules-update",
+      "title": "Documents and Safety Rules Update",
+      "category": "documents",
+      "platforms": [
+        "facebook"
+      ],
+      "status": "draft",
+      "captions": {
+        "short": "Documents and Safety Rules Update\n\nThe federation has updated the documents and resources page with the charter, membership forms, and safety acknowledgement package.",
+        "medium": "The federation has updated the documents and resources page with the charter, membership forms, and safety acknowledgement package.\n\nUse only official materials from gdsff.org.",
+        "long": "The federation has updated the documents and resources page with the charter, membership forms, and safety acknowledgement package.\n\nUse only official materials from gdsff.org.\n\nhttps://gdsff.org\noffice@gdsff.org\n+995 511 560038"
+      },
+      "englishCaption": "Documents and safety resources update prepared as a draft.",
+      "hashtags": [
+        "#GDSFF",
+        "#DynamicShooting",
+        "#FunctionalFitness",
+        "#GeorgiaSports",
+        "#ShootingSport",
+        "#FitnessSport"
+      ],
+      "imagePlaceholder": "/media/brand-shield",
+      "mediaAssetIds": [
+        "brand-shield"
+      ],
+      "link": "https://gdsff.org",
+      "approval": {
+        "approvedBy": "",
+        "approvedAt": ""
+      },
+      "notes": "Pending legal review note before approval.",
+      "scheduledFor": "",
+      "createdAt": "2026-03-24T19:22:46.833Z",
+      "updatedAt": "2026-03-28T19:22:46.833Z"
     }
   ],
   "mediaAssets": [
     {
-      "id": "logo-approved",
-      "title": "Approved Federation Logo",
+      "id": "printable-target-preview",
+      "title": "GDSFF Printable Target Preview",
+      "kind": "document-preview",
+      "source": "/downloads/gdsff-target-facebook-preview.svg",
+      "tags": [
+        "documents",
+        "membership",
+        "target",
+        "facebook"
+      ],
+      "alt": "GDSFF printable 1-inch grid target preview",
+      "createdAt": "2026-07-06T19:30:35.902Z",
+      "updatedAt": "2026-07-06T19:30:35.902Z"
+    },
+    {
+      "id": "brand-shield",
+      "title": "GDSFF Official Shield / ოფიციალური ემბლემა",
       "kind": "logo",
       "source": "/gdsff-logo-approved.png",
       "tags": [
         "brand",
         "official",
-        "logo"
+        "shield"
       ],
-      "alt": "Approved GDSFF emblem",
-      "createdAt": "2026-03-06T15:16:16.643Z"
+      "alt": "Official GDSFF emblem",
+      "createdAt": "2026-03-09T19:22:46.833Z"
     },
     {
-      "id": "range-hero",
-      "title": "Range Hero",
-      "kind": "cover",
-      "source": "/range-hero.png",
-      "tags": [
-        "range",
-        "cover",
-        "facebook"
-      ],
-      "alt": "Official range visual",
-      "createdAt": "2026-03-06T15:16:16.643Z"
-    },
-    {
-      "id": "tactical-line",
-      "title": "Dynamic Shooting Line",
+      "id": "tactical-games-stage",
+      "title": "Tactical Games Stage Briefing",
       "kind": "photo",
       "source": "/gallery/tactical-rifle-line.jpg",
       "tags": [
+        "event",
         "dynamic shooting",
-        "action",
-        "instagram"
+        "competition"
       ],
-      "alt": "Dynamic shooting action image",
-      "createdAt": "2026-03-07T15:16:16.643Z"
+      "alt": "Athletes receiving stage briefing",
+      "createdAt": "2026-03-22T19:22:46.833Z"
     },
     {
-      "id": "weighted-carry",
-      "title": "Functional Fitness Carry",
+      "id": "fitness-lane",
+      "title": "Functional Fitness Transition Lane",
       "kind": "photo",
       "source": "/gallery/weighted-carry-lane.jpg",
       "tags": [
         "functional fitness",
-        "event",
-        "strength"
+        "competition",
+        "hybrid"
       ],
-      "alt": "Functional fitness weighted carry lane",
-      "createdAt": "2026-03-07T15:16:16.643Z"
+      "alt": "Functional fitness transition lane",
+      "createdAt": "2026-03-22T19:22:46.833Z"
     },
     {
-      "id": "rope-course",
-      "title": "Functional Fitness Course",
+      "id": "youth-clinic",
+      "title": "Youth Development Safety Clinic",
       "kind": "photo",
       "source": "/gallery/rope-climb-course.jpg",
       "tags": [
-        "functional fitness",
-        "course",
-        "gallery"
+        "youth",
+        "development",
+        "education"
       ],
-      "alt": "Functional fitness obstacle course",
-      "createdAt": "2026-03-08T15:16:16.643Z"
+      "alt": "Youth clinic and coached activity",
+      "createdAt": "2026-03-23T19:22:46.833Z"
+    },
+    {
+      "id": "partner-briefing-room",
+      "title": "International Partner Briefing Room",
+      "kind": "photo",
+      "source": "/range-hero.png",
+      "tags": [
+        "partnership",
+        "international",
+        "sports tourism"
+      ],
+      "alt": "Official partner briefing setup",
+      "createdAt": "2026-03-24T19:22:46.833Z"
     }
   ],
   "messages": [
     {
-      "id": "49ed1a6a-b6e5-48f7-88a5-14adc5694bea",
-      "subject": "Membership application question",
-      "body": "Hello, I would like to join the federation and need the application procedure for athletes.",
-      "fromName": "Nika Beridze",
-      "fromEmail": "nika@example.com",
+      "id": "b1bcb0fa-cf82-4382-9daa-1dec15a7edc8",
+      "subject": "Athlete registration for Batumi Tactical Games",
+      "body": "Hello GDSFF team, I am an athlete from Kutaisi and want to register for Batumi Tactical Games 2026. Please confirm eligibility and payment details.",
+      "fromName": "Levan Chikhradze",
+      "fromEmail": "levan.chikhradze@gmail.com",
       "classification": "membership",
       "status": "new",
       "priority": "normal",
-      "notes": "",
+      "notes": "Needs registration checklist and payment timeline.",
       "tags": [
-        "membership",
         "athlete",
-        "member"
+        "registration",
+        "batumi"
       ],
       "replyDraftId": "",
-      "replyDraft": null,
-      "receivedAt": "2026-03-15T15:16:16.642Z",
-      "lastUpdatedAt": "2026-03-16T16:42:09.217Z",
-      "assignedTo": "secretariat",
+      "receivedAt": "2026-03-29T10:22:46.832Z",
+      "lastUpdatedAt": "2026-03-29T10:22:46.832Z",
+      "assignedTo": "membership.desk",
       "history": [
         {
-          "id": "69515b6a-91b1-4829-b590-5308a36c9291",
+          "id": "eb3ce66a-f225-49b3-a9d7-ba4c3eef0950",
           "type": "received",
-          "summary": "Inbound email received.",
-          "createdAt": "2026-03-15T15:16:16.643Z"
-        },
-        {
-          "id": "72b489fd-1b09-4c48-87bd-e4ddf24904b8",
-          "type": "updated",
-          "summary": "Message record updated.",
-          "createdAt": "2026-03-16T16:42:09.217Z"
+          "summary": "Athlete registration inquiry received from website contact channel.",
+          "createdAt": "2026-03-29T10:22:46.832Z"
         }
-      ],
-      "source": "manual",
-      "external": {
-        "provider": "",
-        "providerMessageId": "",
-        "internetMessageId": "",
-        "threadId": "",
-        "webLink": ""
-      }
+      ]
     },
     {
-      "id": "ba699322-c9ba-4d72-a387-e3f3ba8a163d",
-      "subject": "Partnership proposal for national events",
-      "body": "We are interested in discussing sponsorship and partnership cooperation for your events.",
-      "fromName": "Lela Partners",
-      "fromEmail": "lela@partner.ge",
+      "id": "d9a29344-cbc5-4519-8b1b-bc07a257b3de",
+      "subject": "Sponsorship package request - performance equipment",
+      "body": "We represent a sports equipment brand and would like to review sponsorship tiers for your 2026 event calendar, including youth and elite divisions.",
+      "fromName": "GeoDefense Equipment",
+      "fromEmail": "partnerships@geodefense.ge",
       "classification": "partnership",
       "status": "in progress",
       "priority": "high",
-      "notes": "Prepare sponsorship deck and follow-up call.",
+      "notes": "Classify as sponsor pipeline. Share sponsor deck v1 and legal terms.",
       "tags": [
-        "partner",
-        "sponsor"
+        "sponsor",
+        "partnership",
+        "commercial"
       ],
       "replyDraftId": "",
-      "receivedAt": "2026-03-14T15:16:16.643Z",
-      "lastUpdatedAt": "2026-03-15T15:16:16.643Z",
-      "assignedTo": "director",
+      "receivedAt": "2026-03-28T19:22:46.832Z",
+      "lastUpdatedAt": "2026-03-29T07:22:46.832Z",
+      "assignedTo": "commercial.office",
       "history": [
         {
-          "id": "eabef125-a2cb-4cf7-bedd-d3f828cafa42",
+          "id": "e71e1c0e-4b18-406c-ae1b-b836d2bc62b5",
           "type": "received",
-          "summary": "Inbound partnership inquiry received.",
-          "createdAt": "2026-03-14T15:16:16.643Z"
+          "summary": "Sponsorship inquiry received.",
+          "createdAt": "2026-03-28T19:22:46.832Z"
+        },
+        {
+          "id": "fee43a51-c120-4067-8808-d835a85307e1",
+          "type": "classification",
+          "summary": "Classified as high-priority partnership lead.",
+          "createdAt": "2026-03-29T07:22:46.832Z"
         }
       ]
     },
     {
-      "id": "c2797236-3990-440c-a0a8-40030e2298ab",
-      "subject": "Media interview request",
-      "body": "We would like to request a short interview about GDSFF launch plans and 2026 activity.",
-      "fromName": "Sport News Georgia",
-      "fromEmail": "editor@sportnews.ge",
+      "id": "72a1a28a-f2e8-4488-a092-9a1d14c42aa8",
+      "subject": "Sports tourism cooperation - mountain venue showcase",
+      "body": "Our tourism board is planning a regional sports week and requests cooperation with GDSFF for tactical-style competition hosting and media promotion.",
+      "fromName": "Adjara Sports Tourism Office",
+      "fromEmail": "international@adjara-tourism.ge",
+      "classification": "partnership",
+      "status": "pending",
+      "priority": "high",
+      "notes": "Escalate to director and international relations unit.",
+      "tags": [
+        "sports-tourism",
+        "international",
+        "hosting"
+      ],
+      "replyDraftId": "",
+      "receivedAt": "2026-03-28T15:22:46.832Z",
+      "lastUpdatedAt": "2026-03-28T23:22:46.832Z",
+      "assignedTo": "director.office",
+      "history": [
+        {
+          "id": "e9cac007-f57c-4e1c-973a-3042d008ae34",
+          "type": "received",
+          "summary": "Institutional cooperation request received.",
+          "createdAt": "2026-03-28T15:22:46.832Z"
+        }
+      ]
+    },
+    {
+      "id": "c1fe19a0-306f-4c1e-86a9-45276f78214a",
+      "subject": "Media request: interview on safety standards",
+      "body": "This is Rustavi Sport TV. We request an interview with GDSFF leadership regarding safety protocols and youth development pathways before your upcoming event.",
+      "fromName": "Rustavi Sport TV",
+      "fromEmail": "newsdesk@rustavisport.tv",
       "classification": "media",
       "status": "waiting",
       "priority": "urgent",
-      "notes": "Need approval on spokesperson and time window.",
+      "notes": "Security-sensitive messaging. Await spokesperson confirmation.",
       "tags": [
         "media",
-        "press"
+        "interview",
+        "safety"
       ],
       "replyDraftId": "",
-      "receivedAt": "2026-03-15T19:16:16.643Z",
-      "lastUpdatedAt": "2026-03-15T19:16:16.643Z",
-      "assignedTo": "president",
+      "receivedAt": "2026-03-29T13:22:46.832Z",
+      "lastUpdatedAt": "2026-03-29T14:22:46.832Z",
+      "assignedTo": "media.office",
       "history": [
         {
-          "id": "e5d23493-18d2-4a6d-8169-b1c1509ffdbc",
+          "id": "89a6deb7-241b-41f1-80b1-9d44e72ef0e1",
           "type": "received",
-          "summary": "Inbound media request received.",
-          "createdAt": "2026-03-15T19:16:16.643Z"
+          "summary": "Urgent media request logged.",
+          "createdAt": "2026-03-29T13:22:46.832Z"
         }
       ]
     },
     {
-      "id": "2db04c7f-b9b3-42ca-8964-e9a188b12ca6",
-      "subject": "Request for charter and official documents",
-      "body": "Please provide access to the official charter and federation documents.",
-      "fromName": "Tamar Legal Office",
-      "fromEmail": "tamar@legal.ge",
+      "id": "654d1d0e-c1f9-48b5-b1ac-06053533cf3f",
+      "subject": "Official charter and board resolution copy request",
+      "body": "Please provide charter pages and governance extracts for federation due-diligence review. Certified scans are preferred.",
+      "fromName": "Caucasus Legal Advisory",
+      "fromEmail": "compliance@caucasuslegal.ge",
       "classification": "legal/documents",
-      "status": "replied",
-      "priority": "normal",
-      "notes": "Documents link already sent.",
+      "status": "new",
+      "priority": "high",
+      "notes": "Legal review required before sharing any restricted documents.",
       "tags": [
+        "legal",
         "documents",
-        "legal"
+        "compliance"
       ],
       "replyDraftId": "",
-      "receivedAt": "2026-03-12T15:16:16.643Z",
-      "lastUpdatedAt": "2026-03-13T15:16:16.643Z",
-      "assignedTo": "secretariat",
+      "receivedAt": "2026-03-29T03:22:46.832Z",
+      "lastUpdatedAt": "2026-03-29T03:22:46.832Z",
+      "assignedTo": "legal.office",
       "history": [
         {
-          "id": "dced425b-f1e4-42d6-91c5-18a67eb2441c",
+          "id": "f5049180-8c4c-415b-a7a7-1572b2455a91",
           "type": "received",
-          "summary": "Document request received.",
-          "createdAt": "2026-03-12T15:16:16.643Z"
-        },
-        {
-          "id": "9b7bce43-e632-4ece-9a6f-c7b825b34c9a",
-          "type": "reply",
-          "summary": "Documents reply issued.",
-          "createdAt": "2026-03-13T15:16:16.643Z"
+          "summary": "Legal/document request captured.",
+          "createdAt": "2026-03-29T03:22:46.832Z"
         }
       ]
     },
     {
-      "id": "1699d690-9cf7-4c9d-a8aa-0585288a0b8d",
-      "subject": "Event participation inquiry",
-      "body": "Could you advise how to participate in the next federation event and where to register?",
-      "fromName": "Irakli Match",
-      "fromEmail": "irakli@mail.com",
-      "classification": "event participation",
+      "id": "a8318dde-0688-4a1e-bbd4-139bf8411ff1",
+      "subject": "[Instagram Comment] Registration age for youth category?",
+      "body": "Follower question copied from Instagram: What is the minimum age for the youth hybrid division and where can parents read safety requirements?",
+      "fromName": "Maka G.",
+      "fromEmail": "social+comment@maka.mail",
+      "classification": "general inquiry",
       "status": "new",
       "priority": "normal",
-      "notes": "",
+      "notes": "Respond publicly with youth policy link and safety consent route.",
       "tags": [
-        "event",
-        "participation"
+        "instagram",
+        "comment",
+        "youth"
       ],
       "replyDraftId": "",
-      "receivedAt": "2026-03-16T05:16:16.643Z",
-      "lastUpdatedAt": "2026-03-16T05:16:16.643Z",
-      "assignedTo": "events",
+      "receivedAt": "2026-03-29T15:22:46.832Z",
+      "lastUpdatedAt": "2026-03-29T15:22:46.832Z",
+      "assignedTo": "social.operator",
       "history": [
         {
-          "id": "3e819a35-ad3a-4c7d-80e8-3bc98eb77ec2",
+          "id": "b4cc15ff-1e3b-49e0-8546-e22b62c8f043",
           "type": "received",
-          "summary": "Participation inquiry received.",
-          "createdAt": "2026-03-16T05:16:16.643Z"
+          "summary": "Follower comment escalated to inbox for response quality control.",
+          "createdAt": "2026-03-29T15:22:46.832Z"
+        }
+      ]
+    },
+    {
+      "id": "308bcdea-3444-43f5-95de-7384df2b6055",
+      "subject": "[Facebook Comment] Click this link to win rifles",
+      "body": "Spam comment detected on event post with suspicious external links and fake prize claims. Please remove and block account.",
+      "fromName": "Unknown Promo Account",
+      "fromEmail": "noreply@unknown-promo.example",
+      "classification": "general inquiry",
+      "status": "in progress",
+      "priority": "urgent",
+      "notes": "Moderate as spam/scam. Block account and record incident.",
+      "tags": [
+        "spam",
+        "moderation",
+        "security"
+      ],
+      "replyDraftId": "",
+      "receivedAt": "2026-03-29T16:22:46.832Z",
+      "lastUpdatedAt": "2026-03-29T17:22:46.832Z",
+      "assignedTo": "moderation.desk",
+      "history": [
+        {
+          "id": "28e92667-377c-435a-8967-ceb007c5333e",
+          "type": "received",
+          "summary": "Spam/scam report imported from Facebook comments.",
+          "createdAt": "2026-03-29T16:22:46.832Z"
+        },
+        {
+          "id": "821953f4-501c-4a0e-af49-088803e73d35",
+          "type": "action",
+          "summary": "Comment hidden pending final moderation confirmation.",
+          "createdAt": "2026-03-29T17:22:46.832Z"
+        }
+      ]
+    },
+    {
+      "id": "0d627d7d-92dc-4052-afed-406c6d15ce1b",
+      "subject": "Volunteer request for regional qualifier",
+      "body": "I am a certified coach and would like to volunteer for the next regional qualifier as an event marshal. Please advise next steps.",
+      "fromName": "Dato Khvedelidze",
+      "fromEmail": "dato.khvedelidze@coachmail.ge",
+      "classification": "event participation",
+      "status": "replied",
+      "priority": "normal",
+      "notes": "Volunteer onboarding document sent.",
+      "tags": [
+        "event",
+        "volunteer",
+        "coach"
+      ],
+      "replyDraftId": "",
+      "receivedAt": "2026-03-26T19:22:46.832Z",
+      "lastUpdatedAt": "2026-03-27T19:22:46.832Z",
+      "assignedTo": "events.desk",
+      "history": [
+        {
+          "id": "3fabdbb9-63dd-43aa-90e6-ff54c7230ceb",
+          "type": "received",
+          "summary": "Volunteer request received.",
+          "createdAt": "2026-03-26T19:22:46.832Z"
+        },
+        {
+          "id": "98ac27e1-19ee-4c50-a96e-ab39e629f65c",
+          "type": "reply",
+          "summary": "Onboarding instructions and checklist sent.",
+          "createdAt": "2026-03-27T19:22:46.832Z"
         }
       ]
     }
   ],
   "contacts": [
     {
-      "id": "eeb12ffe-64ef-41c0-852e-93ff72ccad65",
-      "name": "Nika Beridze",
-      "email": "nika@example.com",
+      "id": "8e67a029-c676-4b66-8ca1-b7013a382226",
+      "name": "Levan Chikhradze",
+      "email": "levan.chikhradze@gmail.com",
       "phone": "",
       "type": "member",
-      "organization": "Nika Beridze",
+      "organization": "Levan Chikhradze",
       "tags": [
-        "membership",
         "athlete",
-        "member"
+        "registration",
+        "batumi"
       ],
-      "status": "open",
-      "notes": "",
-      "lastContactAt": "2026-03-16T16:42:09.217Z",
-      "createdAt": "2026-03-15T15:16:16.642Z"
+      "status": "follow-up",
+      "notes": "Needs registration checklist and payment timeline.",
+      "lastContactAt": "2026-03-29T10:22:46.832Z",
+      "createdAt": "2026-03-29T10:22:46.832Z"
     },
     {
-      "id": "c13034e3-1bff-415f-9772-eb596430dcff",
-      "name": "Lela Partners",
-      "email": "lela@partner.ge",
+      "id": "1da77018-3823-47f7-a072-b1e64483b285",
+      "name": "GeoDefense Equipment",
+      "email": "partnerships@geodefense.ge",
       "phone": "",
       "type": "partner",
-      "organization": "Lela Partners",
+      "organization": "GeoDefense Equipment",
       "tags": [
-        "partner",
-        "sponsor"
+        "sponsor",
+        "partnership",
+        "commercial"
       ],
       "status": "follow-up",
-      "notes": "Prepare sponsorship deck and follow-up call.",
-      "lastContactAt": "2026-03-15T15:16:16.643Z",
-      "createdAt": "2026-03-14T15:16:16.643Z"
+      "notes": "Classify as sponsor pipeline. Share sponsor deck v1 and legal terms.",
+      "lastContactAt": "2026-03-29T07:22:46.832Z",
+      "createdAt": "2026-03-28T19:22:46.832Z"
     },
     {
-      "id": "65256397-429a-4253-9ac5-603e29159d9f",
-      "name": "Sport News Georgia",
-      "email": "editor@sportnews.ge",
+      "id": "c7f17920-1bd7-45c1-9bc5-fe0c5121b3aa",
+      "name": "Adjara Sports Tourism Office",
+      "email": "international@adjara-tourism.ge",
+      "phone": "",
+      "type": "partner",
+      "organization": "Adjara Sports Tourism Office",
+      "tags": [
+        "sports-tourism",
+        "international",
+        "hosting"
+      ],
+      "status": "follow-up",
+      "notes": "Escalate to director and international relations unit.",
+      "lastContactAt": "2026-03-28T23:22:46.832Z",
+      "createdAt": "2026-03-28T15:22:46.832Z"
+    },
+    {
+      "id": "5a98cc3e-72e9-4ccc-8b9f-32fd3c171578",
+      "name": "Rustavi Sport TV",
+      "email": "newsdesk@rustavisport.tv",
       "phone": "",
       "type": "media",
-      "organization": "Sport News Georgia",
+      "organization": "Rustavi Sport TV",
       "tags": [
         "media",
-        "press"
+        "interview",
+        "safety"
       ],
       "status": "follow-up",
-      "notes": "Need approval on spokesperson and time window.",
-      "lastContactAt": "2026-03-15T19:16:16.643Z",
-      "createdAt": "2026-03-15T19:16:16.643Z"
+      "notes": "Security-sensitive messaging. Await spokesperson confirmation.",
+      "lastContactAt": "2026-03-29T14:22:46.832Z",
+      "createdAt": "2026-03-29T13:22:46.832Z"
     },
     {
-      "id": "9ec2ae5e-4f0a-4157-a9db-1c2de23ac583",
-      "name": "Tamar Legal Office",
-      "email": "tamar@legal.ge",
+      "id": "a1c92ddf-f8b2-460b-877c-e891916bdfc3",
+      "name": "Caucasus Legal Advisory",
+      "email": "compliance@caucasuslegal.ge",
       "phone": "",
       "type": "institution",
-      "organization": "Tamar Legal Office",
+      "organization": "Caucasus Legal Advisory",
       "tags": [
+        "legal",
         "documents",
-        "legal"
-      ],
-      "status": "active",
-      "notes": "Documents link already sent.",
-      "lastContactAt": "2026-03-13T15:16:16.643Z",
-      "createdAt": "2026-03-12T15:16:16.643Z"
-    },
-    {
-      "id": "f8914076-811f-4954-a9d2-3880d3f88e3d",
-      "name": "Irakli Match",
-      "email": "irakli@mail.com",
-      "phone": "",
-      "type": "general",
-      "organization": "Irakli Match",
-      "tags": [
-        "event",
-        "participation"
+        "compliance"
       ],
       "status": "follow-up",
-      "notes": "",
-      "lastContactAt": "2026-03-16T05:16:16.643Z",
-      "createdAt": "2026-03-16T05:16:16.643Z"
+      "notes": "Legal review required before sharing any restricted documents.",
+      "lastContactAt": "2026-03-29T03:22:46.832Z",
+      "createdAt": "2026-03-29T03:22:46.832Z"
+    },
+    {
+      "id": "f0727a44-352b-46ef-8bc1-22ec3a9a6cfa",
+      "name": "Maka G.",
+      "email": "social+comment@maka.mail",
+      "phone": "",
+      "type": "general",
+      "organization": "Maka G.",
+      "tags": [
+        "instagram",
+        "comment",
+        "youth"
+      ],
+      "status": "follow-up",
+      "notes": "Respond publicly with youth policy link and safety consent route.",
+      "lastContactAt": "2026-03-29T15:22:46.832Z",
+      "createdAt": "2026-03-29T15:22:46.832Z"
+    },
+    {
+      "id": "ef51db73-1b14-41dc-a5c6-2053544bd4fe",
+      "name": "Unknown Promo Account",
+      "email": "noreply@unknown-promo.example",
+      "phone": "",
+      "type": "general",
+      "organization": "Unknown Promo Account",
+      "tags": [
+        "spam",
+        "moderation",
+        "security"
+      ],
+      "status": "follow-up",
+      "notes": "Moderate as spam/scam. Block account and record incident.",
+      "lastContactAt": "2026-03-29T17:22:46.832Z",
+      "createdAt": "2026-03-29T16:22:46.832Z"
+    },
+    {
+      "id": "326da38c-38f0-4979-91a0-f1a0d40e770c",
+      "name": "Dato Khvedelidze",
+      "email": "dato.khvedelidze@coachmail.ge",
+      "phone": "",
+      "type": "participant",
+      "organization": "Dato Khvedelidze",
+      "tags": [
+        "event",
+        "volunteer",
+        "coach"
+      ],
+      "status": "active",
+      "notes": "Volunteer onboarding document sent.",
+      "lastContactAt": "2026-03-27T19:22:46.832Z",
+      "createdAt": "2026-03-26T19:22:46.832Z"
     }
   ],
+  "membershipApplications": [],
   "templates": {
     "social": [
       {
-        "id": "social-template-facebook-launch",
+        "id": "social-template-official-statement",
         "type": "social",
-        "title": "ოფიციალური გახსნა",
-        "platform": "facebook",
+        "title": "Official Statement / ოფიციალური განცხადება",
+        "platform": "both",
         "category": "announcement",
-        "body": "მოგესალმებით საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციის ოფიციალურ გვერდზე.\n\nGeorgian Dynamic Shooting & Functional Fitness Federation ემსახურება საქართველოში დინამიური სროლისა და ფუნქციური ფიტნესის განვითარებას, სპორტსმენთა მხარდაჭერას, უსაფრთხო სპორტული სტანდარტების დამკვიდრებას, შეჯიბრებების ორგანიზებას, პარტნიორული თანამშრომლობის გაძლიერებასა და საერთაშორისო ურთიერთობების განვითარებას.\n\nჩვენი მიზანია ჩამოვაყალიბოთ ძლიერი ეროვნული პლატფორმა, რომელიც ხელს შეუწყობს თანამედროვე სპორტული მიმართულებების განვითარებას, სპორტსმენების წინსვლას და საქართველოს პოზიციონირებას რეგიონულ სპორტულ ჰაბად.\n\nოფიციალური ვებ-გვერდი: gdsff.org\nელფოსტა: office@gdsff.org\nტელეფონი: +995 511 560038\n\nGeorgian Dynamic Shooting & Functional Fitness Federation\nGDSFF\nPrecision. Strength. Discipline."
+        "body": "Official Statement | GDSFF\n\nThe Georgian Dynamic Shooting and Functional Fitness Federation confirms the following institutional update:\n- Decision/Update: [insert official point]\n- Effective Date: [insert date]\n- Responsible Unit: [insert department]\n\nFor official reference and documents, use only gdsff.org and office@gdsff.org."
       },
       {
-        "id": "social-template-facebook-membership",
+        "id": "social-template-event-announcement",
         "type": "social",
-        "title": "გაწევრიანება ფედერაციაში",
-        "platform": "facebook",
-        "category": "membership",
-        "body": "საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციაში გაწევრიანება შესაძლებელია სპორტსმენებისთვის, მწვრთნელებისთვის, კლუბებისთვის და სხვა შესაბამისი პირებისა თუ ორგანიზაციებისთვის, ფედერაციის წესებისა და შიდა პროცედურების შესაბამისად.\n\nგაწევრიანებისთვის:\n- ჩამოტვირთეთ ოფიციალური განაცხადის ფორმა\n- შეავსეთ სრულად\n- გადმოაგზავნეთ შემდეგ მისამართზე: office@gdsff.org\n\nდამატებითი ინფორმაციისთვის:\ngdsff.org\noffice@gdsff.org\n+995 511 560038"
-      },
-      {
-        "id": "social-template-facebook-documents",
-        "type": "social",
-        "title": "ოფიციალური დოკუმენტები",
-        "platform": "facebook",
-        "category": "documents",
-        "body": "ფედერაციის ძირითადი ოფიციალური დოკუმენტები ხელმისაწვდომია გაცნობისა და ჩამოტვირთვისთვის.\n\nმათ შორის:\n- ფედერაციის წესდება\n- წევრობის განაცხადის ფორმა\n- პრეზიდენტის ბიო\n- დირექტორის ბიო\n- უსაფრთხოების წესები და ინფორმირებული თანხმობა\n\nიხილეთ ოფიციალური ვებ-გვერდი:\ngdsff.org"
-      },
-      {
-        "id": "social-template-facebook-leadership",
-        "type": "social",
-        "title": "ფედერაციის ხელმძღვანელობა",
-        "platform": "facebook",
-        "category": "leadership",
-        "body": "საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციის პრეზიდენტია გიორგი გაგნიძე, ხოლო დირექტორი — ანა ფანჩულიძე.\n\nფედერაციის ხელმძღვანელობა უზრუნველყოფს ორგანიზაციის სტრატეგიულ განვითარებას, ადმინისტრაციულ მართვას, პარტნიორულ თანამშრომლობასა და სპორტული მიმართულებების ორგანიზებულ განვითარებას.\n\nოფიციალური ინფორმაცია და ბიოგრაფიული მასალები ხელმისაწვდომია ვებ-გვერდზე:\ngdsff.org"
-      },
-      {
-        "id": "social-template-facebook-contact",
-        "type": "social",
-        "title": "თანამშრომლობა და ოფიციალური კომუნიკაცია",
-        "platform": "facebook",
-        "category": "partnership",
-        "body": "ფედერაცია ღიაა პარტნიორული ურთიერთობებისთვის, ინსტიტუციური თანამშრომლობისთვის, სპორტული ღონისძიებების მხარდაჭერისთვის და საერთაშორისო კავშირების გაძლიერებისთვის.\n\nსაკონტაქტო ინფორმაცია:\noffice@gdsff.org\n+995 511 560038\ngdsff.org"
-      },
-      {
-        "id": "social-template-instagram-launch",
-        "type": "social",
-        "title": "ოფიციალური გახსნა",
-        "platform": "instagram",
-        "category": "announcement",
-        "body": "საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციის ოფიციალური გვერდი უკვე აქტიურია.\n\nWebsite: gdsff.org\nEmail: office@gdsff.org"
-      },
-      {
-        "id": "social-template-instagram-overview",
-        "type": "social",
-        "title": "ვინ ვართ",
-        "platform": "instagram",
-        "category": "announcement",
-        "body": "GDSFF არის რეგისტრირებული სპორტული ფედერაცია, რომელიც ემსახურება დინამიური სროლისა და ფუნქციური ფიტნესის განვითარებას საქართველოში."
-      },
-      {
-        "id": "social-template-instagram-mission",
-        "type": "social",
-        "title": "მისია",
-        "platform": "instagram",
-        "category": "announcement",
-        "body": "თანამედროვე, დისციპლინირებული და მაღალი სტანდარტების სპორტული პლატფორმის შექმნა საქართველოში."
-      },
-      {
-        "id": "social-template-instagram-vision",
-        "type": "social",
-        "title": "ხედვა",
-        "platform": "instagram",
-        "category": "announcement",
-        "body": "საქართველოს ჩამოყალიბება რეგიონულ ჰაბად დინამიური სროლის, ფუნქციური ფიტნესისა და საერთაშორისო სპორტული ღონისძიებებისთვის."
-      },
-      {
-        "id": "social-template-instagram-leadership",
-        "type": "social",
-        "title": "ხელმძღვანელობა",
-        "platform": "instagram",
-        "category": "leadership",
-        "body": "პრეზიდენტი — გიორგი გაგნიძე\nდირექტორი — ანა ფანჩულიძე"
-      },
-      {
-        "id": "social-template-instagram-membership",
-        "type": "social",
-        "title": "გაწევრიანება",
-        "platform": "instagram",
-        "category": "membership",
-        "body": "გაწევრიანების ფორმა და პირობები ხელმისაწვდომია ოფიციალურ ვებ-გვერდზე."
-      },
-      {
-        "id": "social-template-instagram-documents",
-        "type": "social",
-        "title": "დოკუმენტები",
-        "platform": "instagram",
-        "category": "documents",
-        "body": "ფედერაციის ოფიციალური დოკუმენტები, წესდება და განაცხადის ფორმები ხელმისაწვდომია ჩამოსატვირთად."
-      },
-      {
-        "id": "social-template-instagram-safety",
-        "type": "social",
-        "title": "უსაფრთხოება",
-        "platform": "instagram",
-        "category": "safety",
-        "body": "ფედერაცია განსაკუთრებულ მნიშვნელობას ანიჭებს უსაფრთხოების სტანდარტებს, დისციპლინას და პასუხისმგებლობას."
-      },
-      {
-        "id": "social-template-instagram-contact",
-        "type": "social",
-        "title": "კონტაქტი",
-        "platform": "instagram",
-        "category": "partnership",
-        "body": "office@gdsff.org\n+995 511 560038\ngdsff.org"
-      },
-      {
-        "id": "social-template-event",
-        "type": "social",
-        "title": "Event Announcement",
+        "title": "Event Announcement / ღონისძიების ანონსი",
         "platform": "both",
         "category": "event",
-        "body": "GDSFF აცხადებს: [ღონისძიების დასახელება]\n\nთარიღი: [თარიღი]\nლოკაცია: [ადგილი]\nფორმატი: [ფორმატი]\nრეგისტრაციისა და დამატებითი დეტალების შესახებ ოფიციალური ინფორმაცია გამოქვეყნდება ფედერაციის არხებზე."
+        "body": "Event Announcement\n\nCompetition: [event title]\nDate: [date]\nLocation: [venue]\nDivisions: [dynamic shooting / functional fitness / hybrid]\nRegistration: [deadline and link]\n\nAll participants must follow federation safety and eligibility rules."
       },
       {
-        "id": "social-template-gallery",
+        "id": "social-template-registration-open",
         "type": "social",
-        "title": "Gallery / Media Post",
+        "title": "Registration Open / რეგისტრაცია ღიაა",
+        "platform": "both",
+        "category": "membership",
+        "body": "Registration Open\n\nAthlete registration is now open for [event/program].\nRequired: membership eligibility, ID verification, safety acknowledgement.\nQuestions: office@gdsff.org"
+      },
+      {
+        "id": "social-template-partnership",
+        "type": "social",
+        "title": "Partnership Announcement / პარტნიორობა",
+        "platform": "both",
+        "category": "partnership",
+        "body": "Partnership Announcement\n\nGDSFF welcomes institutional and commercial cooperation with organizations supporting sport development, youth pathways, and international events.\nSubmit proposals to office@gdsff.org."
+      },
+      {
+        "id": "social-template-athlete-result",
+        "type": "social",
+        "title": "Athlete Achievement / სპორტსმენის შედეგი",
         "platform": "instagram",
         "category": "gallery",
-        "body": "GDSFF-ის მედია განახლებაში წარმოგიდგენთ ოფიციალურ ვიზუალურ მასალას ფედერაციის ღონისძიებებიდან, სპორტული გარემოდან და სამუშაო პროცესიდან."
+        "body": "Athlete Achievement\n\nCongratulations to [athlete name] for [result] at [competition].\nDiscipline: [dynamic shooting / functional fitness / hybrid]\nOfficial standings and verification: gdsff.org"
+      },
+      {
+        "id": "social-template-youth-program",
+        "type": "social",
+        "title": "Youth Program Update / ახალგაზრდული პროგრამა",
+        "platform": "both",
+        "category": "announcement",
+        "body": "Youth Development Program\n\nThis week GDSFF delivered supervised youth training focused on discipline, safety culture, and functional capacity.\nNext intake and coach brief: [date/time]."
+      },
+      {
+        "id": "social-template-sponsor-thanks",
+        "type": "social",
+        "title": "Sponsor Thank You / სპონსორის მადლობა",
+        "platform": "both",
+        "category": "partnership",
+        "body": "Sponsor Appreciation\n\nGDSFF thanks [sponsor name] for supporting federation operations and athlete development.\nPartnership visibility and compliance are managed under federation standards."
+      },
+      {
+        "id": "social-template-documents",
+        "type": "social",
+        "title": "Documents & Resources / დოკუმენტები",
+        "platform": "facebook",
+        "category": "documents",
+        "body": "Official Documents Update\n\nThe federation charter, membership application form, safety rules, and governance references are available on gdsff.org.\nFor institutional requests: office@gdsff.org"
       }
     ],
     "email": [
@@ -835,196 +1045,107 @@
   ],
   "scheduledPosts": [
     {
-      "id": "7096445d-79b2-4903-8709-f1491ef4b0fb",
-      "postId": "fb-leadership",
-      "title": "ფედერაციის ხელმძღვანელობა",
+      "id": "706ecf34-b5bc-4b88-9f04-c86d039e8831",
+      "postId": "event-batumi-tactical-games",
+      "title": "Batumi Tactical Games 2026 - Event Promotion Queue",
       "platform": "facebook",
-      "scheduledFor": "2026-03-17T15:16:16.643Z",
+      "scheduledFor": "2026-03-31T19:22:46.832Z",
       "status": "scheduled",
       "dryRun": true,
       "imageUrl": "",
       "lastProcessedAt": "",
       "lastResult": null,
-      "createdAt": "2026-03-15T15:16:16.643Z"
+      "createdAt": "2026-03-28T19:22:46.833Z"
     },
     {
-      "id": "d0041ca4-5e99-403d-b46c-d5dab700dd61",
-      "postId": "both-partnership",
-      "title": "თანამშრომლობა და ოფიციალური კომუნიკაცია",
+      "id": "7e727c1d-8155-44f8-b316-1c356d006001",
+      "postId": "youth-development-week",
+      "title": "Youth Development Week - Safety and Discipline Module",
       "platform": "facebook",
-      "scheduledFor": "2026-03-18T15:16:16.643Z",
+      "scheduledFor": "2026-04-02T19:22:46.833Z",
       "status": "scheduled",
       "dryRun": true,
       "imageUrl": "",
       "lastProcessedAt": "",
       "lastResult": null,
-      "createdAt": "2026-03-15T15:16:16.643Z"
+      "createdAt": "2026-03-28T19:22:46.833Z"
     }
   ],
   "activityLog": [
     {
-      "id": "0058d45f-a901-4d64-8c97-341aa3bbc244",
-      "type": "auth",
-      "entityType": "session",
-      "entityId": "admin",
-      "summary": "Admin session opened for admin.",
-      "createdAt": "2026-03-16T17:20:58.581Z"
+      "id": "target-pack-1783366235905",
+      "type": "content-update",
+      "entityType": "social-post",
+      "entityId": "printable-target-download",
+      "summary": "Printable target Facebook handoff post added to approved queue.",
+      "createdAt": "2026-07-06T19:30:35.902Z"
     },
     {
-      "id": "12be08ad-f96a-43cc-bc6f-fc1c1bc062fb",
-      "type": "auth",
-      "entityType": "session",
-      "entityId": "admin",
-      "summary": "Admin session opened for admin.",
-      "createdAt": "2026-03-16T17:20:44.047Z"
+      "id": "target-pack-1783364647088",
+      "type": "content-update",
+      "entityType": "social-post",
+      "entityId": "printable-target-download",
+      "summary": "Printable target Facebook handoff post added to approved queue.",
+      "createdAt": "2026-07-06T19:04:07.085Z"
     },
     {
-      "id": "794fa077-af6f-434e-81ff-ee2705a50b4d",
-      "type": "auth",
-      "entityType": "session",
-      "entityId": "admin",
-      "summary": "Admin session opened for admin.",
-      "createdAt": "2026-03-16T17:17:45.431Z"
+      "id": "target-pack-1783363669972",
+      "type": "content-update",
+      "entityType": "social-post",
+      "entityId": "printable-target-download",
+      "summary": "Printable target Facebook handoff post added to approved queue.",
+      "createdAt": "2026-07-06T18:47:49.961Z"
     },
     {
-      "id": "6c0b8d07-a4c3-4012-bf7c-5ac8bc0136ef",
-      "type": "email",
-      "entityType": "message",
-      "entityId": "49ed1a6a-b6e5-48f7-88a5-14adc5694bea",
-      "summary": "Inbox message \"Membership application question\" was saved with status new.",
-      "createdAt": "2026-03-16T16:42:09.217Z"
+      "id": "0d9b5be9-e48b-4c6a-bf7f-ae4ca810063a",
+      "type": "approval",
+      "entityType": "social-post",
+      "entityId": "official-statement-governance",
+      "summary": "Official governance statement moved to approved queue.",
+      "createdAt": "2026-03-29T09:22:46.833Z"
     },
     {
-      "id": "2c478168-62c2-43ea-9b6f-90077510a5df",
-      "type": "template",
-      "entityType": "template",
-      "entityId": "social-template-facebook-launch",
-      "summary": "Template \"ოფიციალური გახსნა\" was saved in social.",
-      "createdAt": "2026-03-16T16:39:54.273Z"
+      "id": "c8dee5be-c4ab-4a35-a10a-829663a7579d",
+      "type": "classification",
+      "entityType": "email-message",
+      "entityId": "sponsorship-lead",
+      "summary": "Sponsorship message classified as partnership and escalated to commercial office.",
+      "createdAt": "2026-03-29T10:22:46.833Z"
     },
     {
-      "id": "64e5f365-6e58-4d33-815c-6e4298924300",
-      "type": "settings",
-      "entityType": "settings",
-      "entityId": "workspace",
-      "summary": "Communications settings were updated.",
-      "createdAt": "2026-03-16T16:38:15.477Z"
+      "id": "b523daa2-76ab-4514-b81b-bea69f826565",
+      "type": "reply",
+      "entityType": "email-message",
+      "entityId": "athlete-registration",
+      "summary": "Athlete registration inquiry answered with official checklist template.",
+      "createdAt": "2026-03-29T11:22:46.833Z"
     },
     {
-      "id": "64a58f7d-b462-4424-9c59-c201e22773e4",
-      "type": "auth",
-      "entityType": "session",
-      "entityId": "admin",
-      "summary": "Admin session opened for admin.",
-      "createdAt": "2026-03-16T16:34:27.630Z"
+      "id": "1d2012f8-ceac-449d-a42a-01eef462ea5a",
+      "type": "queue",
+      "entityType": "social-post",
+      "entityId": "event-batumi-tactical-games",
+      "summary": "Event promotion post queued for dry-run publication review.",
+      "createdAt": "2026-03-29T12:22:46.833Z"
     },
     {
-      "id": "6e432e52-c878-4250-91c2-6cdaec2bb847",
-      "type": "auth",
-      "entityType": "session",
-      "entityId": "admin",
-      "summary": "Admin session opened for admin.",
-      "createdAt": "2026-03-16T15:46:42.057Z"
+      "id": "c0738243-868f-4cbd-8330-33f229457e6e",
+      "type": "moderation",
+      "entityType": "comment",
+      "entityId": "facebook-spam-1",
+      "summary": "Spam/scam follower comment flagged for moderation and security log.",
+      "createdAt": "2026-03-29T13:22:46.833Z"
     },
     {
-      "id": "3272a48f-6491-47cf-ac55-b8164a9c1987",
-      "type": "auth",
-      "entityType": "session",
-      "entityId": "admin",
-      "summary": "Admin session opened for admin.",
-      "createdAt": "2026-03-16T15:32:42.115Z"
-    },
-    {
-      "id": "e29271b0-3eb6-42b7-bd48-50cf3019055d",
-      "type": "auth",
-      "entityType": "session",
-      "entityId": "admin",
-      "summary": "Admin session opened for admin.",
-      "createdAt": "2026-03-16T15:32:23.765Z"
-    },
-    {
-      "id": "5686a56f-6ee3-4a8f-8dc7-00d7061c3871",
-      "type": "auth",
-      "entityType": "session",
-      "entityId": "admin",
-      "summary": "Admin session opened for admin.",
-      "createdAt": "2026-03-16T15:23:21.823Z"
-    },
-    {
-      "id": "0c5fc935-d6b6-42cf-8dd8-7d60b5e22a81",
-      "type": "auth",
-      "entityType": "session",
-      "entityId": "admin",
-      "summary": "Admin session opened for admin.",
-      "createdAt": "2026-03-16T15:16:16.650Z"
-    },
-    {
-      "id": "fbf5edc6-4e27-4206-b51e-4ebae7d9c8b4",
-      "type": "system",
-      "entityType": "bot",
-      "entityId": "gdsff-media-bot",
-      "summary": "Initial communications workspace seeded with sample data.",
-      "createdAt": "2026-03-15T15:16:16.643Z"
+      "id": "50d45b3f-1f24-4ff8-88a3-dba9aa2f220d",
+      "type": "escalation",
+      "entityType": "email-message",
+      "entityId": "media-interview-request",
+      "summary": "Media interview request escalated to leadership and legal review lane.",
+      "createdAt": "2026-03-29T14:22:46.833Z"
     }
   ],
-  "drafts": [
-    {
-      "id": "70f3faeb-9273-4425-ba01-d1a32b3de64a",
-      "createdAt": "2026-03-16T09:25:40.418Z",
-      "platform": "facebook",
-      "objective": "membership",
-      "draft": {
-        "title": "გაწევრიანება ფედერაციაში",
-        "caption": "საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციაში გაწევრიანება შესაძლებელია სპორტსმენებისთვის, მწვრთნელებისთვის, კლუბებისთვის და სხვა შესაბამისი პირებისა თუ ორგანიზაციებისთვის, ფედერაციის წესებისა და შიდა პროცედურების შესაბამისად.\n\nგაწევრიანებისთვის:\n- ჩამოტვირთეთ ოფიციალური განაცხადის ფორმა\n- შეავსეთ სრულად\n- გადმოაგზავნეთ შემდეგ მისამართზე: office@gdsff.org\n\nდამატებითი ინფორმაციისთვის:\ngdsff.org\noffice@gdsff.org\n+995 511 560038",
-        "englishSupport": "English support: Official GDSFF update prepared for cross-platform publication.",
-        "hashtags": [
-          "#GDSFF",
-          "#DynamicShooting",
-          "#FunctionalFitness"
-        ],
-        "moderation": {
-          "status": "review",
-          "reason": "Generated with local fallback because OPENAI_API_KEY is not configured."
-        },
-        "publishChecklist": [
-          "Confirm the event, date, or document reference before publishing.",
-          "Keep the approved GDSFF logo and visual system in place.",
-          "Use Georgian first and English support only where needed."
-        ],
-        "recommendedPlatforms": [
-          "facebook"
-        ]
-      }
-    },
-    {
-      "id": "338f8112-cfbe-4dc4-8107-749d3f5e7856",
-      "createdAt": "2026-03-16T09:25:03.269Z",
-      "platform": "facebook",
-      "objective": "membership",
-      "draft": {
-        "title": "გაწევრიანება ფედერაციაში",
-        "caption": "GDSFF-ის ოფიციალური განახლება ფედერაციის აუდიტორია-ისთვის.\n\nmembership post\n\nვებსაიტი: https://gdsff.org\nელფოსტა: office@gdsff.org",
-        "englishSupport": "English support: Official GDSFF update prepared for cross-platform publication.",
-        "hashtags": [
-          "#GDSFF",
-          "#DynamicShooting",
-          "#FunctionalFitness"
-        ],
-        "moderation": {
-          "status": "review",
-          "reason": "Generated with local fallback because OPENAI_API_KEY is not configured."
-        },
-        "publishChecklist": [
-          "Confirm the event, date, or document reference before publishing.",
-          "Keep the approved GDSFF logo and visual system in place.",
-          "Use Georgian first and English support only where needed."
-        ],
-        "recommendedPlatforms": [
-          "facebook"
-        ]
-      }
-    }
-  ],
+  "drafts": [],
   "assistantSessions": [],
   "replies": [],
   "webhooks": [],

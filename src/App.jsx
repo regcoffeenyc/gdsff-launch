@@ -13,6 +13,7 @@ import GalleryPage from './pages/GalleryPage'
 import DocumentsPage from './pages/DocumentsPage'
 import ContactPage from './pages/ContactPage'
 import SearchPage from './pages/SearchPage'
+import SupportPage from './pages/SupportPage'
 import { siteContent } from './siteContent'
 
 const SafetyConsentPage = lazy(() => import('./pages/SafetyConsentPage'))
@@ -57,6 +58,7 @@ export default function App() {
           <Route path="/membership-admin" element={<MembershipAdminPage copy={copy} />} />
           <Route path="/events" element={<EventsPage copy={copy} />} />
           <Route path="/partners" element={<PartnersPage copy={copy} />} />
+          <Route path="/support" element={<SupportPage copy={copy} />} />
           <Route path="/gallery" element={<GalleryPage copy={copy} />} />
           <Route path="/documents" element={<DocumentsPage copy={copy} />} />
           <Route path="/safety-consent" element={<SafetyConsentPage copy={copy} />} />

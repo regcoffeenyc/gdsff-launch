@@ -57,6 +57,13 @@ const libraryCopy = {
         itemIds: ['safety-consent'],
       },
       {
+        key: 'target-practice',
+        kicker: 'Printable Target',
+        title: 'GDSFF branded 1-inch grid target',
+        text: 'A print-ready Letter-size target sheet with federation logo, contact details, scale note, and 1-inch grid.',
+        itemIds: ['printable-target'],
+      },
+      {
         key: 'resources',
         kicker: 'Resources and Downloads',
         title: 'Launch resources and operational files',
@@ -123,6 +130,35 @@ const libraryCopy = {
   },
 }
 
+const targetCategoryFallback = {
+  key: 'target-practice',
+  kicker: 'Printable Target',
+  title: 'GDSFF branded 1-inch grid target',
+  text: 'A print-ready Letter-size target sheet with federation logo, contact details, scale note, and 1-inch grid.',
+  itemIds: ['printable-target'],
+}
+
+const targetFeatureCopy = {
+  en: {
+    kicker: 'Printable Target',
+    title: 'GDSFF 1-inch grid target sheet',
+    text:
+      'Download the federation-branded Letter-size 1-inch grid target with logo, contact details, diamond drills, ring drills, and a scale check for 100% printing.',
+    actionLabel: 'Download Target PDF',
+    secondaryLabel: 'Open Membership Form',
+    signatureLabel: 'Open Signature Workflow',
+  },
+  ka: {
+    kicker: 'Printable Target',
+    title: 'GDSFF 1-inch grid target sheet',
+    text:
+      'Download the federation-branded Letter-size 1-inch grid target with logo, contact details, diamond drills, ring drills, and a scale check for 100% printing.',
+    actionLabel: 'Download Target PDF',
+    secondaryLabel: 'Open Membership Form',
+    signatureLabel: 'Open Signature Workflow',
+  },
+}
+
 function DocumentDownloadRow({ item }) {
   return (
     <article className="document-item-row">
@@ -145,10 +181,15 @@ function DocumentDownloadRow({ item }) {
 
 export default function DocumentsPage({ copy }) {
   const localeKey = copy.locale === 'ka-GE' ? 'ka' : 'en'
+  const baseUrl = import.meta.env.BASE_URL
   const view = officialLaunchContent[localeKey].documents
   const pageCopy = documentsPageCopy[localeKey]
   const library = libraryCopy[localeKey]
+  const targetFeature = targetFeatureCopy[localeKey]
   const [openKey, setOpenKey] = useState('governance')
+  const targetDownloadHref = `${baseUrl}downloads/gdsff-printable-target-1in-grid.pdf`
+  const targetMembershipHref = `${baseUrl}membership#online-application`
+  const signatureHref = `${baseUrl}safety-consent`
 
   const safetySourceItem =
     localeKey === 'ka'
@@ -171,9 +212,18 @@ export default function DocumentsPage({ copy }) {
           format: 'HTML',
         }
 
+  const targetDownloadItem = {
+    id: 'printable-target',
+    fileName: 'gdsff-printable-target-1in-grid.pdf',
+    href: targetDownloadHref,
+    title: 'GDSFF Printable Target',
+    description: 'Letter-size 1-inch grid GDSFF target with logo, contact details, diamond drills, ring drills, and scale note.',
+    actionLabel: 'Download Target PDF',
+    format: 'PDF',
+  }
+
   const documentItems = useMemo(() => {
-    const baseUrl = import.meta.env.BASE_URL
-    return [...view.items, safetySourceItem]
+    return [...view.items, safetySourceItem, targetDownloadItem]
       .filter((item) => !hiddenDocumentIds.has(item.id))
       .map((item) => ({
         ...item,
@@ -182,9 +232,13 @@ export default function DocumentsPage({ copy }) {
             ? item.href
             : `${baseUrl}${item.href.replace(/^\//, '')}`,
       }))
-  }, [view.items, safetySourceItem])
+  }, [baseUrl, view.items, safetySourceItem, targetDownloadItem])
 
-  const groupedDocuments = library.categories
+  const libraryCategories = library.categories.some((category) => category.key === targetCategoryFallback.key)
+    ? library.categories
+    : [...library.categories.slice(0, 4), targetCategoryFallback, ...library.categories.slice(4)]
+
+  const groupedDocuments = libraryCategories
     .map((category) => ({
       ...category,
       items: category.itemIds
@@ -208,6 +262,39 @@ export default function DocumentsPage({ copy }) {
           <p className="eyebrow">{view.introTitle}</p>
           <h2>{view.title}</h2>
           <p className="section-copy">{pageCopy.introText}</p>
+        </div>
+      </section>
+
+      <section id="printable-target" className="container section-space anchor-section">
+        <div className="feature-card printable-target-card">
+          <div className="printable-target-copy">
+            <span className="card-kicker">{targetFeature.kicker}</span>
+            <h2>{targetFeature.title}</h2>
+            <p>{targetFeature.text}</p>
+            <div className="printable-target-actions">
+              <a href={targetDownloadHref} className="download-action" download>
+                {targetFeature.actionLabel}
+              </a>
+              <a href={targetMembershipHref} className="secondary-button">
+                {targetFeature.secondaryLabel}
+              </a>
+              <a href={signatureHref} className="ghost-button">
+                {targetFeature.signatureLabel}
+              </a>
+            </div>
+          </div>
+
+          <div className="printable-target-preview" aria-hidden="true">
+            <div className="printable-target-preview-head">
+              <span>GDSFF</span>
+              <small>1 in / 100%</small>
+            </div>
+            <div className="printable-target-rings" />
+            <div className="printable-target-preview-foot">
+              <span>office@gdsff.org</span>
+              <span>+995 511 560038</span>
+            </div>
+          </div>
         </div>
       </section>
 

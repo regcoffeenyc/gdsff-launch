@@ -192,3 +192,25 @@ All members, participants, clubs, and partners are expected to review the offici
 - Training and events: calendar card or venue image
 - Contact and partnership: premium contact panel
 - Safety acknowledgment: safety card plus range image
+- Printable target: target preview card plus direct website links
+
+## 9. Printable Target And Membership Links
+
+Printable GDSFF target is now available.
+
+Download the official 1-inch grid target PDF:  
+https://gdsff.org/downloads/gdsff-printable-target-1in-grid.pdf
+
+Membership application:  
+https://gdsff.org/membership#online-application
+
+Safety consent and signature workflow:  
+https://gdsff.org/safety-consent
+
+Use only official GDSFF website links for applications, downloads, and signed consent.
+
+Contact:  
+office@gdsff.org  
++995 511 560038
+
+#GDSFF #DynamicShooting #FunctionalFitness #GeorgiaSports

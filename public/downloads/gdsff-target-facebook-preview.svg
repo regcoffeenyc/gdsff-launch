@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="GDSFF 1-inch grid target download">
+  <rect width="1200" height="630" fill="#111315"/>
+  <rect x="52" y="52" width="1096" height="526" rx="18" fill="#f7f4ed"/>
+  <g transform="translate(116 92)">
+    <rect x="0" y="0" width="420" height="384" fill="none" stroke="#111315" stroke-width="5"/>
+    <g stroke="#777" stroke-width="1.4">
+      <path d="M60 0v384M120 0v384M180 0v384M240 0v384M300 0v384M360 0v384"/>
+      <path d="M0 48h420M0 96h420M0 144h420M0 192h420M0 240h420M0 288h420M0 336h420"/>
+    </g>
+    <g fill="#111315">
+      <path d="M60 20l40 40-40 40-40-40z"/>
+      <path d="M210 20l40 40-40 40-40-40z"/>
+      <path d="M360 20l40 40-40 40-40-40z"/>
+      <path d="M360 164l40 40-40 40-40-40z"/>
+      <path d="M360 308l40 40-40 40-40-40z"/>
+      <path d="M210 308l40 40-40 40-40-40z"/>
+      <path d="M60 308l40 40-40 40-40-40z"/>
+      <path d="M60 164l40 40-40 40-40-40z"/>
+    </g>
+  </g>
+  <text x="590" y="156" fill="#111315" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="700">GDSFF</text>
+  <text x="590" y="210" fill="#111315" font-family="Arial, Helvetica, sans-serif" font-size="54" font-weight="700">1-Inch Grid Target</text>
+  <text x="590" y="264" fill="#2b2f33" font-family="Arial, Helvetica, sans-serif" font-size="28">Official target PDF with federation branding</text>
+  <text x="590" y="334" fill="#111315" font-family="Arial, Helvetica, sans-serif" font-size="26">Download: gdsff.org/documents#printable-target</text>
+  <text x="590" y="382" fill="#111315" font-family="Arial, Helvetica, sans-serif" font-size="26">Join: gdsff.org/membership#online-application</text>
+  <text x="590" y="430" fill="#111315" font-family="Arial, Helvetica, sans-serif" font-size="26">Signature: gdsff.org/safety-consent</text>
+  <text x="590" y="512" fill="#2b2f33" font-family="Arial, Helvetica, sans-serif" font-size="22">office@gdsff.org | +995 511 560038</text>
+</svg>

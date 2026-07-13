@@ -14,6 +14,7 @@ const pageLabelKeys = {
   '/membership': 'membership',
   '/events': 'events',
   '/partners': 'partners',
+  '/support': 'support',
   '/gallery': 'gallery',
   '/documents': 'documents',
   '/safety-consent': 'safetyConsent',

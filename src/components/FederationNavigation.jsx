@@ -54,6 +54,7 @@ export function buildFederationNav(copy) {
         about: 'ფედერაციის შესახებ',
         leadership: 'ხელმძღვანელობა',
         membership: 'გაწევრიანება',
+        support: 'მხარდაჭერა',
         safetyConsent: 'უსაფრთხოების თანხმობა',
         events: 'ღონისძიებები',
         media: 'მედია',
@@ -62,6 +63,7 @@ export function buildFederationNav(copy) {
         aboutOverline: 'ოფიციალური პროფილი',
         leadershipOverline: 'ოფიციალური ხელმძღვანელობა',
         membershipOverline: 'წევრობა და საორგანიზაციო ფორმები',
+        supportOverline: 'სპონსორობა და დონაციები',
         eventsOverline: 'კალენდარი და პროგრამები',
         mediaOverline: 'გალერეა და განახლებები',
         documentsOverline: 'ოფიციალური ფაილები',
@@ -71,6 +73,7 @@ export function buildFederationNav(copy) {
         about: 'About',
         leadership: 'Leadership',
         membership: 'Membership',
+        support: 'Support',
         safetyConsent: 'Safety Consent',
         events: 'Events',
         media: 'Media',
@@ -79,6 +82,7 @@ export function buildFederationNav(copy) {
         aboutOverline: 'Federation Profile',
         leadershipOverline: 'Official Leadership',
         membershipOverline: 'Membership and Operational Forms',
+        supportOverline: 'Sponsorship and Donations',
         eventsOverline: 'Calendar and Programs',
         mediaOverline: 'Gallery and Updates',
         documentsOverline: 'Official Files',
@@ -105,12 +109,16 @@ export function buildFederationNav(copy) {
         },
         {
           label: isGeorgian ? 'მისია და ხედვა' : 'Mission & Vision',
-          description: isGeorgian ? 'მისია, ხედვა და სტრატეგიული მიმართულება.' : 'Mission, vision, and strategic direction.',
+          description: isGeorgian
+            ? 'მისია, ხედვა და სტრატეგიული მიმართულება.'
+            : 'Mission, vision, and strategic direction.',
           to: '/about#mission-vision',
         },
         {
           label: isGeorgian ? 'წესდება' : 'Charter',
-          description: isGeorgian ? 'ფედერაციის ძირითადი შიდა მარეგულირებელი დოკუმენტი.' : 'Core internal charter and governance framework.',
+          description: isGeorgian
+            ? 'ფედერაციის ძირითადი შიდა მარეგულირებელი დოკუმენტი.'
+            : 'Core internal charter and governance framework.',
           to: '/about#charter',
         },
       ],
@@ -127,12 +135,16 @@ export function buildFederationNav(copy) {
       items: [
         {
           label: isGeorgian ? 'პრეზიდენტი' : 'President',
-          description: isGeorgian ? 'გიორგი გაგნიძის ოფიციალური პროფილი.' : 'Official profile for Giorgi Gagnidze.',
+          description: isGeorgian
+            ? 'გიორგი გაგნიძის ოფიციალური პროფილი.'
+            : 'Official profile for Giorgi Gagnidze.',
           to: '/leadership#president',
         },
         {
           label: isGeorgian ? 'დირექტორი' : 'Director',
-          description: isGeorgian ? 'ანა ფანჩულიძის ოფიციალური პროფილი.' : 'Official profile for Ana Panchulidze.',
+          description: isGeorgian
+            ? 'ანა ფანჩულიძის ოფიციალური პროფილი.'
+            : 'Official profile for Ana Panchulidze.',
           to: '/leadership#director',
         },
       ],
@@ -182,23 +194,71 @@ export function buildFederationNav(copy) {
       items: [
         {
           label: isGeorgian ? '2026 კალენდარი' : '2026 Calendar',
-          description: isGeorgian ? 'ოფიციალური სეზონის კალენდარი.' : 'Official federation season calendar.',
+          description: isGeorgian
+            ? 'ოფიციალური სეზონის კალენდარი.'
+            : 'Official federation season calendar.',
           to: '/events#calendar-2026',
         },
         {
           label: isGeorgian ? 'ჩემპიონატები' : 'Championships',
-          description: isGeorgian ? 'ეროვნული საკონკურსო ღონისძიებები.' : 'National-level championship and ranking events.',
+          description: isGeorgian
+            ? 'ეროვნული საკონკურსო ღონისძიებები.'
+            : 'National-level championship and ranking events.',
           to: '/events#national-championships',
         },
         {
           label: isGeorgian ? 'საწვრთნელი ბანაკები' : 'Training Camps',
-          description: isGeorgian ? 'განვითარების და მომზადების ფორმატები.' : 'Camps and athlete development formats.',
+          description: isGeorgian
+            ? 'განვითარებისა და მომზადების ფორმატები.'
+            : 'Camps and athlete development formats.',
           to: '/events#training-camps',
         },
         {
           label: isGeorgian ? 'საერთაშორისო ღონისძიებები' : 'International Events',
-          description: isGeorgian ? 'რეგიონული და საერთაშორისო წარმოდგენა.' : 'Regional and international showcase events.',
+          description: isGeorgian
+            ? 'რეგიონული და საერთაშორისო წარმოდგენა.'
+            : 'Regional and international showcase events.',
           to: '/events#international-events',
+        },
+      ],
+    },
+    {
+      key: 'support',
+      label: labels.support,
+      panelAlign: 'center',
+      overline: labels.supportOverline,
+      description: isGeorgian
+        ? 'ფედერაციის მხარდაჭერის ოფიციალური გვერდი: სპონსორობა, დონაციები და სტრატეგიული პარტნიორობა.'
+        : 'Official federation support page for sponsorship, donations, and strategic partnerships.',
+      matchPaths: ['/support'],
+      items: [
+        {
+          label: isGeorgian ? 'სპონსორობა და დონაციები' : 'Sponsorship & Donations',
+          description: isGeorgian
+            ? 'მხარდაჭერის ოფიციალური მოდელი ფედერაციის განვითარებისთვის.'
+            : 'Official support model for federation development.',
+          to: '/support#sponsorship-donations',
+        },
+        {
+          label: isGeorgian ? 'მხარდაჭერის მიმართულებები' : 'Support Areas',
+          description: isGeorgian
+            ? 'კორპორაციული, ღონისძიებითი, ინვენტარული და ინფრასტრუქტურული მხარდაჭერა.'
+            : 'Corporate, event, equipment, and infrastructure support options.',
+          to: '/support#support-areas',
+        },
+        {
+          label: isGeorgian ? 'მოთხოვნის ფორმა' : 'Inquiry Form',
+          description: isGeorgian
+            ? 'სპონსორობის, დონაციის ან პარტნიორობის ონლაინ მოთხოვნა.'
+            : 'Online inquiry for sponsorship, donation, or partnership support.',
+          to: '/support#support-inquiry-form',
+        },
+        {
+          label: isGeorgian ? 'გამჭვირვალობა' : 'Transparency Note',
+          description: isGeorgian
+            ? 'ოფიციალური და ინდივიდუალური განხილვის პროცესი.'
+            : 'Official and individual federation review process.',
+          to: '/support#transparency-note',
         },
       ],
     },
@@ -214,17 +274,23 @@ export function buildFederationNav(copy) {
       items: [
         {
           label: isGeorgian ? 'გალერეა' : 'Gallery',
-          description: isGeorgian ? 'ოფიციალური ფოტო გალერეა.' : 'Official competition and federation gallery.',
+          description: isGeorgian
+            ? 'ოფიციალური ფოტო გალერეა.'
+            : 'Official competition and federation gallery.',
           to: '/gallery#photo-gallery',
         },
         {
           label: isGeorgian ? 'სიახლეები' : 'News',
-          description: isGeorgian ? 'ოფიციალური განახლებები.' : 'Official updates and media notes.',
+          description: isGeorgian
+            ? 'ოფიციალური განახლებები.'
+            : 'Official updates and media notes.',
           to: '/gallery#news-updates',
         },
         {
           label: isGeorgian ? 'ლოკაციის პრეზენტაცია' : 'Venue Presentation',
-          description: isGeorgian ? 'რენჯისა და სივრცის წარმოდგენა.' : 'Range and venue presentation materials.',
+          description: isGeorgian
+            ? 'რენჯისა და სივრცის წარმოდგენა.'
+            : 'Range and venue presentation materials.',
           to: '/gallery#venue-presentation',
         },
       ],
@@ -241,13 +307,22 @@ export function buildFederationNav(copy) {
       items: [
         {
           label: isGeorgian ? 'ოფიციალური დოკუმენტები' : 'Official Documents',
-          description: isGeorgian ? 'დოკუმენტების ოფიციალური მიმოხილვა.' : 'Official document overview.',
+          description: isGeorgian
+            ? 'დოკუმენტების ოფიციალური მიმოხილვა.'
+            : 'Official document overview.',
           to: '/documents#official-documents',
         },
         {
           label: isGeorgian ? 'ჩამოტვირთვები' : 'Downloads',
-          description: isGeorgian ? 'სრული ჩამოსატვირთი პაკეტი.' : 'Direct access to the launch document library.',
+          description: isGeorgian
+            ? 'სრული ჩამოსატვირთი პაკეტი.'
+            : 'Direct access to the launch document library.',
           to: '/documents#downloads',
+        },
+        {
+          label: 'Printable Target',
+          description: '1-inch grid target download with GDSFF branding and contact details.',
+          to: '/documents#printable-target',
         },
       ],
     },
@@ -267,7 +342,9 @@ export function buildFederationNav(copy) {
       items: [
         {
           label: isGeorgian ? 'საკონტაქტო გვერდი' : 'Contact Page',
-          description: isGeorgian ? 'ოფიციალური საკონტაქტო ინფორმაცია.' : 'Official federation contact directory.',
+          description: isGeorgian
+            ? 'ოფიციალური საკონტაქტო ინფორმაცია.'
+            : 'Official federation contact directory.',
           to: '/contact#contact-directory',
         },
         ...(showLocation

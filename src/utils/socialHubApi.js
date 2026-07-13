@@ -180,6 +180,10 @@ export function submitMembershipApplication(payload) {
   return post('/api/membership/applications', payload)
 }
 
+export function submitSupportInquiry(payload) {
+  return post('/api/support/inquiries', payload)
+}
+
 export function getMembershipApplications() {
   return request('/api/membership/applications')
 }
