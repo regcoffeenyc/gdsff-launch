@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /membership-admin
+Sitemap: https://www.gdsff.com/sitemap.xml
