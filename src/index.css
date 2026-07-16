@@ -8381,3 +8381,11 @@ body.mobile-menu-active::before {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+
+/* Georgian (KA) layout fixes: hero heading size + nav wrapping (labels wider than English) */
+html[lang="ka"] .home-hero-copy h1 { font-size: clamp(2.5rem, 4.4vw, 4rem); line-height: 1.08; }
+html[lang="ka"] .federation-nav.desktop-nav { column-gap: 0.5rem; row-gap: 0.5rem; }
+html[lang="ka"] .federation-nav.desktop-nav .nav-dropdown, html[lang="ka"] .federation-nav.desktop-nav .nav-trigger-shell, html[lang="ka"] .federation-nav.desktop-nav .nav-group-link { width: auto; min-width: 0; max-width: none; }
+html[lang="ka"] .federation-nav.desktop-nav .nav-group-link { white-space: nowrap; }
+html[lang="ka"] .federation-nav.desktop-nav .nav-group-link * { max-width: none; white-space: nowrap; overflow: visible; text-overflow: clip; }
