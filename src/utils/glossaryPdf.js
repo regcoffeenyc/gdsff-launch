@@ -12,10 +12,18 @@ const PDF_FONT_FAMILY = 'GDSFFArial'
 
 let cachedPdfFontBase64 = null
 
+const BRAND = {
+  regCode: '406552902',
+  website: 'gdsff.org',
+  email: 'office@gdsff.org',
+  phone: '+995 511 560038',
+}
+
 const docText = {
   en: {
     title: 'Explanatory Glossary',
     subtitle: 'Georgian Dynamic Shooting and Functional Fitness Federation',
+    regLabel: 'Reg. code',
     intro:
       'A bilingual reference of dynamic-shooting and range terminology, with explanations drawn from the GDSFF Safety Standards Rulebook. Range commands stay in English with a Georgian explanation.',
     footer: 'GDSFF — Safety Standards Rulebook v0.1 (draft). Section references (§) point to that rulebook.',
@@ -24,8 +32,9 @@ const docText = {
   ka: {
     title: 'განმარტებითი ლექსიკონი',
     subtitle: 'საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაცია',
+    regLabel: 'საიდ. კოდი',
     intro:
-      'დინამიური სროლისა და ტირის ტერმინოლოგიის ორენოვანი საცნობარო, განმარტებებით GDSFF-ის უსაფრთხოების სტანდარტების რულბუქიდან. სასაფრი ბრძანებები რჩება ინგლისურად, ქართული განმარტებით.',
+      'დინამიური სროლისა და ტირის ტერმინოლოგიის ორენოვანი საცნობარო, განმარტებებით GDSFF-ის უსაფრთხოების სტანდარტების რულბუქიდან. ტირის ბრძანებები რჩება ინგლისურად, ქართული განმარტებით.',
     footer: 'GDSFF — უსაფრთხოების რულბუქი v0.1 (დრაფტი). მუხლების მითითება (§) ეხება ამ რულბუქს.',
     fileName: 'GDSFF_Ganmartebiti_Leksikoni.pdf',
   },
@@ -115,11 +124,20 @@ export async function downloadGlossaryPdf(language = 'ka', logoSrc) {
   }
 
   function drawFooter() {
+    doc.setDrawColor(212, 187, 131)
+    doc.setLineWidth(0.5)
+    doc.line(margin, pageHeight - 40, pageWidth - margin, pageHeight - 40)
+
     doc.setFont(fontFamily, 'normal')
+    doc.setFontSize(7.5)
+    doc.setTextColor(150, 150, 156)
+    doc.text(t.footer, margin, pageHeight - 27, { maxWidth: contentWidth - 30 })
+
     doc.setFontSize(8)
+    doc.setTextColor(120, 100, 56)
+    doc.text(`GDSFF · ${BRAND.website} · ${BRAND.email} · ${BRAND.phone}`, margin, pageHeight - 15)
     doc.setTextColor(140, 140, 146)
-    doc.text(t.footer, margin, pageHeight - 24, { maxWidth: contentWidth - 40 })
-    doc.text(String(pageNo), pageWidth - margin, pageHeight - 24, { align: 'right' })
+    doc.text(String(pageNo), pageWidth - margin, pageHeight - 15, { align: 'right' })
   }
 
   function newPage() {
@@ -207,12 +225,23 @@ export async function downloadGlossaryPdf(language = 'ka', logoSrc) {
   doc.setFont(fontFamily, 'normal')
   doc.setFontSize(9.5)
   doc.setTextColor(90, 92, 98)
-  cursorY = addWrapped(t.subtitle, margin, cursorY, contentWidth, 13)
+  cursorY = addWrapped(`${t.subtitle}  ·  ${t.regLabel}: ${BRAND.regCode}`, margin, cursorY, contentWidth, 13)
   cursorY += 4
   doc.setFontSize(10)
   doc.setTextColor(40, 42, 48)
   cursorY = addWrapped(t.intro, margin, cursorY, contentWidth, 14)
-  cursorY += 8
+  cursorY += 10
+
+  // Branded contact strip
+  doc.setDrawColor(212, 187, 131)
+  doc.setFillColor(250, 247, 240)
+  doc.setLineWidth(0.6)
+  doc.roundedRect(margin, cursorY, contentWidth, 30, 6, 6, 'FD')
+  doc.setFont(fontFamily, 'bold')
+  doc.setFontSize(9.5)
+  doc.setTextColor(70, 60, 34)
+  doc.text(`${BRAND.website}     ${BRAND.email}     ${BRAND.phone}`, margin + 14, cursorY + 19)
+  cursorY += 30 + 16
 
   glossaryCategories.forEach((category) => {
     const items = glossaryTerms.filter((entry) => entry.cat === category.key)

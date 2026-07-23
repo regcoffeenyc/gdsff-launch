@@ -10,7 +10,7 @@
 
 export const glossaryCategories = [
   { key: 'roles', en: 'Roles & ranks', ka: 'როლები და წოდებები' },
-  { key: 'commands', en: 'Range commands', ka: 'სასაფრი ბრძანებები' },
+  { key: 'commands', en: 'Range commands', ka: 'ტირის ბრძანებები' },
   { key: 'safety', en: 'Safety terms', ka: 'უსაფრთხოების ტერმინები' },
   { key: 'penalties', en: 'Penalties & DQ', ka: 'ჯარიმები და დისკვალიფიკაცია' },
 ]

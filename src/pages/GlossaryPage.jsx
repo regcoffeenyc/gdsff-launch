@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import PageHero from '../components/PageHero'
 import { SearchIcon } from '../components/SiteIcons'
 import { glossaryCategories as categories, glossaryTerms as terms } from '../content/glossaryContent'
+import { logoSrc } from '../siteAssets'
 
 /**
  * განმარტებითი ლექსიკონი / Explanatory Glossary
@@ -84,7 +85,7 @@ export default function GlossaryPage({ copy }) {
     setIsDownloading(true)
     try {
       const { downloadGlossaryPdf } = await import('../utils/glossaryPdf')
-      await downloadGlossaryPdf(localeKey)
+      await downloadGlossaryPdf(localeKey, logoSrc)
     } catch (error) {
       console.warn('GDSFF glossary PDF download failed.', error)
     } finally {
