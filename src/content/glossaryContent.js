@@ -71,7 +71,7 @@ export const glossaryTerms = [
   {
     cat: 'commands', command: true, cite: '§5.7',
     en: { term: 'If Clear, Hammer Down, Holster', def: 'The shooter closes the action, releases the hammer/striker by pulling the trigger toward the backstop, and holsters. Long guns: action open, chamber flag inserted.' },
-    ka: { term: 'If Clear, Hammer Down, Holster', def: 'მსროლელი ხურავს საკეტს, უშვებს ჩახმახს ტყვიამჭერისკენ მიმართვისას თითის დაჭერით და ჩააგებს იარაღს. გრძელლულიანი: საკეტი ღია, პატრონშაპის დროშა ჩადგმული.' },
+    ka: { term: 'If Clear, Hammer Down, Holster', def: 'მსროლელი ხურავს საკეტს, უშვებს ჩახმახს ტყვიამჭერისკენ მიმართვისას თითის დაჭერით და ჩააგებს იარაღს. გრძელლულიანი: საკეტი ღია, უსაფრთხოების ალამი ჩადგმული.' },
   },
   {
     cat: 'commands', command: true, cite: '§5.8',
@@ -127,8 +127,8 @@ export const glossaryTerms = [
   },
   {
     cat: 'safety', cite: null,
-    en: { term: 'Chamber flag', def: 'A visible plastic indicator inserted into an open chamber to show a firearm is unloaded (used on long guns).' },
-    ka: { term: 'პატრონშაპის დროშა', def: 'ხილული პლასტმასის მაჩვენებელი, რომელიც ჩაიდგმება ღია პატრონშაპში, რომ იარაღი დაუტენავად გამოჩნდეს (გრძელლულიანზე).' },
+    en: { term: 'Chamber flag', def: 'A visible plastic safety flag inserted into an open action to show a firearm is unloaded (used on long guns).' },
+    ka: { term: 'ლულაში ჩასადები უსაფრთხოების ალამი', def: 'ხილული პლასტმასის უსაფრთხოების ალამი, რომელიც ჩაიდგმება ღია საკეტში/ლულაში და ცხადყოფს, რომ იარაღი დაუტენავია (გრძელლულიან იარაღზე).' },
   },
   {
     cat: 'safety', cite: '§8.2',
