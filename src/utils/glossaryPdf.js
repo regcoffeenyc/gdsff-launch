@@ -10,8 +10,10 @@ import { glossaryCategories, glossaryTerms } from '../content/glossaryContent.js
  * browser wrapper that loads the Georgian-capable font + logo and saves.
  */
 
-const PDF_FONT_FILE = 'arial.ttf'
-const PDF_FONT_FAMILY = 'GDSFFArial'
+// Georgian-capable subset of DejaVu Sans (Arial has no Georgian glyphs).
+const PDF_FONT_NORMAL = 'gdsff-pdf.ttf'
+const PDF_FONT_BOLD = 'gdsff-pdf-bold.ttf'
+const PDF_FONT_FAMILY = 'GDSFFPdf'
 
 const BRAND = {
   regCode: '406552902',
@@ -386,7 +388,7 @@ export function renderGlossaryDoc(doc, { fontFamily, language = 'ka', logoDataUr
 }
 
 // ---------------- Browser wrapper ----------------
-let cachedPdfFontBase64 = null
+const fontCache = {}
 
 function arrayBufferToBase64(buffer) {
   let binary = ''
@@ -398,22 +400,31 @@ function arrayBufferToBase64(buffer) {
   return window.btoa(binary)
 }
 
+async function fetchFontBase64(file) {
+  if (!fontCache[file]) {
+    const response = await fetch(`${import.meta.env.BASE_URL}fonts/${file}`)
+    if (!response.ok) throw new Error(`Unable to load font file ${file} (${response.status})`)
+    fontCache[file] = arrayBufferToBase64(await response.arrayBuffer())
+  }
+  return fontCache[file]
+}
+
 async function ensurePdfFont(doc) {
   try {
-    if (!cachedPdfFontBase64) {
-      const response = await fetch(`${import.meta.env.BASE_URL}fonts/${PDF_FONT_FILE}`)
-      if (!response.ok) throw new Error(`Unable to load font file (${response.status})`)
-      cachedPdfFontBase64 = arrayBufferToBase64(await response.arrayBuffer())
-    }
+    const [normal, bold] = await Promise.all([
+      fetchFontBase64(PDF_FONT_NORMAL),
+      fetchFontBase64(PDF_FONT_BOLD),
+    ])
     const fontList = doc.getFontList?.() ?? {}
     if (!Array.isArray(fontList[PDF_FONT_FAMILY])) {
-      doc.addFileToVFS(PDF_FONT_FILE, cachedPdfFontBase64)
-      doc.addFont(PDF_FONT_FILE, PDF_FONT_FAMILY, 'normal')
-      doc.addFont(PDF_FONT_FILE, PDF_FONT_FAMILY, 'bold')
+      doc.addFileToVFS(PDF_FONT_NORMAL, normal)
+      doc.addFont(PDF_FONT_NORMAL, PDF_FONT_FAMILY, 'normal')
+      doc.addFileToVFS(PDF_FONT_BOLD, bold)
+      doc.addFont(PDF_FONT_BOLD, PDF_FONT_FAMILY, 'bold')
     }
     return PDF_FONT_FAMILY
   } catch (error) {
-    console.warn('GDSFF glossary PDF font fallback engaged.', error)
+    console.warn('GDSFF glossary PDF font fallback engaged (Georgian text may be missing).', error)
     return 'helvetica'
   }
 }
