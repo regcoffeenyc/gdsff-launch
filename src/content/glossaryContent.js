@@ -66,7 +66,7 @@ export const glossaryTerms = [
   {
     cat: 'commands', command: true, cite: '§5.6',
     en: { term: 'Unload and Show Clear', def: 'The shooter removes the magazine, ejects any chambered round, and presents the empty chamber and magazine well for RO inspection.' },
-    ka: { term: 'Unload and Show Clear', def: 'მსროლელი იღებს მჭიდს, ამოაგდებს პატრონშაპში არსებულ ვაზნას და აჩვენებს ცარიელ პატრონშაპსა და მჭიდის ბუდეს RO-ის დასათვალიერებლად.' },
+    ka: { term: 'Unload and Show Clear', def: 'მსროლელი იღებს მჭიდს, ამოაგდებს ლულის სავაზნეში არსებულ ვაზნას და აჩვენებს ცარიელ ლულის სავაზნესა და მჭიდის ბუდეს RO-ის დასათვალიერებლად.' },
   },
   {
     cat: 'commands', command: true, cite: '§5.7',
