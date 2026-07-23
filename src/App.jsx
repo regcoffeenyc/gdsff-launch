@@ -11,6 +11,7 @@ import EventsPage from './pages/EventsPage'
 import PartnersPage from './pages/PartnersPage'
 import GalleryPage from './pages/GalleryPage'
 import DocumentsPage from './pages/DocumentsPage'
+import GlossaryPage from './pages/GlossaryPage'
 import ContactPage from './pages/ContactPage'
 import SearchPage from './pages/SearchPage'
 import SupportPage from './pages/SupportPage'
@@ -61,6 +62,7 @@ export default function App() {
           <Route path="/support" element={<SupportPage copy={copy} />} />
           <Route path="/gallery" element={<GalleryPage copy={copy} />} />
           <Route path="/documents" element={<DocumentsPage copy={copy} />} />
+          <Route path="/glossary" element={<GlossaryPage copy={copy} />} />
           <Route path="/safety-consent" element={<SafetyConsentPage copy={copy} />} />
           <Route path="/contact" element={<ContactPage copy={copy} />} />
           <Route path="/search" element={<SearchPage copy={copy} />} />

@@ -303,7 +303,7 @@ export function buildFederationNav(copy) {
       description: isGeorgian
         ? 'ოფიციალური დოკუმენტები, ფორმები და ჩამოსატვირთი ფაილები.'
         : 'Official documents, forms, and direct download files.',
-      matchPaths: ['/documents'],
+      matchPaths: ['/documents', '/glossary'],
       items: [
         {
           label: isGeorgian ? 'ოფიციალური დოკუმენტები' : 'Official Documents',
@@ -311,6 +311,13 @@ export function buildFederationNav(copy) {
             ? 'დოკუმენტების ოფიციალური მიმოხილვა.'
             : 'Official document overview.',
           to: '/documents#official-documents',
+        },
+        {
+          label: isGeorgian ? 'განმარტებითი ლექსიკონი' : 'Explanatory Glossary',
+          description: isGeorgian
+            ? 'დინამიური სროლისა და ტირის ტერმინების ორენოვანი განმარტებები.'
+            : 'Bilingual explanations of dynamic-shooting and range terms.',
+          to: '/glossary',
         },
         {
           label: isGeorgian ? 'ჩამოტვირთვები' : 'Downloads',
