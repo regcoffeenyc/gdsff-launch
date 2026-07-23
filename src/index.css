@@ -8467,6 +8467,42 @@ html[lang="ka"] .federation-nav.desktop-nav .nav-group-link * { max-width: none;
   color: #14110b;
 }
 
+.glossary-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+  padding: 0.6rem 1.15rem;
+  border-radius: 999px;
+  border: 1px solid rgba(212, 187, 131, 0.4);
+  background: rgba(212, 187, 131, 0.1);
+  color: var(--gold-strong);
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: background 160ms ease, transform 160ms ease, border-color 160ms ease;
+}
+
+.glossary-download:hover:not(:disabled) {
+  background: rgba(212, 187, 131, 0.18);
+  transform: translateY(-1px);
+}
+
+.glossary-download:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.glossary-download-icon {
+  width: 17px;
+  height: 17px;
+}
+
+@media (max-width: 640px) {
+  .glossary-download { margin-left: 0; width: 100%; justify-content: center; }
+}
+
 .glossary-groups {
   display: flex;
   flex-direction: column;
