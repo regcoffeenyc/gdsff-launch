@@ -288,79 +288,97 @@ export function renderGlossaryDoc(doc, { fontFamily, language = 'ka', logoDataUr
   }
 
   // ---------------- Entry ----------------
+  // Per-line leading. DejaVu's Georgian glyphs are tall (ღ, ჭ, ბ …), so
+  // definitions need generous leading or lines/blocks collide. cursorY is
+  // always the baseline of the NEXT line to draw.
+  const LH_TERM = 16
+  const LH_SECTERM = 14
+  const TERM_SIZE = 11.5
+  const SECTERM_SIZE = 9.5
+  const DEF_SIZE = 10.25
+  const SECDEF_SIZE = 9.25
+  const LH_DEF = DEF_SIZE * 1.5 // ≈ 15.4
+  const LH_SECDEF = SECDEF_SIZE * 1.5 // ≈ 13.9
+  const ENTRY_GAP = 16
+
+  function drawTextLines(lines, x, lineHeight) {
+    lines.forEach((line) => {
+      doc.text(line, x, cursorY)
+      cursorY += lineHeight
+    })
+  }
+
   function drawEntry(entry, isLast) {
     const primary = entry[localeKey]
     const secondary = entry[otherKey]
     const showSecondary = !entry.command && secondary.term !== primary.term
     const defIndent = 16
+    const defX = MX + defIndent
     const defWidth = CW - defIndent
 
-    // estimate height
+    // measure with the exact fonts used for drawing
     font('normal')
-    doc.setFontSize(10.25)
-    const primaryLines = doc.splitTextToSize(primary.def, defWidth).length
-    doc.setFontSize(9.25)
-    const secondaryLines = doc.splitTextToSize(secondary.def, defWidth).length
-    const est = 20 + (showSecondary ? 13 : 2) + primaryLines * 13.5 + 6 + secondaryLines * 12 + 20
+    doc.setFontSize(DEF_SIZE)
+    const pl = doc.splitTextToSize(primary.def, defWidth)
+    doc.setFontSize(SECDEF_SIZE)
+    const sl = doc.splitTextToSize(secondary.def, defWidth)
+    const est = LH_TERM + (showSecondary ? LH_SECTERM : 4) + pl.length * LH_DEF + sl.length * LH_SECDEF + ENTRY_GAP + 8
     ensure(est)
 
-    const topY = cursorY
-
-    // gold tick
+    // gold tick, aligned to the term line
     setFill(GOLD)
-    doc.rect(MX, topY - 8, 2.4, 13, 'F')
+    doc.rect(MX, cursorY - 9, 2.4, 12, 'F')
 
     // term
     font('bold')
-    doc.setFontSize(11.5)
+    doc.setFontSize(TERM_SIZE)
     setColor(INK)
-    doc.text(primary.term, MX + defIndent, cursorY, { maxWidth: CW - defIndent - 60 })
+    doc.text(primary.term, defX, cursorY, { maxWidth: CW - defIndent - 64 })
 
-    // § pill (right)
+    // § pill (right, aligned to term baseline)
     if (entry.cite) {
-      const label = entry.cite
       doc.setFont(fontFamily, 'bold')
       doc.setFontSize(8)
-      const tw = doc.getTextWidth(label)
+      const tw = doc.getTextWidth(entry.cite)
       const pillW = tw + 16
       const pillX = W - MX - pillW
       setFill(PANEL)
       setDraw(GOLD_SOFT)
       doc.setLineWidth(0.6)
-      doc.roundedRect(pillX, cursorY - 9.5, pillW, 14, 7, 7, 'FD')
+      doc.roundedRect(pillX, cursorY - 10, pillW, 15, 7.5, 7.5, 'FD')
       setColor(GOLD)
-      doc.text(label, pillX + pillW / 2, cursorY, { align: 'center' })
+      doc.text(entry.cite, pillX + pillW / 2, cursorY, { align: 'center' })
     }
-    cursorY += showSecondary ? 13 : 6
+    cursorY += LH_TERM
 
-    // secondary term (gold, small)
+    // secondary term (gold)
     if (showSecondary) {
       font('normal')
-      doc.setFontSize(9)
+      doc.setFontSize(SECTERM_SIZE)
       setColor(GOLD)
-      doc.text(secondary.term, MX + defIndent, cursorY)
-      cursorY += 12
+      doc.text(secondary.term, defX, cursorY)
+      cursorY += LH_SECTERM
+    } else {
+      cursorY += 4
     }
 
     // primary definition
     font('normal')
-    doc.setFontSize(10.25)
+    doc.setFontSize(DEF_SIZE)
     setColor(BODY)
-    const pl = doc.splitTextToSize(primary.def, defWidth)
-    doc.text(pl, MX + defIndent, cursorY, { lineHeightFactor: 1.32 })
-    cursorY += pl.length * 13.5 + 5
+    drawTextLines(pl, defX, LH_DEF)
+    cursorY += 3
 
     // secondary definition (muted)
-    doc.setFontSize(9.25)
+    doc.setFontSize(SECDEF_SIZE)
     setColor(MUTED)
-    const sl = doc.splitTextToSize(secondary.def, defWidth)
-    doc.text(sl, MX + defIndent, cursorY, { lineHeightFactor: 1.3 })
-    cursorY += sl.length * 12 + 16
+    drawTextLines(sl, defX, LH_SECDEF)
 
+    cursorY += ENTRY_GAP
     if (!isLast) {
       setDraw(HAIR)
       doc.setLineWidth(0.5)
-      doc.line(MX + defIndent, cursorY - 9, W - MX, cursorY - 9)
+      doc.line(defX, cursorY - ENTRY_GAP / 2, W - MX, cursorY - ENTRY_GAP / 2)
     }
   }
 
