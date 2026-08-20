@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "social:api": "node server/index.js",
-    "build": "vite build && vite build --ssr src/prerender-entry.jsx --outDir dist-ssr && node scripts/prerender.mjs",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
