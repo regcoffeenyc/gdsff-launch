@@ -25,3 +25,4 @@ safety-consent-mobile-fresh.png
 gdsff-github-ready/
 .vercel
 .env*
+dist-ssr/

@@ -1,12 +1,103 @@
 {
-  "rewrites": [
+  "redirects": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
+      "source": "/",
+      "destination": "/ka/",
+      "permanent": false
+    },
+    {
+      "source": "/about",
+      "destination": "/ka/about",
+      "permanent": false
+    },
+    {
+      "source": "/sports",
+      "destination": "/ka/sports",
+      "permanent": false
+    },
+    {
+      "source": "/leadership",
+      "destination": "/ka/leadership",
+      "permanent": false
+    },
+    {
+      "source": "/membership",
+      "destination": "/ka/membership",
+      "permanent": false
+    },
+    {
+      "source": "/events",
+      "destination": "/ka/events",
+      "permanent": false
+    },
+    {
+      "source": "/partners",
+      "destination": "/ka/partners",
+      "permanent": false
+    },
+    {
+      "source": "/support",
+      "destination": "/ka/support",
+      "permanent": false
+    },
+    {
+      "source": "/gallery",
+      "destination": "/ka/gallery",
+      "permanent": false
+    },
+    {
+      "source": "/documents",
+      "destination": "/ka/documents",
+      "permanent": false
+    },
+    {
+      "source": "/glossary",
+      "destination": "/ka/glossary",
+      "permanent": false
+    },
+    {
+      "source": "/safety-consent",
+      "destination": "/ka/safety-consent",
+      "permanent": false
+    },
+    {
+      "source": "/contact",
+      "destination": "/ka/contact",
+      "permanent": false
+    },
+    {
+      "source": "/membership-admin",
+      "destination": "/ka/membership-admin",
+      "permanent": false
+    },
+    {
+      "source": "/search",
+      "destination": "/ka/search",
+      "permanent": false
+    }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     },
     {
       "source": "/(.*)",
-      "destination": "/"
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
     }
   ]
 }

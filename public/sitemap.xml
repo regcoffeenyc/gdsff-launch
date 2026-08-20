@@ -1,9 +1,186 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://www.gdsff.com/</loc>
-    <lastmod>2026-07-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <loc>https://www.gdsff.com/ka/</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/en/</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/ka/about</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/about"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/about"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/about"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/en/about</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/about"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/about"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/about"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/ka/sports</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/sports"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/sports"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/sports"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/en/sports</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/sports"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/sports"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/sports"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/ka/leadership</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/leadership"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/leadership"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/leadership"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/en/leadership</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/leadership"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/leadership"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/leadership"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/ka/membership</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/membership"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/membership"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/membership"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/en/membership</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/membership"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/membership"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/membership"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/ka/events</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/events"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/events"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/events"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/en/events</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/events"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/events"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/events"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/ka/partners</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/partners"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/partners"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/partners"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/en/partners</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/partners"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/partners"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/partners"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/ka/support</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/support"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/support"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/support"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/en/support</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/support"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/support"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/support"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/ka/gallery</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/gallery"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/gallery"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/gallery"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/en/gallery</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/gallery"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/gallery"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/gallery"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/ka/documents</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/documents"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/documents"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/documents"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/en/documents</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/documents"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/documents"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/documents"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/ka/glossary</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/glossary"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/glossary"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/glossary"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/en/glossary</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/glossary"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/glossary"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/glossary"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/ka/safety-consent</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/safety-consent"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/safety-consent"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/safety-consent"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/en/safety-consent</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/safety-consent"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/safety-consent"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/safety-consent"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/ka/contact</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/contact"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/contact"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/contact"/>
+  </url>
+  <url>
+    <loc>https://www.gdsff.com/en/contact</loc>
+    <lastmod>2026-08-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="ka" href="https://www.gdsff.com/ka/contact"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.gdsff.com/en/contact"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.gdsff.com/ka/contact"/>
   </url>
 </urlset>
