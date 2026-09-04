@@ -333,3 +333,4 @@ Recommended next steps:
 - `vite build` completed successfully
 - API health endpoint responded successfully
 - setup-mode login plus protected admin state retrieval responded successfully
+- Agent site pipeline test - 4 Sep 2026
