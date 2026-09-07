@@ -6,10 +6,14 @@ import { SpeedInsights } from '@vercel/speed-insights/react'
 import App from './App'
 import './index.css'
 
+const languageMatch = window.location.pathname.match(/^\/(ka|en)(?:\/|$)/)
+const initialLanguage = languageMatch?.[1] ?? 'ka'
+const basename = languageMatch ? `/${initialLanguage}` : undefined
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
+    <BrowserRouter basename={basename}>
+      <App initialLanguage={initialLanguage} />
       <Analytics />
       <SpeedInsights />
     </BrowserRouter>

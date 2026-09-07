@@ -14,12 +14,14 @@ import DocumentsPage from './pages/DocumentsPage'
 import ContactPage from './pages/ContactPage'
 import SearchPage from './pages/SearchPage'
 import SupportPage from './pages/SupportPage'
+import GlossaryPage from './pages/GlossaryPage'
 import { siteContent } from './siteContent'
 
 const SafetyConsentPage = lazy(() => import('./pages/SafetyConsentPage'))
 
-export default function App() {
+export default function App({ initialLanguage }) {
   const [language, setLanguage] = useState(() => {
+    if (initialLanguage) return initialLanguage
     try {
       return window.localStorage.getItem('gdsff-language') ?? 'en'
     } catch {
@@ -60,6 +62,7 @@ export default function App() {
           <Route path="/partners" element={<PartnersPage copy={copy} />} />
           <Route path="/support" element={<SupportPage copy={copy} />} />
           <Route path="/gallery" element={<GalleryPage copy={copy} />} />
+          <Route path="/glossary" element={<GlossaryPage copy={copy} />} />
           <Route path="/documents" element={<DocumentsPage copy={copy} />} />
           <Route path="/safety-consent" element={<SafetyConsentPage copy={copy} />} />
           <Route path="/contact" element={<ContactPage copy={copy} />} />
@@ -69,4 +72,3 @@ export default function App() {
     </SiteLayout>
   )
 }
-

@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "social:api": "node server/index.js",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build": "vite build && vite build --ssr src/prerender-entry.jsx --outDir dist-ssr && node scripts/prerender.mjs",
+    "preview": "vite preview",
+    "test:seo": "node --test tests/*.test.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
