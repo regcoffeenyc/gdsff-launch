@@ -2,6 +2,7 @@ import { useSearchParams } from 'react-router-dom'
 import GalleryLightbox from '../components/GalleryLightbox'
 import { PlayIcon } from '../components/SiteIcons'
 import PageHero from '../components/PageHero'
+import If3Announcement from '../components/If3Announcement'
 import { normalizeLaunchValue } from '../content/launchNormalizer'
 import {
   functionalFitnessCollageSrc,
@@ -127,7 +128,6 @@ export default function GalleryPage({ copy }) {
   const galleryWall = normalizeLaunchValue(galleryWallCopy[localeKey])
   const galleryUi = galleryUiCopy[localeKey]
   const galleryHighlights = []
-  const galleryCards = []
   const promoGalleryItem =
     localeKey === 'ka'
       ? {
@@ -199,6 +199,8 @@ export default function GalleryPage({ copy }) {
         label={copy.header.highlightsLabel}
       />
 
+      <If3Announcement locale={copy.locale} />
+
       <section className="container page-section">
         <div className="gallery-layout">
           <button
@@ -215,16 +217,6 @@ export default function GalleryPage({ copy }) {
           <article className="gallery-panel">
             <img src={logoSrc} alt="Federation logo" className="gallery-logo" loading="lazy" />
           </article>
-          {galleryCards.length > 0 ? (
-            <article id="news-updates" className="gallery-panel text-panel anchor-section">
-              {galleryCards.map((item) => (
-                <div key={item.title} className="gallery-copy-block">
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
-                </div>
-              ))}
-            </article>
-          ) : null}
         </div>
       </section>
 

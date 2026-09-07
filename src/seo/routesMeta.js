@@ -100,12 +100,12 @@ export const routesMeta = {
   },
   '/gallery': {
     ka: {
-      title: 'გალერეა | GDSFF',
-      description: 'ფოტო და ვიდეო მასალა GDSFF-ის შეჯიბრებებიდან, ვარჯიშებიდან და ივენთებიდან.',
+      title: 'სიახლეები და გალერეა | GDSFF',
+      description: 'GDSFF-ის ოფიციალური სიახლეები, iF3-ის წევრობა და ფოტო-ვიდეო მასალა ფედერაციის ღონისძიებებიდან.',
     },
     en: {
-      title: 'Gallery | GDSFF',
-      description: 'Photos and videos from GDSFF competitions, training sessions and events.',
+      title: 'News & Gallery | GDSFF',
+      description: 'Official GDSFF news, iF3 membership announcement, photos and videos from federation events.',
     },
   },
   '/documents': {
