@@ -168,3 +168,25 @@ export const routesMeta = {
 export const indexableRoutes = Object.keys(routesMeta).filter((r) => !routesMeta[r].noindex)
 export const allRoutes = Object.keys(routesMeta)
 export const LANGS = ['ka', 'en']
+
+// Shared by prerendering and client navigation. Router paths exclude /ka or /en.
+export function getRouteMetadata(pathname, language) {
+  const route = pathname.replace(/\/+$/, '') || '/'
+  if (!LANGS.includes(language) || !Object.hasOwn(routesMeta, route)) return null
+
+  const entry = routesMeta[route]
+  const urlFor = (lang) => `${SITE}/${lang}${route}`
+  return {
+    ...entry[language],
+    language,
+    url: urlFor(language),
+    noindex: Boolean(entry.noindex),
+    alternates: [
+      { language: 'ka', url: urlFor('ka') },
+      { language: 'en', url: urlFor('en') },
+      { language: 'x-default', url: urlFor('ka') },
+    ],
+    locale: language === 'ka' ? 'ka_GE' : 'en_US',
+    alternateLocale: language === 'ka' ? 'en_US' : 'ka_GE',
+  }
+}
