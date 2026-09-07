@@ -3,77 +3,77 @@
     {
       "source": "/",
       "destination": "/ka/",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/about",
       "destination": "/ka/about",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/sports",
       "destination": "/ka/sports",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/leadership",
       "destination": "/ka/leadership",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/membership",
       "destination": "/ka/membership",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/events",
       "destination": "/ka/events",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/partners",
       "destination": "/ka/partners",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/support",
       "destination": "/ka/support",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/gallery",
       "destination": "/ka/gallery",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/documents",
       "destination": "/ka/documents",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/glossary",
       "destination": "/ka/glossary",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/safety-consent",
       "destination": "/ka/safety-consent",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/contact",
       "destination": "/ka/contact",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/membership-admin",
       "destination": "/ka/membership-admin",
-      "permanent": false
+      "permanent": true
     },
     {
       "source": "/search",
       "destination": "/ka/search",
-      "permanent": false
+      "permanent": true
     }
   ],
   "headers": [

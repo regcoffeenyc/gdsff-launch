@@ -6,7 +6,7 @@
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { mkdirSync, readFileSync, writeFileSync, cpSync, existsSync } from 'node:fs'
-import { routesMeta, allRoutes, LANGS, SITE, OG_IMAGE } from '../src/seo/routesMeta.js'
+import { getRouteMetadata, allRoutes, LANGS } from '../src/seo/routesMeta.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = join(__dirname, '..')
@@ -25,15 +25,12 @@ function esc(s) {
 }
 
 function buildHead(route, lang) {
-  const meta = routesMeta[route][lang]
-  const suffix = route === '/' ? '/' : route
-  const url = `${SITE}/${lang}${suffix === '/' ? '/' : suffix}`
-  const hreflang = [
-    `<link rel="alternate" hreflang="ka" href="${SITE}/ka${suffix === '/' ? '/' : suffix}" />`,
-    `<link rel="alternate" hreflang="en" href="${SITE}/en${suffix === '/' ? '/' : suffix}" />`,
-    `<link rel="alternate" hreflang="x-default" href="${SITE}/ka${suffix === '/' ? '/' : suffix}" />`,
-  ].join('\n    ')
-  const robots = routesMeta[route].noindex ? '\n    <meta name="robots" content="noindex" />' : ''
+  const meta = getRouteMetadata(route, lang)
+  const { url } = meta
+  const hreflang = meta.alternates.map(({ language, url }) =>
+    `<link rel="alternate" hreflang="${language}" href="${url}" />`,
+  ).join('\n    ')
+  const robots = meta.noindex ? '\n    <meta name="robots" content="noindex" />' : ''
   return { meta, url, hreflang, robots }
 }
 
@@ -60,7 +57,7 @@ for (const lang of LANGS) {
       )
       .replace(
         /<meta property="og:locale" content="[^"]*" \/>/,
-        `<meta property="og:locale" content="${lang === 'ka' ? 'ka_GE' : 'en_US'}" />\n    <meta property="og:locale:alternate" content="${lang === 'ka' ? 'en_US' : 'ka_GE'}" />`,
+        `<meta property="og:locale" content="${meta.locale}" />\n    <meta property="og:locale:alternate" content="${meta.alternateLocale}" />`,
       )
       .replace(/<meta property="og:url" content="[^"]*" \/>/, `<meta property="og:url" content="${url}" />`)
       .replace(
