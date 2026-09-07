@@ -6,23 +6,8 @@ import { buildFederationNav, DesktopFederationNav, isGroupActive, MobileFederati
 import { CloseIcon, SearchIcon } from './SiteIcons'
 import { EmailLink, LocationLink, PhoneLink, SocialLinks } from './SiteMetaLinks'
 import { getSearchUiCopy } from '../utils/siteSearch'
+import RouteMetadata from '../seo/RouteMetadata'
 
-const pageLabelKeys = {
-  '/about': 'about',
-  '/sports': 'sports',
-  '/leadership': 'leadership',
-  '/membership': 'membership',
-  '/events': 'events',
-  '/partners': 'partners',
-  '/support': 'support',
-  '/gallery': 'gallery',
-  '/documents': 'documents',
-  '/safety-consent': 'safetyConsent',
-  '/contact': 'contact',
-  '/social-hub': 'socialHub',
-  '/media-bot': 'socialHub',
-  '/search': 'search',
-}
 
 function SearchForm({ className, copy, idPrefix, value, onChange, onSubmit }) {
   const inputId = `${idPrefix}-site-search`
@@ -63,7 +48,6 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
   const navigate = useNavigate()
   const navGroups = useMemo(() => buildFederationNav(copy), [copy])
   const searchCopy = useMemo(() => getSearchUiCopy(copy.locale), [copy.locale])
-  const socialHubLabel = copy.locale === 'ka-GE' ? 'სოციალური მართვის ცენტრი' : 'Social Hub'
   const showLocation = copy.meta.showLocation !== false
 
   const clearDesktopCloseTimer = () => {
@@ -133,35 +117,6 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
     setSearchValue(params.get('q') ?? '')
   }, [location.pathname, location.search])
 
-  useEffect(() => {
-    document.documentElement.lang = language === 'ka' ? 'ka' : 'en'
-
-    const routeLabelKey = pageLabelKeys[location.pathname]
-    const routeLabel =
-      routeLabelKey === 'socialHub'
-        ? socialHubLabel
-        : routeLabelKey === 'search'
-        ? searchCopy.navLabel
-        : routeLabelKey
-          ? copy.nav[routeLabelKey]
-          : copy.brand.shortName
-    const title =
-      location.pathname === '/'
-        ? `${copy.brand.shortName} | ${copy.brand.fullName}`
-        : `${routeLabel} | ${copy.brand.shortName}`
-
-    document.title = title
-
-    const descriptionTag = document.querySelector('meta[name="description"]')
-    if (descriptionTag) {
-      descriptionTag.setAttribute('content', copy.footer.summary)
-    }
-
-    const themeTag = document.querySelector('meta[name="theme-color"]')
-    if (themeTag) {
-      themeTag.setAttribute('content', '#0d0f12')
-    }
-  }, [copy, language, location.pathname, searchCopy.navLabel, socialHubLabel])
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
@@ -242,6 +197,7 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
 
   return (
     <div className="site-shell">
+      <RouteMetadata language={language} />
       <a href="#main-content" className="skip-link">
         {copy.header.skipLink}
       </a>
