@@ -1,6 +1,7 @@
 import { buildFederationNav } from '../components/FederationNavigation'
 import { officialLaunchContent } from '../content/officialLaunchContent'
 import { supportContent } from '../content/supportContent'
+import { if3Membership } from '../content/if3Membership'
 
 const sportsAnchorIds = ['dynamic-shooting', 'functional-fitness', 'tactical-performance']
 const hiddenDocumentIds = new Set(['content-pack', 'upload-checklist'])
@@ -421,6 +422,15 @@ export function buildSiteSearchIndex(copy) {
     }))
 
   const entries = [
+    {
+      kind: 'section',
+      title: if3Membership[localeKey].title,
+      description: if3Membership[localeKey].lead,
+      to: '/gallery#news-updates',
+      section: if3Membership[localeKey].eyebrow,
+      meta: '/gallery#news-updates',
+      keywords: ['iF3', 'IF3', 'International Functional Fitness Federation', 'membership', 'წევრობა', if3Membership[localeKey].text],
+    },
     ...buildPageEntries(copy, localeKey),
     ...navEntries,
     ...buildSportsEntries(copy),

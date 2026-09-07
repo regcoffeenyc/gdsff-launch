@@ -39,6 +39,14 @@ function applyLaunchOverrides(rawContent, locale) {
       documents: isGeorgian ? 'დოკუმენტები' : 'Documents',
       safetyConsent: isGeorgian ? 'უსაფრთხოების თანხმობა' : 'Safety Consent',
     },
+    gallery: {
+      ...normalized.gallery,
+      eyebrow: isGeorgian ? 'სიახლეები და მედია' : 'News & Media',
+      title: isGeorgian ? 'ფედერაციის სიახლეები და გალერეა' : 'Federation news and gallery',
+      text: isGeorgian
+        ? 'ოფიციალური განცხადებები, საერთაშორისო წევრობა და ფედერაციის ფოტო-ვიდეო არქივი.'
+        : 'Official announcements, international membership, and the federation photo and video archive.',
+    },
     brand: {
       ...normalized.brand,
       shortName: 'GDSFF',

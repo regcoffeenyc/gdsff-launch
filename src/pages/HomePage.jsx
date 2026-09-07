@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import GalleryLightbox from '../components/GalleryLightbox'
+import If3Announcement from '../components/If3Announcement'
 import { membershipApplicationContent } from '../content/membershipApplicationContent'
 import { officialLaunchContent } from '../content/officialLaunchContent'
 import { EmailLink, LocationLink, PhoneLink, SocialLinks } from '../components/SiteMetaLinks'
@@ -438,6 +439,8 @@ export default function HomePage({ copy }) {
           </div>
         </div>
       </section>
+
+      <If3Announcement locale={copy.locale} compact />
 
       <section className="container section-space">
         <div className="section-intro">
