@@ -16,6 +16,16 @@ function getTokenFromRequest(request) {
   return header.slice('Bearer '.length).trim()
 }
 
+/* Mirrors api/_lib/adminAuth.js. Setup mode accepts any credentials, so it is
+   allowed only where there is no deployment to expose. */
+function isDeployed() {
+  return hasValue(process.env.VERCEL_ENV) || hasValue(process.env.VERCEL)
+}
+
+export function setupModeAllowed() {
+  return !isDeployed()
+}
+
 export function isAuthConfigured() {
   return hasValue(process.env.ADMIN_USERNAME) && hasValue(process.env.ADMIN_PASSWORD)
 }
@@ -23,17 +33,17 @@ export function isAuthConfigured() {
 export function validateSession(request) {
   const token = getTokenFromRequest(request)
   if (!token) {
-    return { authenticated: false, setupMode: !isAuthConfigured(), authConfigured: isAuthConfigured(), user: null }
+    return { authenticated: false, setupMode: !isAuthConfigured() && setupModeAllowed(), authConfigured: isAuthConfigured(), user: null }
   }
 
   const session = sessions.get(token)
   if (!session) {
-    return { authenticated: false, setupMode: !isAuthConfigured(), authConfigured: isAuthConfigured(), user: null }
+    return { authenticated: false, setupMode: !isAuthConfigured() && setupModeAllowed(), authConfigured: isAuthConfigured(), user: null }
   }
 
   if (session.expiresAt < Date.now()) {
     sessions.delete(token)
-    return { authenticated: false, setupMode: !isAuthConfigured(), authConfigured: isAuthConfigured(), user: null }
+    return { authenticated: false, setupMode: !isAuthConfigured() && setupModeAllowed(), authConfigured: isAuthConfigured(), user: null }
   }
 
   return {
@@ -55,6 +65,11 @@ export function login(username, password) {
   }
 
   const authConfigured = isAuthConfigured()
+
+  if (!authConfigured && !setupModeAllowed()) {
+    throw new Error('Admin sign-in is not configured on this deployment. Set ADMIN_USERNAME and ADMIN_PASSWORD, then redeploy.')
+  }
+
   const setupMode = !authConfigured
 
   if (authConfigured) {
