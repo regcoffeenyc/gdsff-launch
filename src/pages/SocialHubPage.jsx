@@ -1473,7 +1473,7 @@ export default function SocialHubPage({ copy }) {
                   <strong>Instagram:</strong>{' '}
                   {metaCheckResult.meta?.instagram?.resolvedFrom === 'page'
                     ? `connected as ${metaCheckResult.meta.instagram.username || 'account'} (${metaCheckResult.meta.instagram.resolvedId})`
-                    : metaCheckResult.meta?.instagram?.error || 'the Page reports no connected Instagram account'}
+                    : metaCheckResult.meta?.instagram?.error || 'Not checked.'}
                 </p>
 
                 {/* Says where the ids came from, so a check run before the blob

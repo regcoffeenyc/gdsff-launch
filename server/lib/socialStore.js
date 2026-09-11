@@ -35,8 +35,35 @@ function mergeValues(defaultValue, currentValue) {
   return currentValue === undefined ? defaultValue : currentValue
 }
 
+/* Identifiers where a blank means "never configured", never a deliberate
+   choice. mergeValues only substitutes a default for `undefined`, so a
+   workspace saved before these were seeded holds "" for each and never sees the
+   real value — which is how a deployment carrying the correct ids in code still
+   reported "Set the Page ID in the workspace". An empty one falls back to the
+   seed; one that has been set is left alone. */
+const META_IDENTIFIER_KEYS = ['facebookPageId', 'instagramBusinessId', 'businessPortfolioId']
+
+function fillBlankMetaIdentifiers(merged, defaults) {
+  const meta = merged.settings?.meta
+  const defaultMeta = defaults.settings?.meta
+
+  if (!meta || !defaultMeta) {
+    return merged
+  }
+
+  for (const key of META_IDENTIFIER_KEYS) {
+    const stored = typeof meta[key] === 'string' ? meta[key].trim() : ''
+    if (!stored && defaultMeta[key]) {
+      meta[key] = defaultMeta[key]
+    }
+  }
+
+  return merged
+}
+
 export function normalizeState(state) {
-  return mergeValues(createDefaultState(), state || {})
+  const defaults = createDefaultState()
+  return fillBlankMetaIdentifiers(mergeValues(defaults, state || {}), defaults)
 }
 
 function ensureDataDir() {

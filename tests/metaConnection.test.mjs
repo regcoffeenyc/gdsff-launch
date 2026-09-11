@@ -18,6 +18,7 @@ delete process.env.VERCEL
 delete process.env.BLOB_READ_WRITE_TOKEN
 
 const { createDefaultState } = await import('../server/lib/defaultState.js')
+const { normalizeState } = await import('../server/lib/socialStore.js')
 const { describeMetaConnection, publishToMeta, resolveInstagramUserId } = await import('../server/lib/metaGraph.js')
 
 /* The numbers read from Business Suite on 11 September 2026. The Page ID is
@@ -144,6 +145,53 @@ test('the connection check says what is missing instead of calling Meta', async 
   assert.equal(report.facebook.pageIdConfigured, true)
   assert.equal(report.facebook.tokenConfigured, false)
   assert.match(report.facebook.error, /META_PAGE_ACCESS_TOKEN/)
+})
+
+/* A workspace saved before the ids were seeded holds "" for each, and
+   mergeValues only substitutes a default for undefined — so the live site
+   reported "Set the Page ID in the workspace" while the correct id sat in the
+   code it was running. */
+test('a workspace saved with blank identifiers picks up the seeded ones', () => {
+  const stale = {
+    settings: { meta: { facebookPageId: '', instagramBusinessId: '', facebookPageName: 'GDSFF' } },
+  }
+
+  const meta = normalizeState(stale).settings.meta
+  assert.equal(meta.facebookPageId, PAGE_ID)
+  assert.equal(meta.instagramBusinessId, PORTFOLIO_ASSET_ID)
+  assert.equal(meta.facebookPageName, 'GDSFF', 'a value that was actually set stays put')
+})
+
+test('an identifier someone has set is never overwritten by the seed', () => {
+  const edited = { settings: { meta: { facebookPageId: '999', instagramBusinessId: '888' } } }
+  const meta = normalizeState(edited).settings.meta
+  assert.equal(meta.facebookPageId, '999')
+  assert.equal(meta.instagramBusinessId, '888')
+})
+
+/* Two different causes had one message, which read as "do both of these" when
+   only one was wrong. */
+test('a missing token and a missing page id are reported separately', async () => {
+  globalThis.fetch = async () => assert.fail('nothing to call')
+
+  const noToken = await describeMetaConnection({ facebookPageId: PAGE_ID, instagramBusinessId: '' })
+  assert.match(noToken.facebook.error, /META_PAGE_ACCESS_TOKEN is not set/)
+  assert.doesNotMatch(noToken.facebook.error, /Enter it under Integration Settings/)
+
+  const noPageId = await describeMetaConnection({ facebookPageId: '', instagramBusinessId: '' })
+  assert.match(noPageId.facebook.error, /No Page ID is saved/)
+  assert.doesNotMatch(noPageId.facebook.error, /META_PAGE_ACCESS_TOKEN/)
+})
+
+/* Saying "the Page reports no connected Instagram account" when the Page was
+   never asked sends someone hunting through Business Suite for a problem that
+   is a missing token one line above. */
+test('Instagram reports "not checked" when the check never reached the Page', async () => {
+  globalThis.fetch = async () => assert.fail('nothing to call')
+  const report = await describeMetaConnection({ facebookPageId: PAGE_ID, instagramBusinessId: PORTFOLIO_ASSET_ID })
+  assert.equal(report.instagram.checked, false)
+  assert.match(report.instagram.error, /Not checked/)
+  assert.doesNotMatch(report.instagram.error, /no connected Instagram account/)
 })
 
 test('the connection check reports the page name and the resolved account', async () => {
