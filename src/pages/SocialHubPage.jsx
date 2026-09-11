@@ -1469,10 +1469,18 @@ export default function SocialHubPage({ copy }) {
                     : metaCheckResult.meta?.facebook?.error || 'not reachable'}
                 </p>
 
-                <p className={`social-inline-note ${metaCheckResult.meta?.instagram?.resolvedFrom === 'page' ? 'is-success' : 'is-error'}`}>
+                {/* "direct" is as good as "page": the account read back with
+                    this token, which is the only thing publishing needs. */}
+                <p
+                  className={`social-inline-note ${
+                    ['page', 'direct'].includes(metaCheckResult.meta?.instagram?.resolvedFrom) ? 'is-success' : 'is-error'
+                  }`}
+                >
                   <strong>Instagram:</strong>{' '}
-                  {metaCheckResult.meta?.instagram?.resolvedFrom === 'page'
-                    ? `connected as ${metaCheckResult.meta.instagram.username || 'account'} (${metaCheckResult.meta.instagram.resolvedId})`
+                  {['page', 'direct'].includes(metaCheckResult.meta?.instagram?.resolvedFrom)
+                    ? `reachable as ${metaCheckResult.meta.instagram.username || 'account'} (${metaCheckResult.meta.instagram.resolvedId})${
+                        metaCheckResult.meta.instagram.note ? ` — ${metaCheckResult.meta.instagram.note}` : ''
+                      }`
                     : metaCheckResult.meta?.instagram?.error || 'Not checked.'}
                 </p>
 
