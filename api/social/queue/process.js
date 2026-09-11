@@ -22,8 +22,10 @@ export default withAdmin('POST', async ({ response, body, sendJson }) => {
         createdAt: new Date().toISOString(),
         platform: item.platform || 'unknown',
         dryRun: item.dryRun !== false,
-        message: '',
-        imageUrl: '',
+        /* These were two empty strings, so a queue publish left no record of
+           what actually went out. */
+        message: item.message || '',
+        imageUrl: item.imageUrl || '',
         result: item,
       },
       ...(draft.publishHistory || []),

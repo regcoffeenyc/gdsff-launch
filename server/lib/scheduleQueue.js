@@ -33,13 +33,22 @@ export async function processScheduledPosts({ state, publishFn, now = new Date()
       continue
     }
 
+    const message = post.captions.medium
+    const imageUrl = item.imageUrl || post.imagePlaceholder || ''
+
     try {
       const result = await publishFn({
         platform: item.platform,
-        message: post.captions.medium,
-        imageUrl: item.imageUrl || post.imagePlaceholder || '',
+        message,
+        imageUrl,
         link: post.link || '',
         dryRun: shouldDryRun,
+        /* Without these the publisher throws "Facebook Page ID is required" on
+           every scheduled item: the queue was dead in the one mode where nobody
+           is watching it run, and a scheduled announcement would simply never
+           appear. */
+        facebookPageId: state.settings?.meta?.facebookPageId || '',
+        instagramBusinessId: state.settings?.meta?.instagramBusinessId || '',
       })
 
       item.lastProcessedAt = now.toISOString()
@@ -55,6 +64,10 @@ export async function processScheduledPosts({ state, publishFn, now = new Date()
         id: item.id,
         platform: item.platform,
         dryRun: shouldDryRun,
+        /* Carried out so the history row can record what was actually sent
+           rather than two empty strings. */
+        message,
+        imageUrl,
         result,
       })
     } catch (error) {
