@@ -91,6 +91,68 @@ test('a Page that reports no connected account falls back to the saved id', asyn
   })
   assert.equal(resolved.id, PORTFOLIO_ASSET_ID)
   assert.equal(resolved.source, 'settings')
+  assert.equal(resolved.reason, 'page-has-no-linked-account')
+})
+
+/* Meta links the account through either field depending on which side it was
+   connected from. Asking for only the first reports a linked account as
+   absent. */
+test('an account linked from the Instagram side is still found', async () => {
+  stubGraph((url) => {
+    assert.ok(url.includes('connected_instagram_account'), 'both fields must be requested')
+    return { body: { id: PAGE_ID, connected_instagram_account: { id: IG_USER_ID, username: 'gdsffofficial' } } }
+  })
+
+  const resolved = await resolveInstagramUserId({
+    facebookPageId: PAGE_ID,
+    instagramBusinessId: PORTFOLIO_ASSET_ID,
+    accessToken: 'token',
+  })
+
+  assert.equal(resolved.id, IG_USER_ID)
+  assert.equal(resolved.source, 'page')
+  assert.equal(resolved.field, 'connected_instagram_account')
+})
+
+/* A missing scope reported as "no connected account" sends someone to re-link
+   an account that was never unlinked. */
+test('a permissions failure is reported as itself, not as a missing link', async () => {
+  process.env.META_PAGE_ACCESS_TOKEN = 'token'
+  stubGraph(() => ({
+    ok: false,
+    body: { error: { message: '(#278) Requires instagram_basic permission' } },
+  }))
+
+  const resolved = await resolveInstagramUserId({
+    facebookPageId: PAGE_ID,
+    instagramBusinessId: PORTFOLIO_ASSET_ID,
+    accessToken: 'token',
+  })
+  assert.equal(resolved.reason, 'graph-error')
+  assert.match(resolved.graphError, /instagram_basic/)
+})
+
+test('the check tells a permissions failure apart from an unlinked account', async () => {
+  process.env.META_PAGE_ACCESS_TOKEN = 'token'
+
+  stubGraph((url) =>
+    url.includes('instagram_business_account')
+      ? { ok: false, body: { error: { message: '(#278) Requires instagram_basic permission' } } }
+      : { body: { id: PAGE_ID, name: 'GDSFF' } },
+  )
+
+  const withScopeProblem = await describeMetaConnection({ facebookPageId: PAGE_ID, instagramBusinessId: PORTFOLIO_ASSET_ID })
+  assert.equal(withScopeProblem.instagram.reason, 'graph-error')
+  assert.match(withScopeProblem.instagram.error, /instagram_basic/)
+  assert.doesNotMatch(withScopeProblem.instagram.error, /no linked Instagram account/)
+
+  stubGraph((url) =>
+    url.includes('instagram_business_account') ? { body: { id: PAGE_ID } } : { body: { id: PAGE_ID, name: 'GDSFF' } },
+  )
+
+  const withNoLink = await describeMetaConnection({ facebookPageId: PAGE_ID, instagramBusinessId: PORTFOLIO_ASSET_ID })
+  assert.equal(withNoLink.instagram.reason, 'page-has-no-linked-account')
+  assert.match(withNoLink.instagram.error, /no linked Instagram account/)
 })
 
 test('publishing to Instagram posts to the resolved id, not the saved one', async () => {
