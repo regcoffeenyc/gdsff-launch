@@ -74,6 +74,11 @@
       "source": "/search",
       "destination": "/ka/search",
       "permanent": true
+    },
+    {
+      "source": "/social",
+      "destination": "/ka/social",
+      "permanent": true
     }
   ],
   "headers": [
