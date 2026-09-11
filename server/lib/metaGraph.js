@@ -97,12 +97,27 @@ export async function describeMetaConnection({ facebookPageId, instagramBusiness
       resolvedFrom: '',
       username: '',
       matchesConfigured: false,
+      /* Distinguishes "we asked the Page and it has none" from "we never got
+         far enough to ask". Reporting the first when the second happened sent
+         someone hunting through Business Suite for a problem that was a missing
+         token one line above. */
+      checked: false,
       error: '',
     },
   }
 
-  if (!report.facebook.pageIdConfigured || !report.facebook.tokenConfigured) {
-    report.facebook.error = 'Set the Page ID in the workspace and META_PAGE_ACCESS_TOKEN on the deployment.'
+  /* Name the one that is actually missing. One message covering both causes
+     reads as "do these two things" when only one of them is wrong. */
+  if (!report.facebook.pageIdConfigured) {
+    report.facebook.error = 'No Page ID is saved in the workspace. Enter it under Integration Settings and save.'
+    report.instagram.error = 'Not checked — the Facebook Page ID is missing, and the Instagram id is read from the Page.'
+    return report
+  }
+
+  if (!report.facebook.tokenConfigured) {
+    report.facebook.error =
+      'META_PAGE_ACCESS_TOKEN is not set on this deployment. Add it in Vercel and redeploy — an added variable only reaches builds made after it.'
+    report.instagram.error = 'Not checked — there is no access token to read the Page with.'
     return report
   }
 
@@ -116,6 +131,7 @@ export async function describeMetaConnection({ facebookPageId, instagramBusiness
   }
 
   const resolved = await resolveInstagramUserId({ facebookPageId, instagramBusinessId, accessToken: instagramToken })
+  report.instagram.checked = true
   report.instagram.resolvedId = resolved.id || ''
   report.instagram.resolvedFrom = resolved.source
   report.instagram.username = resolved.username || ''
