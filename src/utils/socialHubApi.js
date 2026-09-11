@@ -256,6 +256,14 @@ export function publishMetaContent(payload) {
   return post('/api/meta/publish', payload)
 }
 
+/* Reads the Page and the Instagram account connected to it, and reports what
+   came back. Publishes nothing. It has to go through this client rather than
+   the address bar: the session is an Authorization header held by the app, not
+   a cookie, so typing the endpoint into a browser is always a 401. */
+export function checkMetaConnection() {
+  return request('/api/meta/check')
+}
+
 export async function exportContacts(format = 'json') {
   const blob = await requestBlob(`/api/contacts/export?format=${encodeURIComponent(format)}`)
   return blob

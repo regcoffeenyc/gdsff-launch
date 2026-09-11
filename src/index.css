@@ -8342,6 +8342,36 @@ body.mobile-menu-active::before {
   background: rgba(225, 102, 102, 0.1);
 }
 
+/* The connection check sits under the settings form, separated by a rule so it
+   reads as a verification step rather than another field to fill in. */
+.social-meta-check {
+  margin-top: 1.1rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(208, 170, 94, 0.22);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: flex-start;
+}
+
+.social-meta-check .section-copy {
+  margin: 0;
+  font-size: 0.82rem;
+}
+
+.social-inline-note-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  width: 100%;
+}
+
+/* Graph ids are long unbroken digit strings; on a phone they must wrap rather
+   than push the card sideways. */
+.social-inline-note-group .social-inline-note {
+  overflow-wrap: anywhere;
+}
+
 @media (max-width: 1320px) {
   .social-grid-5,
   .social-summary-grid {

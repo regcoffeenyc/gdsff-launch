@@ -11,6 +11,7 @@ import {
   getAdminSession,
   getAdminState,
   loginAdmin,
+  checkMetaConnection,
   logoutAdmin,
   processSocialQueue,
   publishMetaContent,
@@ -252,6 +253,7 @@ export default function SocialHubPage({ copy }) {
   const [socialReplyResult, setSocialReplyResult] = useState(null)
   const [publishForm, setPublishForm] = useState({ platform: 'facebook', message: '', imageUrl: '', link: socialHubLaunchPack.brand.website, dryRun: true })
   const [publishResult, setPublishResult] = useState(null)
+  const [metaCheckResult, setMetaCheckResult] = useState(null)
   const [settingsForm, setSettingsForm] = useState({
     facebookPageId: '',
     instagramBusinessId: '',
@@ -501,6 +503,16 @@ export default function SocialHubPage({ copy }) {
 
     setWorkspace(null)
     setAuthState((current) => ({ ...current, authenticated: false, user: null }))
+  }
+
+  /* Proves a token works without posting anything. The endpoint cannot be
+     opened in the address bar — the session is a header this app holds, not a
+     cookie — so the only way to reach it is from inside the workspace. */
+  async function handleCheckMetaConnection() {
+    const result = await runAction(() => checkMetaConnection(), 'Connection checked. Nothing was published.')
+    if (result) {
+      setMetaCheckResult(result)
+    }
   }
 
   async function handleSaveSettings(event) {
@@ -1439,6 +1451,41 @@ export default function SocialHubPage({ copy }) {
             <input className="safety-input" type="number" min="1" max="30" value={settingsForm.followUpDays} onChange={(event) => setSettingsForm((current) => ({ ...current, followUpDays: event.target.value }))} placeholder="Follow-up days" />
             <button type="submit" className="primary-button" disabled={busy}>Save Settings</button>
           </form>
+
+          <div className="social-meta-check">
+            <button type="button" className="ghost-button" onClick={handleCheckMetaConnection} disabled={busy}>
+              Check Meta Connection
+            </button>
+            <p className="section-copy">
+              Reads the Page and the Instagram account connected to it. Publishes nothing.
+            </p>
+
+            {metaCheckResult ? (
+              <div className="social-inline-note-group">
+                <p className={`social-inline-note ${metaCheckResult.meta?.facebook?.reachable ? 'is-success' : 'is-error'}`}>
+                  <strong>Facebook:</strong>{' '}
+                  {metaCheckResult.meta?.facebook?.reachable
+                    ? `reachable — ${metaCheckResult.meta.facebook.name || 'page found'}`
+                    : metaCheckResult.meta?.facebook?.error || 'not reachable'}
+                </p>
+
+                <p className={`social-inline-note ${metaCheckResult.meta?.instagram?.resolvedFrom === 'page' ? 'is-success' : 'is-error'}`}>
+                  <strong>Instagram:</strong>{' '}
+                  {metaCheckResult.meta?.instagram?.resolvedFrom === 'page'
+                    ? `connected as ${metaCheckResult.meta.instagram.username || 'account'} (${metaCheckResult.meta.instagram.resolvedId})`
+                    : metaCheckResult.meta?.instagram?.error || 'the Page reports no connected Instagram account'}
+                </p>
+
+                {/* Says where the ids came from, so a check run before the blob
+                    store exists is not mistaken for a check of saved settings. */}
+                {metaCheckResult.identifiersFrom === 'defaults' ? (
+                  <p className="social-inline-note">
+                    Identifiers read from the seeded defaults, not saved settings. {metaCheckResult.storageNote}
+                  </p>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
           {settingsForm.emailProvider === 'microsoft365' ? (
             <p className="section-copy">
               Required env vars: `M365_TENANT_ID`, `M365_CLIENT_ID`, `M365_CLIENT_SECRET`, `M365_MAILBOX_ADDRESS`, and `EMAIL_PROVIDER=microsoft365`.
