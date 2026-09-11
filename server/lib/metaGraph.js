@@ -287,9 +287,28 @@ export async function describeMetaConnection({ facebookPageId, instagramBusiness
   return report
 }
 
+/* Meta fetches the image from its own servers, so a site-relative path reaches
+   nothing. The draft carried "/media/if3-certificate-square.jpg", which is
+   correct for the site and unusable for Graph. */
+export function toPublicImageUrl(imageUrl) {
+  const value = typeof imageUrl === 'string' ? imageUrl.trim() : ''
+
+  if (!value) {
+    return ''
+  }
+
+  if (/^https?:\/\//i.test(value)) {
+    return value
+  }
+
+  const origin = (process.env.PUBLIC_SITE_ORIGIN || 'https://www.gdsff.com').replace(/\/+$/, '')
+  return `${origin}/${value.replace(/^\/+/, '')}`
+}
+
 export async function publishToMeta({ platform, message, imageUrl, link, dryRun, facebookPageId, instagramBusinessId }) {
   const facebookToken = process.env.META_PAGE_ACCESS_TOKEN || ''
   const instagramToken = process.env.META_INSTAGRAM_ACCESS_TOKEN || facebookToken
+  const publicImageUrl = toPublicImageUrl(imageUrl)
 
   if (dryRun) {
     return {
@@ -299,10 +318,21 @@ export async function publishToMeta({ platform, message, imageUrl, link, dryRun,
         facebookPageId,
         instagramBusinessId,
         message,
-        imageUrl,
+        /* Show what would actually be sent, not what was typed. A dry run whose
+           payload differs from the real one is not a rehearsal. */
+        imageUrl: publicImageUrl,
+        imageUrlAsGiven: imageUrl || '',
         link,
       },
     }
+  }
+
+  /* An announcement about a certificate, posted without the certificate,
+     is worse than a failed post: it is public and has to be deleted. */
+  if (imageUrl && !publicImageUrl.startsWith('https://')) {
+    throw new Error(
+      `The image URL "${imageUrl}" is not a public https address. Meta fetches images from its own servers, so a site-relative path reaches nothing. Set PUBLIC_SITE_ORIGIN or give the image an absolute https URL.`,
+    )
   }
 
   if (platform === 'facebook') {
@@ -314,8 +344,8 @@ export async function publishToMeta({ platform, message, imageUrl, link, dryRun,
       throw new Error('META_PAGE_ACCESS_TOKEN is not configured.')
     }
 
-    if (hasValue(imageUrl)) {
-      return callGraph(`/${facebookPageId}/photos`, { url: imageUrl, caption: message }, facebookToken)
+    if (hasValue(publicImageUrl)) {
+      return callGraph(`/${facebookPageId}/photos`, { url: publicImageUrl, caption: message }, facebookToken)
     }
 
     return callGraph(`/${facebookPageId}/feed`, { message, ...(hasValue(link) ? { link } : {}) }, facebookToken)
@@ -335,14 +365,14 @@ export async function publishToMeta({ platform, message, imageUrl, link, dryRun,
       throw new Error('Instagram Business ID is required before publishing.')
     }
 
-    if (!hasValue(imageUrl)) {
+    if (!hasValue(publicImageUrl)) {
       throw new Error('Instagram publishing requires a public image URL for this MVP.')
     }
 
     const container = await callGraph(
       `/${instagramUserId}/media`,
       {
-        image_url: imageUrl,
+        image_url: publicImageUrl,
         caption: message,
       },
       instagramToken,

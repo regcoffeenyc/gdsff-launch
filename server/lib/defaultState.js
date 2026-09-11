@@ -20,6 +20,19 @@ function buildCaptionVariants(title, body) {
   return { short, medium, long }
 }
 
+/* The asset's real file, not its id. `/media/${assetId}` produced
+   "/media/if3-certificate" for an asset whose file is
+   "/media/if3-certificate-square.jpg" — a path to nothing, which Meta would
+   have failed to fetch on the first live post. */
+function assetSource(assetId) {
+  if (!assetId) {
+    return ''
+  }
+
+  const asset = buildMediaAssets().find((entry) => entry.id === assetId)
+  return asset?.source || ''
+}
+
 function buildSocialPost({ id, title, body, category, platforms, status, scheduledFor, assetId, notes = '', englishCaption = '' }) {
   return {
     id,
@@ -30,7 +43,7 @@ function buildSocialPost({ id, title, body, category, platforms, status, schedul
     captions: buildCaptionVariants(title, body),
     englishCaption,
     hashtags: socialHubLaunchPack.hashtags.slice(0, 6),
-    imagePlaceholder: assetId ? `/media/${assetId}` : '',
+    imagePlaceholder: assetSource(assetId),
     mediaAssetIds: assetId ? [assetId] : [],
     link: socialHubLaunchPack.brand.website,
     approval: {

@@ -19,7 +19,9 @@ delete process.env.BLOB_READ_WRITE_TOKEN
 
 const { createDefaultState } = await import('../server/lib/defaultState.js')
 const { normalizeState } = await import('../server/lib/socialStore.js')
-const { describeMetaConnection, publishToMeta, resolveInstagramUserId } = await import('../server/lib/metaGraph.js')
+const { describeMetaConnection, publishToMeta, resolveInstagramUserId, toPublicImageUrl } = await import(
+  '../server/lib/metaGraph.js'
+)
 
 /* The numbers read from Business Suite on 11 September 2026. The Page ID is
    asserted because an earlier note had a different number for the same page,
@@ -421,6 +423,54 @@ test('an expired token is told how to get one that does not expire', async () =>
   assert.equal(report.facebook.expired, true)
   assert.match(report.facebook.error, /Session has expired/, 'the Graph message survives')
   assert.match(report.facebook.error, /me\/accounts/, 'and the derivation step is named')
+})
+
+/* Meta fetches the image from its own servers, so a site-relative path reaches
+   nothing. The draft carried one, and the dry run displayed it unchanged. */
+test('a site-relative image becomes an absolute public URL', () => {
+  assert.equal(
+    toPublicImageUrl('/media/if3-certificate-square.jpg'),
+    'https://www.gdsff.com/media/if3-certificate-square.jpg',
+  )
+  assert.equal(toPublicImageUrl('media/x.jpg'), 'https://www.gdsff.com/media/x.jpg')
+  assert.equal(toPublicImageUrl('https://cdn.example.com/x.jpg'), 'https://cdn.example.com/x.jpg')
+  assert.equal(toPublicImageUrl(''), '')
+})
+
+test('the dry run shows the URL that would actually be sent', async () => {
+  const result = await publishToMeta({
+    platform: 'facebook',
+    message: 'test',
+    imageUrl: '/media/if3-certificate-square.jpg',
+    dryRun: true,
+    facebookPageId: PAGE_ID,
+    instagramBusinessId: IG_USER_ID,
+  })
+
+  assert.equal(result.request.imageUrl, 'https://www.gdsff.com/media/if3-certificate-square.jpg')
+  assert.equal(result.request.imageUrlAsGiven, '/media/if3-certificate-square.jpg')
+})
+
+/* An announcement about a certificate, posted without the certificate, is
+   worse than a failed post: it is public and has to be deleted. */
+test('a real publish refuses an image URL Meta could not fetch', async () => {
+  process.env.META_PAGE_ACCESS_TOKEN = 'token'
+  process.env.PUBLIC_SITE_ORIGIN = 'not-a-url'
+  globalThis.fetch = async () => assert.fail('nothing should be sent')
+
+  await assert.rejects(
+    publishToMeta({
+      platform: 'facebook',
+      message: 'test',
+      imageUrl: '/media/if3-certificate-square.jpg',
+      dryRun: false,
+      facebookPageId: PAGE_ID,
+      instagramBusinessId: IG_USER_ID,
+    }),
+    /not a public https address/,
+  )
+
+  delete process.env.PUBLIC_SITE_ORIGIN
 })
 
 test('a bad token is reported, not swallowed', async () => {
