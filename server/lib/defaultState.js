@@ -649,9 +649,20 @@ export function createDefaultState() {
   return {
     updatedAt: null,
     settings: {
+      /* Read from Business Suite on 11 September 2026, from the federation's
+         own business portfolio. These are identifiers, not credentials: they
+         appear in page URLs and in ordinary API responses, and nothing can be
+         published with them alone. The tokens stay in the environment.
+
+         instagramBusinessId is the number Business Suite shows on the
+         Instagram account's Summary screen. Publishing does not use it
+         directly — metaGraph.js asks the Page for the IG User ID, because the
+         two are different numbers and only the Page's answer works. It is kept
+         here as the recorded asset id and as a fallback. */
       meta: {
-        facebookPageId: '',
-        instagramBusinessId: '',
+        facebookPageId: '1081637585022289',
+        instagramBusinessId: '1068919759631644',
+        businessPortfolioId: '963423796338624',
         facebookPageName: socialHubLaunchPack.facebook.pageName,
         instagramHandle: socialHubLaunchPack.instagram.recommendedUsername,
       },
