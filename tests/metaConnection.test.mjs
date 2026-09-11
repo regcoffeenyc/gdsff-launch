@@ -30,6 +30,12 @@ const PAGE_ID = '1081637585022289'
 const PORTFOLIO_ASSET_ID = '1068919759631644'
 const IG_USER_ID = '17841442047686365'
 
+/* /debug_token is the only edge a Page token can use to read its own scopes,
+   which is why it replaced /me/permissions. */
+function debugToken(scopes, type = 'PAGE', expiresAt = 0) {
+  return { body: { data: { is_valid: true, type, app_id: '900', application: 'GDSFF App', expires_at: expiresAt, scopes } } }
+}
+
 const realFetch = globalThis.fetch
 
 function stubGraph(handler) {
@@ -96,7 +102,7 @@ test('an unreachable saved id falls through to diagnosing the token', async () =
     if (url.includes(`/${IG_USER_ID}?`)) {
       return { ok: false, body: { error: { message: 'Unsupported get request' } } }
     }
-    if (url.includes('/me/permissions')) return { body: { data: [{ permission: 'instagram_basic', status: 'granted' }] } }
+    if (url.includes('/debug_token')) return debugToken(['instagram_basic'], 'USER')
     if (url.includes('/me?')) return { body: { id: '777000777', name: 'George Gagnidze' } }
     return { body: { id: PAGE_ID, name: 'GDSFF' } }
   })
@@ -206,7 +212,7 @@ test('the check tells a permissions failure apart from an unlinked account', asy
     if (url.includes(`/${PORTFOLIO_ASSET_ID}?`)) {
       return { ok: false, body: { error: { message: 'Unsupported get request' } } }
     }
-    if (url.includes('/me/permissions')) return { body: { data: [{ permission: 'instagram_basic', status: 'granted' }] } }
+    if (url.includes('/debug_token')) return debugToken(['instagram_basic'])
     if (url.includes('/me?')) return { body: { id: PAGE_ID, name: 'GDSFF' } }
     if (url.includes('instagram_business_account')) return { body: { id: PAGE_ID } }
     return { body: { id: PAGE_ID, name: 'GDSFF' } }
@@ -228,7 +234,7 @@ test('unknown scopes are reported as unknown, not as present', async () => {
       return { ok: false, body: { error: { message: 'Unsupported get request' } } }
     }
     /* Page tokens genuinely cannot read this edge. */
-    if (url.includes('/me/permissions')) return { ok: false, body: { error: { message: 'not available' } } }
+    if (url.includes('/debug_token')) return { ok: false, body: { error: { message: 'not available' } } }
     if (url.includes('/me?')) return { body: { id: PAGE_ID, name: 'GDSFF' } }
     if (url.includes('instagram_business_account')) return { body: { id: PAGE_ID } }
     return { body: { id: PAGE_ID, name: 'GDSFF' } }
@@ -364,7 +370,7 @@ test('the connection check reports the page name and the resolved account', asyn
 test('a User token is named as the cause rather than the account', async () => {
   process.env.META_PAGE_ACCESS_TOKEN = 'token'
   stubGraph((url) => {
-    if (url.includes('/me/permissions')) return { body: { data: [{ permission: 'instagram_basic', status: 'granted' }] } }
+    if (url.includes('/debug_token')) return debugToken(['instagram_basic'], 'USER')
     if (url.includes('/me?')) return { body: { id: '777000777', name: 'George Gagnidze' } }
     if (url.includes(`/${PORTFOLIO_ASSET_ID}?`)) return { ok: false, body: { error: { message: 'Unsupported get request' } } }
     if (url.includes('instagram_business_account')) return { body: { id: PAGE_ID } }
@@ -380,9 +386,7 @@ test('a User token is named as the cause rather than the account', async () => {
 test('a Page token missing instagram_basic is named as the cause', async () => {
   process.env.META_PAGE_ACCESS_TOKEN = 'token'
   stubGraph((url) => {
-    if (url.includes('/me/permissions')) {
-      return { body: { data: [{ permission: 'pages_manage_posts', status: 'granted' }] } }
-    }
+    if (url.includes('/debug_token')) return debugToken(['pages_manage_posts'])
     if (url.includes('/me?')) return { body: { id: PAGE_ID, name: 'GDSFF' } }
     if (url.includes(`/${PORTFOLIO_ASSET_ID}?`)) return { ok: false, body: { error: { message: 'Unsupported get request' } } }
     if (url.includes('instagram_business_account')) return { body: { id: PAGE_ID } }
@@ -398,7 +402,7 @@ test('a Page token missing instagram_basic is named as the cause', async () => {
 test('a Page token with the scope still reports the link as the remaining cause', async () => {
   process.env.META_PAGE_ACCESS_TOKEN = 'token'
   stubGraph((url) => {
-    if (url.includes('/me/permissions')) return { body: { data: [{ permission: 'instagram_basic', status: 'granted' }] } }
+    if (url.includes('/debug_token')) return debugToken(['instagram_basic'])
     if (url.includes('/me?')) return { body: { id: PAGE_ID, name: 'GDSFF' } }
     if (url.includes(`/${PORTFOLIO_ASSET_ID}?`)) return { ok: false, body: { error: { message: 'Unsupported get request' } } }
     if (url.includes('instagram_business_account')) return { body: { id: PAGE_ID } }
@@ -471,6 +475,60 @@ test('a real publish refuses an image URL Meta could not fetch', async () => {
   )
 
   delete process.env.PUBLIC_SITE_ORIGIN
+})
+
+/* Every diagnosis stalled on "scopes unknown" because /me/permissions is a
+   User-token edge. debug_token works for a Page token and answers it. */
+test('a Page token reports its own scopes, app and expiry', async () => {
+  process.env.META_PAGE_ACCESS_TOKEN = 'token'
+  stubGraph((url) => {
+    if (url.includes('/debug_token')) return debugToken(['pages_manage_posts', 'instagram_basic'])
+    if (url.includes(`/${IG_USER_ID}?`)) return { body: { id: IG_USER_ID, username: 'gdsffofficial' } }
+    if (url.includes('instagram_business_account')) return { body: { id: PAGE_ID } }
+    return { body: { id: PAGE_ID, name: 'GDSFF' } }
+  })
+
+  const report = await describeMetaConnection({ facebookPageId: PAGE_ID, instagramBusinessId: IG_USER_ID })
+  assert.equal(report.token.scopesKnown, true)
+  assert.equal(report.token.type, 'page')
+  assert.equal(report.token.appName, 'GDSFF App')
+  assert.equal(report.token.neverExpires, true)
+  assert.deepEqual(report.readiness.missing, ['instagram_content_publish'])
+  assert.equal(report.readiness.facebook, true)
+  assert.equal(report.readiness.instagram, false)
+})
+
+/* A Page that reads fine still cannot be posted to without pages_manage_posts.
+   Reporting "Facebook: ready" in that state is the same overstatement as
+   every earlier one. */
+test('a token that cannot publish is not reported as ready', async () => {
+  process.env.META_PAGE_ACCESS_TOKEN = 'token'
+  stubGraph((url) => {
+    if (url.includes('/debug_token')) return debugToken(['pages_read_engagement'])
+    if (url.includes(`/${IG_USER_ID}?`)) return { body: { id: IG_USER_ID, username: 'gdsffofficial' } }
+    if (url.includes('instagram_business_account')) return { body: { id: PAGE_ID } }
+    return { body: { id: PAGE_ID, name: 'GDSFF' } }
+  })
+
+  const report = await describeMetaConnection({ facebookPageId: PAGE_ID, instagramBusinessId: IG_USER_ID })
+  assert.equal(report.readiness.facebook, false)
+  assert.match(report.facebook.error, /pages_manage_posts/)
+})
+
+test('a token with an expiry says when, and how to stop it recurring', async () => {
+  process.env.META_PAGE_ACCESS_TOKEN = 'token'
+  const soon = Math.floor(Date.now() / 1000) + 3600
+  stubGraph((url) => {
+    if (url.includes('/debug_token')) return debugToken(['pages_manage_posts'], 'PAGE', soon)
+    if (url.includes(`/${IG_USER_ID}?`)) return { body: { id: IG_USER_ID, username: 'gdsffofficial' } }
+    if (url.includes('instagram_business_account')) return { body: { id: PAGE_ID } }
+    return { body: { id: PAGE_ID, name: 'GDSFF' } }
+  })
+
+  const report = await describeMetaConnection({ facebookPageId: PAGE_ID, instagramBusinessId: IG_USER_ID })
+  assert.equal(report.token.neverExpires, false)
+  assert.match(report.facebook.expiryWarning, /never expires/)
+  assert.ok(report.facebook.expiresAt)
 })
 
 test('a bad token is reported, not swallowed', async () => {

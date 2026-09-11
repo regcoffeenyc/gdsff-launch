@@ -1501,17 +1501,39 @@ export default function SocialHubPage({ copy }) {
                     : metaCheckResult.meta?.instagram?.error || 'Not checked.'}
                 </p>
 
-                {/* Only present when the check had to inspect the token to
-                    explain an absent Instagram link. Seeing "User token" here
-                    is the whole answer in two words. */}
-                {metaCheckResult.token ? (
+                {/* Shown on every check now, not only on failure. The token's
+                    type, app, scopes and expiry turned out to be the four facts
+                    that mattered, and none of them were visible. */}
+                {metaCheckResult.meta?.token ? (
                   <p className="social-inline-note">
-                    <strong>Token:</strong> {metaCheckResult.token.type === 'page' ? 'Page token' : 'User token'}
-                    {metaCheckResult.token.name ? ` (${metaCheckResult.token.name})` : ''}
-                    {metaCheckResult.token.scopesKnown
-                      ? ` — scopes: ${metaCheckResult.token.scopes.join(', ') || 'none'}`
+                    <strong>Token:</strong> {metaCheckResult.meta.token.type === 'page' ? 'Page token' : 'User token'}
+                    {metaCheckResult.meta.token.appName ? ` · app: ${metaCheckResult.meta.token.appName}` : ''}
+                    {metaCheckResult.meta.token.neverExpires ? ' · never expires' : ''}
+                    {metaCheckResult.meta.token.scopesKnown
+                      ? ` · scopes: ${metaCheckResult.meta.token.scopes.join(', ') || 'none'}`
+                      : ' · scopes unreadable'}
+                  </p>
+                ) : null}
+
+                {/* Reading a Page is not the same as being allowed to post to
+                    it. Without this, "Facebook: reachable" read as "ready". */}
+                {metaCheckResult.meta?.readiness?.known ? (
+                  <p
+                    className={`social-inline-note ${
+                      metaCheckResult.meta.readiness.missing.length === 0 ? 'is-success' : 'is-error'
+                    }`}
+                  >
+                    <strong>Can publish:</strong> Facebook{' '}
+                    {metaCheckResult.meta.readiness.facebook ? 'yes' : 'no'} · Instagram{' '}
+                    {metaCheckResult.meta.readiness.instagram ? 'yes' : 'no'}
+                    {metaCheckResult.meta.readiness.missing.length
+                      ? ` — missing: ${metaCheckResult.meta.readiness.missing.join(', ')}`
                       : ''}
                   </p>
+                ) : null}
+
+                {metaCheckResult.meta?.facebook?.expiryWarning ? (
+                  <p className="social-inline-note is-error">{metaCheckResult.meta.facebook.expiryWarning}</p>
                 ) : null}
 
                 {/* Says where the ids came from, so a check run before the blob

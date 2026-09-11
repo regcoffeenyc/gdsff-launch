@@ -112,32 +112,99 @@ export async function resolveInstagramUserId({ facebookPageId, instagramBusiness
  *
  * So ask the token what it is before blaming the account.
  */
-async function describeToken(accessToken, facebookPageId) {
-  const info = { type: 'unknown', id: '', name: '', scopes: [], scopesKnown: false, error: '' }
+/* The scopes every diagnosis kept stalling on.
+ *
+ * /me/permissions is a User-token edge; a Page token cannot read it, so the
+ * check kept reporting "scopes unknown" in exactly the case that mattered and
+ * then reasoning about causes it could not see. /debug_token works for any
+ * token, inspecting itself, and returns the type, the app, the granted scopes
+ * and the expiry. That replaces every remaining guess with a fact.
+ */
+async function debugToken(accessToken) {
+  const debug = await readGraph('/debug_token', { input_token: accessToken }, accessToken)
+  const data = debug?.data
 
-  try {
-    const me = await readGraph('/me', { fields: 'id,name' }, accessToken)
-    info.id = me?.id || ''
-    info.name = me?.name || ''
-    /* A Page token's /me is the Page itself; a User token's is the person. */
-    info.type = info.id && String(info.id) === String(facebookPageId) ? 'page' : 'user'
-  } catch (error) {
-    info.error = error?.message || 'The token could not be read.'
-    return info
+  if (!data) {
+    throw new Error('The token could not be inspected.')
+  }
+
+  return {
+    valid: data.is_valid === true,
+    /* Graph says "PAGE" or "USER"; anything else is reported as it came. */
+    type: typeof data.type === 'string' ? data.type.toLowerCase() : 'unknown',
+    appId: data.app_id || '',
+    appName: data.application || '',
+    /* 0 or absent means it never expires — the goal for a page token. */
+    expiresAt: typeof data.expires_at === 'number' ? data.expires_at : 0,
+    scopes: Array.isArray(data.scopes) ? data.scopes : [],
+    scopesKnown: Array.isArray(data.scopes),
+    profileId: data.profile_id || data.user_id || '',
+  }
+}
+
+async function describeToken(accessToken, facebookPageId) {
+  const info = {
+    type: 'unknown',
+    id: '',
+    name: '',
+    scopes: [],
+    scopesKnown: false,
+    appName: '',
+    expiresAt: 0,
+    neverExpires: false,
+    error: '',
   }
 
   try {
-    const permissions = await readGraph('/me/permissions', {}, accessToken)
-    if (Array.isArray(permissions?.data)) {
-      info.scopes = permissions.data.filter((row) => row.status === 'granted').map((row) => row.permission)
-      info.scopesKnown = true
+    const debug = await debugToken(accessToken)
+    info.type = debug.type === 'page' || debug.type === 'user' ? debug.type : info.type
+    info.id = debug.profileId
+    info.scopes = debug.scopes
+    info.scopesKnown = debug.scopesKnown
+    info.appName = debug.appName
+    info.expiresAt = debug.expiresAt
+    info.neverExpires = debug.expiresAt === 0
+  } catch (error) {
+    info.error = error?.message || 'The token could not be inspected.'
+  }
+
+  /* /me for the human-readable name, and as the fallback type test when
+     debug_token is unavailable. */
+  try {
+    const me = await readGraph('/me', { fields: 'id,name' }, accessToken)
+    info.id = me?.id || info.id
+    info.name = me?.name || ''
+
+    if (info.type === 'unknown') {
+      info.type = info.id && String(info.id) === String(facebookPageId) ? 'page' : 'user'
     }
-  } catch {
-    /* Page tokens cannot read this edge. Not knowing the scopes is a normal
-       outcome, not a failure — it just means we report less. */
+  } catch (error) {
+    if (!info.error) {
+      info.error = error?.message || 'The token could not be read.'
+    }
   }
 
   return info
+}
+
+/* What this token can actually do, named per platform. Publishing needs
+   pages_manage_posts; Instagram needs both of its own scopes on top. */
+export function assessPublishReadiness(token) {
+  const scopes = Array.isArray(token?.scopes) ? token.scopes : []
+  const has = (name) => scopes.includes(name)
+
+  if (!token?.scopesKnown) {
+    return { known: false, facebook: null, instagram: null, missing: [] }
+  }
+
+  const missing = ['pages_manage_posts', 'instagram_basic', 'instagram_content_publish'].filter((name) => !has(name))
+
+  return {
+    known: true,
+    facebook: has('pages_manage_posts'),
+    instagram: has('instagram_basic') && has('instagram_content_publish'),
+    missing,
+  }
 }
 
 export async function describeMetaConnection({ facebookPageId, instagramBusinessId }) {
@@ -203,6 +270,23 @@ export async function describeMetaConnection({ facebookPageId, instagramBusiness
     return report
   }
 
+  /* Gather the token's own facts once, for every outcome. They were previously
+     collected only when Instagram failed, so a check that "passed" never said
+     which app the token belonged to, what it was allowed to do, or when it
+     expired — the three things that turned out to matter most. */
+  report.token = await describeToken(facebookToken, facebookPageId)
+  report.readiness = assessPublishReadiness(report.token)
+
+  if (report.readiness.known && report.readiness.facebook === false) {
+    report.facebook.error =
+      `The Page reads fine, but this token does not carry pages_manage_posts, so a publish will be refused. Granted: ${report.token.scopes.join(', ') || 'none'}.`
+  }
+
+  if (report.token.scopesKnown && !report.token.neverExpires && report.token.expiresAt) {
+    report.facebook.expiresAt = new Date(report.token.expiresAt * 1000).toISOString()
+    report.facebook.expiryWarning = `This token expires on ${report.facebook.expiresAt}. A Page token derived from a long-lived user token never expires; derive one from /me/accounts to stop this recurring.`
+  }
+
   const resolved = await resolveInstagramUserId({ facebookPageId, instagramBusinessId, accessToken: instagramToken })
   report.instagram.checked = true
   report.instagram.resolvedId = resolved.id || ''
@@ -224,7 +308,8 @@ export async function describeMetaConnection({ facebookPageId, instagramBusiness
          unreachable. If an IG User ID is configured, read it directly: if the
          token can see the account, publishing works regardless of what the
          Page's link fields say. This is the question that actually matters, so
-         ask it before diagnosing anything. */
+         ask it before diagnosing anything. NOTE: token facts are gathered once
+         after the Page read now, so report.token is already populated here. */
       if (hasValue(instagramBusinessId)) {
         try {
           const account = await readGraph(
@@ -250,9 +335,9 @@ export async function describeMetaConnection({ facebookPageId, instagramBusiness
 
       /* Before blaming the link, rule out the two things that produce an
          identical silent absence: a token that is not a Page token, and a token
-         without instagram_basic. */
-      const token = await describeToken(instagramToken, facebookPageId)
-      report.token = token
+         without instagram_basic. Both are already known — the token was
+         inspected once above, for every outcome rather than only this one. */
+      const token = report.token
 
       if (token.type === 'user') {
         report.instagram.reason = 'user-token'
