@@ -26,3 +26,8 @@ gdsff-github-ready/
 .vercel
 .env*
 dist-ssr/
+
+# Workspace runtime state. Seeded from server/data/social-state.seed.json
+# and rebuilt from defaults when absent; a committed copy shadows the seed
+# and once arrived carrying page ids a test had written.
+server/data/social-state.local.json
