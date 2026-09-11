@@ -21,6 +21,24 @@ export default function If3Announcement({ locale, compact = false }) {
           <h2 id="if3-news-title">{news.title}</h2>
           <p>{compact ? news.summary : news.lead}</p>
           {!compact && <p>{news.text}</p>}
+          {!compact && (
+            <figure className="if3-certificate">
+              <h3>{news.certificateHeading}</h3>
+              <a href={if3Membership.certificate.pdf} target="_blank" rel="noopener noreferrer">
+                <img
+                  src={if3Membership.certificate.image}
+                  alt={news.certificateAlt}
+                  width="1600"
+                  height="1238"
+                  loading="lazy"
+                />
+              </a>
+              <figcaption>{news.certificateCaption}</figcaption>
+              <a className="if3-source-link" href={if3Membership.certificate.pdf} download>
+                {news.certificateDownload}
+              </a>
+            </figure>
+          )}
           <div className="if3-news-actions">
             {compact ? (
               <Link className="primary-button" to="/gallery#news-updates">{news.readMore}</Link>
