@@ -1476,6 +1476,19 @@ export default function SocialHubPage({ copy }) {
                     : metaCheckResult.meta?.instagram?.error || 'Not checked.'}
                 </p>
 
+                {/* Only present when the check had to inspect the token to
+                    explain an absent Instagram link. Seeing "User token" here
+                    is the whole answer in two words. */}
+                {metaCheckResult.token ? (
+                  <p className="social-inline-note">
+                    <strong>Token:</strong> {metaCheckResult.token.type === 'page' ? 'Page token' : 'User token'}
+                    {metaCheckResult.token.name ? ` (${metaCheckResult.token.name})` : ''}
+                    {metaCheckResult.token.scopesKnown
+                      ? ` — scopes: ${metaCheckResult.token.scopes.join(', ') || 'none'}`
+                      : ''}
+                  </p>
+                ) : null}
+
                 {/* Says where the ids came from, so a check run before the blob
                     store exists is not mistaken for a check of saved settings. */}
                 {metaCheckResult.identifiersFrom === 'defaults' ? (

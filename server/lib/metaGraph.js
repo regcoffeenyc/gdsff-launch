@@ -101,6 +101,45 @@ export async function resolveInstagramUserId({ facebookPageId, instagramBusiness
 
 /* A read-only "does this actually work" check, so the first proof that a token
    is good does not have to be a real post on the federation's page. */
+/* What is this token, actually?
+ *
+ * Graph returns instagram_business_account only when the token carries
+ * instagram_basic, and it omits the field silently rather than erroring when it
+ * does not. A User token pasted instead of a Page token reads the page's name
+ * fine and returns no Instagram field either. Both look exactly like "the
+ * account is not linked" — which sent a correctly linked, correctly typed
+ * Business account to be re-linked in Business Suite.
+ *
+ * So ask the token what it is before blaming the account.
+ */
+async function describeToken(accessToken, facebookPageId) {
+  const info = { type: 'unknown', id: '', name: '', scopes: [], scopesKnown: false, error: '' }
+
+  try {
+    const me = await readGraph('/me', { fields: 'id,name' }, accessToken)
+    info.id = me?.id || ''
+    info.name = me?.name || ''
+    /* A Page token's /me is the Page itself; a User token's is the person. */
+    info.type = info.id && String(info.id) === String(facebookPageId) ? 'page' : 'user'
+  } catch (error) {
+    info.error = error?.message || 'The token could not be read.'
+    return info
+  }
+
+  try {
+    const permissions = await readGraph('/me/permissions', {}, accessToken)
+    if (Array.isArray(permissions?.data)) {
+      info.scopes = permissions.data.filter((row) => row.status === 'granted').map((row) => row.permission)
+      info.scopesKnown = true
+    }
+  } catch {
+    /* Page tokens cannot read this edge. Not knowing the scopes is a normal
+       outcome, not a failure — it just means we report less. */
+  }
+
+  return info
+}
+
 export async function describeMetaConnection({ facebookPageId, instagramBusinessId }) {
   const facebookToken = process.env.META_PAGE_ACCESS_TOKEN || ''
   const instagramToken = process.env.META_INSTAGRAM_ACCESS_TOKEN || facebookToken
@@ -170,8 +209,23 @@ export async function describeMetaConnection({ facebookPageId, instagramBusiness
       report.instagram.graphError = resolved.graphError || ''
       report.instagram.error = `The Page could not be read for Instagram: ${resolved.graphError}. If it mentions permissions, the token needs instagram_basic and instagram_content_publish — re-generate it with those scopes rather than changing anything in Business Suite.`
     } else {
-      report.instagram.error =
-        'The Page is reachable and reports no linked Instagram account, under either field Meta uses. In Business Suite, check that the account is a Business or Creator account and that it is linked to this Page — not only added to the portfolio.'
+      /* Before blaming the link, rule out the two things that produce an
+         identical silent absence: a token that is not a Page token, and a token
+         without instagram_basic. */
+      const token = await describeToken(instagramToken, facebookPageId)
+      report.token = token
+
+      if (token.type === 'user') {
+        report.instagram.reason = 'user-token'
+        report.instagram.error = `This is a User token${token.name ? ` for ${token.name}` : ''}, not a Page token. Instagram is only reported to a Page token. In the Graph API Explorer, switch the dropdown from "User Token" to "Page Token", pick GDSFF, and use that value.`
+      } else if (token.scopesKnown && !token.scopes.includes('instagram_basic')) {
+        report.instagram.reason = 'missing-scope'
+        report.instagram.error = `The token does not carry instagram_basic, so Meta omits the Instagram link rather than reporting it. Granted: ${token.scopes.join(', ') || 'none'}. Re-generate the token with instagram_basic and instagram_content_publish.`
+      } else {
+        report.instagram.reason = 'page-has-no-linked-account'
+        report.instagram.error =
+          'The Page is reachable and reports no linked Instagram account under either field Meta uses, with a Page token that carries instagram_basic. If the account is a linked Business account, the remaining cause is the app itself: instagram_basic and instagram_content_publish must be granted to the app the token came from, and an app that has not been through App Review only grants them to people with a role on it.'
+      }
     }
   }
 

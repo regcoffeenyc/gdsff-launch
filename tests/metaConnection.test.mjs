@@ -272,6 +272,55 @@ test('the connection check reports the page name and the resolved account', asyn
   assert.equal(report.instagram.matchesConfigured, false)
 })
 
+/* A User token and a token without instagram_basic both produce a silently
+   absent Instagram field — identical to an unlinked account. Blaming the link
+   sent a correctly linked Business account to be re-linked. */
+test('a User token is named as the cause rather than the account', async () => {
+  process.env.META_PAGE_ACCESS_TOKEN = 'token'
+  stubGraph((url) => {
+    if (url.includes('/me/permissions')) return { body: { data: [{ permission: 'instagram_basic', status: 'granted' }] } }
+    if (url.includes('/me?')) return { body: { id: '777000777', name: 'George Gagnidze' } }
+    if (url.includes('instagram_business_account')) return { body: { id: PAGE_ID } }
+    return { body: { id: PAGE_ID, name: 'GDSFF' } }
+  })
+
+  const report = await describeMetaConnection({ facebookPageId: PAGE_ID, instagramBusinessId: PORTFOLIO_ASSET_ID })
+  assert.equal(report.instagram.reason, 'user-token')
+  assert.match(report.instagram.error, /User token/)
+  assert.match(report.instagram.error, /Page Token/)
+})
+
+test('a Page token missing instagram_basic is named as the cause', async () => {
+  process.env.META_PAGE_ACCESS_TOKEN = 'token'
+  stubGraph((url) => {
+    if (url.includes('/me/permissions')) {
+      return { body: { data: [{ permission: 'pages_manage_posts', status: 'granted' }] } }
+    }
+    if (url.includes('/me?')) return { body: { id: PAGE_ID, name: 'GDSFF' } }
+    if (url.includes('instagram_business_account')) return { body: { id: PAGE_ID } }
+    return { body: { id: PAGE_ID, name: 'GDSFF' } }
+  })
+
+  const report = await describeMetaConnection({ facebookPageId: PAGE_ID, instagramBusinessId: PORTFOLIO_ASSET_ID })
+  assert.equal(report.instagram.reason, 'missing-scope')
+  assert.match(report.instagram.error, /instagram_basic/)
+  assert.match(report.instagram.error, /pages_manage_posts/, 'it should say what the token does have')
+})
+
+test('a Page token with the scope still reports the link as the remaining cause', async () => {
+  process.env.META_PAGE_ACCESS_TOKEN = 'token'
+  stubGraph((url) => {
+    if (url.includes('/me/permissions')) return { body: { data: [{ permission: 'instagram_basic', status: 'granted' }] } }
+    if (url.includes('/me?')) return { body: { id: PAGE_ID, name: 'GDSFF' } }
+    if (url.includes('instagram_business_account')) return { body: { id: PAGE_ID } }
+    return { body: { id: PAGE_ID, name: 'GDSFF' } }
+  })
+
+  const report = await describeMetaConnection({ facebookPageId: PAGE_ID, instagramBusinessId: PORTFOLIO_ASSET_ID })
+  assert.equal(report.instagram.reason, 'page-has-no-linked-account')
+  assert.match(report.instagram.error, /App Review/)
+})
+
 test('a bad token is reported, not swallowed', async () => {
   process.env.META_PAGE_ACCESS_TOKEN = 'token'
   stubGraph(() => ({ ok: false, body: { error: { message: 'Error validating access token' } } }))
