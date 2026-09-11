@@ -37,6 +37,7 @@ const savePost = (await import('../api/social/posts/save.js')).default
 const setStatus = (await import('../api/social/posts/status.js')).default
 const schedule = (await import('../api/social/queue/schedule.js')).default
 const publish = (await import('../api/meta/publish.js')).default
+const metaCheck = (await import('../api/meta/check.js')).default
 
 const TOKEN = loginAdmin('george', 'test-password').token
 
@@ -150,6 +151,28 @@ test('publish is a dry run unless dryRun is explicitly false', async () => {
   assert.equal(out.code, 200)
   assert.equal(out.payload.dryRun, true)
   assert.equal(out.payload.result.dryRun, true)
+})
+
+/* Checking a token and configuring durable storage are two different jobs.
+   Making the check wait on the blob store meant the only way to test a fresh
+   token was to post with it — the one thing the approval rule forbids. */
+test('the connection check still answers when durable storage is unconfigured', async () => {
+  process.env.VERCEL = '1'
+  try {
+    const out = await call(metaCheck, { method: 'GET' })
+    assert.equal(out.code, 200)
+    assert.equal(out.payload.identifiersFrom, 'defaults')
+    assert.match(out.payload.storageNote, /BLOB_READ_WRITE_TOKEN/)
+    assert.equal(out.payload.meta.facebook.pageIdConfigured, true)
+  } finally {
+    delete process.env.VERCEL
+  }
+})
+
+test('the connection check reads the workspace when storage is available', async () => {
+  const out = await call(metaCheck, { method: 'GET' })
+  assert.equal(out.code, 200)
+  assert.equal(out.payload.identifiersFrom, 'workspace')
 })
 
 test('a real publish without a configured page id refuses rather than guesses', async () => {
