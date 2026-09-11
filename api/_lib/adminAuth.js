@@ -14,8 +14,32 @@ function base64UrlDecode(value) {
   return Buffer.from(value, 'base64url').toString('utf8')
 }
 
+/* Vercel sets VERCEL_ENV on every deployment — production, preview and its own
+   "development". Anything without it is someone's own machine. */
+function isDeployed() {
+  return hasValue(process.env.VERCEL_ENV) || hasValue(process.env.VERCEL)
+}
+
+/* Setup mode exists so the workspace can be opened locally before any
+   credentials are set: it accepts any non-empty username and password. That is
+   a convenience on a laptop and a wide-open door on a deployment, and it opens
+   itself — an ADMIN_USERNAME cleared during some future config change would
+   unlock the workspace silently, with no error anywhere to notice. Deployments
+   fail closed instead. */
+export function setupModeAllowed() {
+  return !isDeployed()
+}
+
+/* Signing key. The fallback literal that used to sit here is published in this
+   repository, so anyone who read it could forge an admin session token. A
+   deployment now signs with a real secret or refuses to sign at all. */
 function getSecret() {
-  return process.env.ADMIN_SESSION_SECRET || process.env.ADMIN_PASSWORD || 'gdsff-membership-session-secret'
+  const configured = process.env.ADMIN_SESSION_SECRET || process.env.ADMIN_PASSWORD
+  if (hasValue(configured)) {
+    return configured
+  }
+
+  return isDeployed() ? null : 'gdsff-local-development-only-secret'
 }
 
 function getTokenFromRequest(request) {
@@ -28,7 +52,12 @@ function getTokenFromRequest(request) {
 }
 
 function signPayload(payload) {
-  return createHmac('sha256', getSecret()).update(payload).digest('base64url')
+  const secret = getSecret()
+  if (!secret) {
+    return null
+  }
+
+  return createHmac('sha256', secret).update(payload).digest('base64url')
 }
 
 export function isAuthConfigured() {
@@ -36,6 +65,10 @@ export function isAuthConfigured() {
 }
 
 export function createAdminSessionToken(username, setupMode = false) {
+  if (!getSecret()) {
+    throw new Error('Admin sessions are not configured on this deployment.')
+  }
+
   const payload = {
     username,
     role: 'admin',
@@ -52,26 +85,30 @@ export function validateAdminSession(request) {
   const authConfigured = isAuthConfigured()
 
   if (!token) {
-    return { authenticated: false, setupMode: !authConfigured, authConfigured, user: null }
+    return { authenticated: false, setupMode: !authConfigured && setupModeAllowed(), authConfigured, user: null }
   }
 
   const [encodedPayload, signature] = token.split('.')
   if (!encodedPayload || !signature) {
-    return { authenticated: false, setupMode: !authConfigured, authConfigured, user: null }
+    return { authenticated: false, setupMode: !authConfigured && setupModeAllowed(), authConfigured, user: null }
   }
 
   const expectedSignature = signPayload(encodedPayload)
+  if (!expectedSignature) {
+    return { authenticated: false, setupMode: false, authConfigured, user: null }
+  }
+
   const actual = Buffer.from(signature)
   const expected = Buffer.from(expectedSignature)
 
   if (actual.length !== expected.length || !timingSafeEqual(actual, expected)) {
-    return { authenticated: false, setupMode: !authConfigured, authConfigured, user: null }
+    return { authenticated: false, setupMode: !authConfigured && setupModeAllowed(), authConfigured, user: null }
   }
 
   try {
     const payload = JSON.parse(base64UrlDecode(encodedPayload))
     if (!payload?.username || Number(payload?.exp) < Date.now()) {
-      return { authenticated: false, setupMode: !authConfigured, authConfigured, user: null }
+      return { authenticated: false, setupMode: !authConfigured && setupModeAllowed(), authConfigured, user: null }
     }
 
     return {
@@ -86,7 +123,7 @@ export function validateAdminSession(request) {
       },
     }
   } catch {
-    return { authenticated: false, setupMode: !authConfigured, authConfigured, user: null }
+    return { authenticated: false, setupMode: !authConfigured && setupModeAllowed(), authConfigured, user: null }
   }
 }
 
@@ -96,6 +133,11 @@ export function loginAdmin(username, password) {
   }
 
   const authConfigured = isAuthConfigured()
+
+  if (!authConfigured && !setupModeAllowed()) {
+    throw new Error('Admin sign-in is not configured on this deployment. Set ADMIN_USERNAME and ADMIN_PASSWORD, then redeploy.')
+  }
+
   const setupMode = !authConfigured
 
   if (authConfigured) {
