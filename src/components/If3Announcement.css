@@ -37,3 +37,45 @@
   .if3-news-mark > span:last-child { margin-left: auto; font-size: 10px; }
   .if3-news-actions { align-items: flex-start; flex-direction: column; }
 }
+
+/* The certificate. The document is the point, so it is shown large and reads
+   as a document rather than as decoration — a plain white plate, a thin
+   border, and the caption saying who issued it. It links to the signed PDF
+   both from the image and from an explicit download line, because a visitor
+   who wants evidence wants the file, not a screenshot of it. */
+.if3-certificate {
+  margin: 32px 0 0;
+  padding: 0;
+}
+.if3-certificate h3 {
+  margin: 0 0 14px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.if3-certificate a:first-of-type {
+  display: block;
+  max-width: 640px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: #fff;
+  padding: 10px;
+  transition: border-color .18s ease;
+}
+.if3-certificate a:first-of-type:hover { border-color: var(--gold); }
+.if3-certificate a:first-of-type:focus-visible { outline: 2px solid var(--gold); outline-offset: 6px; }
+.if3-certificate img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: calc(var(--radius-lg) - 8px);
+}
+.if3-certificate figcaption {
+  max-width: 78ch;
+  margin: 14px 0 10px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}

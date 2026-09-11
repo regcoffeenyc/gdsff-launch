@@ -56,6 +56,15 @@ function buildMediaAssets() {
       createdAt: isoOffsetDays(-20),
     },
     {
+      id: 'if3-certificate',
+      title: 'iF3 Certificate of Membership / iF3-ის წევრობის სერტიფიკატი',
+      kind: 'document',
+      source: '/media/if3-certificate-square.jpg',
+      tags: ['if3', 'membership', 'official', 'certificate'],
+      alt: 'iF3 certificate naming GDSFF the National Federation for Georgia, 1 September 2026',
+      createdAt: isoOffsetDays(0),
+    },
+    {
       id: 'tactical-games-stage',
       title: 'Tactical Games Stage Briefing',
       kind: 'photo',
@@ -432,6 +441,20 @@ function buildContacts(messages) {
 
 function buildSocialPosts() {
   return [
+    buildSocialPost({
+      id: 'if3-membership-certificate',
+      title: 'iF3 Certificate of Membership',
+      body:
+        'საერთაშორისო ფუნქციური ფიტნესის ფედერაციამ (iF3) საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაცია აღიარა თავის ეროვნულ ფედერაციად საქართველოსთვის.\n\nსერტიფიკატი გაცემულია 2026 წლის 1 სექტემბერს და ხელმოწერილია iF3-ის პრეზიდენტის, გრეტჩენ კიტელბერგერის მიერ.\n\nეს ფედერაციის პირველი საერთაშორისო წევრობაა. მადლობა ყველა წევრსა და მწვრთნელს, ვინც ამ ეტაპამდე მოგვიყვანა.',
+      category: 'announcement',
+      platforms: ['facebook', 'instagram'],
+      status: 'draft',
+      assetId: 'if3-certificate',
+      notes:
+        'Certificate received 10 September 2026. Wording rule: iF3 recognises GDSFF as ITS national federation for Georgia — this is not state recognition, and the copy must not be shortened in a way that implies it. Awaiting president sign-off.',
+      englishCaption:
+        'The International Functional Fitness Federation (iF3) has recognised the Georgian Dynamic Shooting and Functional Fitness Federation as its National Federation for Georgia. The certificate is dated 1 September 2026 and is signed by iF3 President Gretchen Kittelberger. This is the federation\u2019s first international membership. Thank you to every member and every coach who brought us here.',
+    }),
     buildSocialPost({
       id: 'official-statement-governance',
       title: 'Official Federation Statement: 2026 Competition Governance',
