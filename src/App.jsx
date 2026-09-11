@@ -15,6 +15,7 @@ import ContactPage from './pages/ContactPage'
 import SearchPage from './pages/SearchPage'
 import SupportPage from './pages/SupportPage'
 import SafetyConsentPage from './pages/SafetyConsentPage'
+import SocialHubPage from './pages/SocialHubPage'
 import { siteContent } from './siteContent'
 
 // Language now lives in the URL (/ka/... or /en/...), passed in as a prop
@@ -53,6 +54,9 @@ export default function App({ language = 'ka' }) {
         <Route path="/safety-consent" element={<SafetyConsentPage copy={copy} />} />
         <Route path="/contact" element={<ContactPage copy={copy} />} />
         <Route path="/search" element={<SearchPage copy={copy} />} />
+        {/* The media and communications workspace. Signs in against the admin
+            API; noindex, robots-excluded and absent from the sitemap. */}
+        <Route path="/social" element={<SocialHubPage copy={copy} />} />
       </Routes>
     </SiteLayout>
   )

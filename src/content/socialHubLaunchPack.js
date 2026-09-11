@@ -59,8 +59,11 @@ export const socialHubLaunchPack = {
     ],
   },
   instagram: {
+    // The account exists: @gdsffofficial, confirmed by the owner 11 September 2026,
+    // and the website has linked to instagram.com/gdsffofficial since launch. The
+    // options below are the pre-launch candidates and are kept only as history.
     usernameOptions: ['@gdsff.org', '@gdsff_official', '@gdsff.federation', '@gdsfforg'],
-    recommendedUsername: '@gdsff.org',
+    recommendedUsername: '@gdsffofficial',
     displayName: 'GDSFF Georgia',
     shortBio:
       'Official GDSFF\nDynamic Shooting & Functional Fitness\nEvents | Membership | Documents\ngdsff.org',

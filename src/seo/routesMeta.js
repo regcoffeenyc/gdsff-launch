@@ -163,6 +163,11 @@ export const routesMeta = {
     ka: { title: 'ადმინისტრირება | GDSFF', description: 'GDSFF წევრობის ადმინისტრირება.' },
     en: { title: 'Administration | GDSFF', description: 'GDSFF membership administration.' },
   },
+  '/social': {
+    noindex: true,
+    ka: { title: 'მედია და კომუნიკაცია | GDSFF', description: 'GDSFF-ის მედიისა და კომუნიკაციის სამუშაო სივრცე.' },
+    en: { title: 'Media and communications | GDSFF', description: 'GDSFF media and communications workspace.' },
+  },
 }
 
 export const indexableRoutes = Object.keys(routesMeta).filter((r) => !routesMeta[r].noindex)
