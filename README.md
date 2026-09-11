@@ -165,15 +165,41 @@ Meta placeholders:
 - `META_PAGE_ACCESS_TOKEN`
 - `META_INSTAGRAM_ACCESS_TOKEN`
 
+## The federation's Meta identifiers
+
+Read from Business Suite on 11 September 2026 and seeded into the workspace
+settings, so a fresh deployment already knows where it would be posting:
+
+| What | Value |
+|---|---|
+| Facebook Page ID | `1081637585022289` |
+| Instagram account asset ID | `1068919759631644` |
+| Business portfolio ID | `963423796338624` |
+
+These are identifiers, not credentials — they appear in page URLs and in
+ordinary API responses, and nothing can be published with them alone.
+
+**The Instagram number is a trap worth knowing about.** Business Suite shows
+`1068919759631644` on the Instagram account's Summary screen, but the Graph API
+publishes to the *IG User ID*, a different number that only the connected Page
+will tell you. `server/lib/metaGraph.js` therefore asks the Page
+(`/{page-id}?fields=instagram_business_account`) on every real Instagram
+publish and uses the answer; the saved value is the recorded asset id and a
+fallback. `GET /api/meta/check` reports both, reads only, and publishes
+nothing — use it to confirm a token works without posting to the live page.
+
 ## Setup Mode
 
-If `ADMIN_USERNAME` and `ADMIN_PASSWORD` are not set, the workspace runs in setup mode.
+If `ADMIN_USERNAME` and `ADMIN_PASSWORD` are not set **on a laptop**, the
+workspace runs in setup mode: any non-empty username and password signs in, and
+the UI says plainly that protected mode is not configured. This keeps the tool
+usable locally without falsely claiming hardened auth.
 
-In setup mode:
-- any non-empty username/password can sign in
-- the UI clearly shows that protected mode is not fully configured yet
-
-This keeps the tool usable locally without falsely claiming hardened auth.
+On a deployment, setup mode is refused. A deployed workspace with no configured
+credentials returns an error on sign-in rather than accepting anything typed
+into the form. `ADMIN_SESSION_SECRET` signs the session token; without it the
+signing key is derived from the password, so changing the password signs
+everyone out.
 
 ## File Structure
 
