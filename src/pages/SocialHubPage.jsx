@@ -661,20 +661,37 @@ export default function SocialHubPage({ copy }) {
     }
   }
 
+  /* Not runAction, because a failed publish left the previous dry run's JSON
+     standing in the result panel: a live run that Meta rejected looked exactly
+     like another rehearsal, with the real reason in a banner that is easy to
+     miss on a phone. The error belongs where the result would have been. */
   async function handlePublish(event) {
     event.preventDefault()
-    const result = await runAction(
-      () =>
-        publishMetaContent({
-          ...publishForm,
-          facebookPageId: settingsForm.facebookPageId,
-          instagramBusinessId: settingsForm.instagramBusinessId,
-        }),
-      publishForm.dryRun ? 'Dry run completed.' : 'Publish request submitted.',
-    )
-    if (result?.result) {
-      setPublishResult(result.result)
+    setPublishResult(null)
+    setBusy(true)
+    setError('')
+    setNotice('')
+
+    try {
+      const response = await publishMetaContent({
+        ...publishForm,
+        facebookPageId: settingsForm.facebookPageId,
+        instagramBusinessId: settingsForm.instagramBusinessId,
+      })
+
+      setPublishResult(response?.result ?? response)
+      setNotice(
+        response?.dryRun
+          ? 'Dry run completed. Nothing was sent.'
+          : 'Published. Open the page to confirm it landed.',
+      )
       await loadWorkspace()
+    } catch (publishError) {
+      const message = publishError?.message || 'The publish failed.'
+      setPublishResult({ published: false, dryRun: publishForm.dryRun, error: message })
+      setError(message)
+    } finally {
+      setBusy(false)
     }
   }
 
