@@ -26,7 +26,7 @@ const { describeMetaConnection, publishToMeta, resolveInstagramUserId } = await 
    and the wrong one would post to the wrong place. */
 const PAGE_ID = '1081637585022289'
 const PORTFOLIO_ASSET_ID = '1068919759631644'
-const IG_USER_ID = '17841400000000000'
+const IG_USER_ID = '17841442047686365'
 
 const realFetch = globalThis.fetch
 
@@ -49,8 +49,60 @@ test.afterEach(() => {
 test('the seed state carries the federation ids read from Business Suite', () => {
   const meta = createDefaultState().settings.meta
   assert.equal(meta.facebookPageId, PAGE_ID)
-  assert.equal(meta.instagramBusinessId, PORTFOLIO_ASSET_ID)
   assert.equal(meta.businessPortfolioId, '963423796338624')
+  /* The publishing id is the IG User ID, not the portfolio asset id. Seeding
+     the asset id here was the original mistake. */
+  assert.equal(meta.instagramBusinessId, IG_USER_ID)
+  assert.equal(meta.instagramAssetId, PORTFOLIO_ASSET_ID)
+})
+
+/* A workspace saved between the two seeds holds the asset id, which is not
+   blank and which Graph will not publish to. */
+test('a saved asset id is upgraded to the real IG User ID', () => {
+  const stale = { settings: { meta: { instagramBusinessId: PORTFOLIO_ASSET_ID } } }
+  assert.equal(normalizeState(stale).settings.meta.instagramBusinessId, IG_USER_ID)
+})
+
+test('an Instagram id that is neither the asset id nor blank is left alone', () => {
+  const chosen = { settings: { meta: { instagramBusinessId: '17841999999999999' } } }
+  assert.equal(normalizeState(chosen).settings.meta.instagramBusinessId, '17841999999999999')
+})
+
+/* The Page's link fields are not the question. Whether the token can reach the
+   account is. */
+test('a saved IG User ID that reads back is enough, whatever the Page says', async () => {
+  process.env.META_PAGE_ACCESS_TOKEN = 'token'
+  stubGraph((url) => {
+    if (url.includes(`/${PORTFOLIO_ASSET_ID}?`)) return { ok: false, body: { error: { message: 'Unsupported get request' } } }
+    if (url.includes('instagram_business_account')) return { body: { id: PAGE_ID } }
+    if (url.includes(`/${IG_USER_ID}?`)) return { body: { id: IG_USER_ID, username: 'gdsffofficial' } }
+    return { body: { id: PAGE_ID, name: 'GDSFF' } }
+  })
+
+  const report = await describeMetaConnection({ facebookPageId: PAGE_ID, instagramBusinessId: IG_USER_ID })
+  assert.equal(report.instagram.resolvedFrom, 'direct')
+  assert.equal(report.instagram.resolvedId, IG_USER_ID)
+  assert.equal(report.instagram.username, 'gdsffofficial')
+  assert.equal(report.instagram.checked, true)
+})
+
+test('an unreachable saved id falls through to diagnosing the token', async () => {
+  process.env.META_PAGE_ACCESS_TOKEN = 'token'
+  stubGraph((url) => {
+    if (url.includes(`/${PORTFOLIO_ASSET_ID}?`)) return { ok: false, body: { error: { message: 'Unsupported get request' } } }
+    if (url.includes('instagram_business_account')) return { body: { id: PAGE_ID } }
+    if (url.includes(`/${IG_USER_ID}?`)) {
+      return { ok: false, body: { error: { message: 'Unsupported get request' } } }
+    }
+    if (url.includes('/me/permissions')) return { body: { data: [{ permission: 'instagram_basic', status: 'granted' }] } }
+    if (url.includes('/me?')) return { body: { id: '777000777', name: 'George Gagnidze' } }
+    return { body: { id: PAGE_ID, name: 'GDSFF' } }
+  })
+
+  const report = await describeMetaConnection({ facebookPageId: PAGE_ID, instagramBusinessId: IG_USER_ID })
+  assert.equal(report.instagram.resolvedFrom, 'settings')
+  assert.equal(report.instagram.reason, 'user-token')
+  assert.match(report.instagram.directError, /Unsupported get request/)
 })
 
 test('the Page is asked for the Instagram user id, not the saved asset id', async () => {
@@ -146,9 +198,17 @@ test('the check tells a permissions failure apart from an unlinked account', asy
   assert.match(withScopeProblem.instagram.error, /instagram_basic/)
   assert.doesNotMatch(withScopeProblem.instagram.error, /no linked Instagram account/)
 
-  stubGraph((url) =>
-    url.includes('instagram_business_account') ? { body: { id: PAGE_ID } } : { body: { id: PAGE_ID, name: 'GDSFF' } },
-  )
+  /* The asset id must not read back, or the direct-read path answers first —
+     which is correct behaviour, and not what this half is testing. */
+  stubGraph((url) => {
+    if (url.includes(`/${PORTFOLIO_ASSET_ID}?`)) {
+      return { ok: false, body: { error: { message: 'Unsupported get request' } } }
+    }
+    if (url.includes('/me/permissions')) return { body: { data: [{ permission: 'instagram_basic', status: 'granted' }] } }
+    if (url.includes('/me?')) return { body: { id: PAGE_ID, name: 'GDSFF' } }
+    if (url.includes('instagram_business_account')) return { body: { id: PAGE_ID } }
+    return { body: { id: PAGE_ID, name: 'GDSFF' } }
+  })
 
   const withNoLink = await describeMetaConnection({ facebookPageId: PAGE_ID, instagramBusinessId: PORTFOLIO_ASSET_ID })
   assert.equal(withNoLink.instagram.reason, 'page-has-no-linked-account')
@@ -161,6 +221,7 @@ test('publishing to Instagram posts to the resolved id, not the saved one', asyn
 
   stubGraph((url) => {
     calls.push(url)
+    if (url.includes(`/${PORTFOLIO_ASSET_ID}?`)) return { ok: false, body: { error: { message: 'Unsupported get request' } } }
     if (url.includes('instagram_business_account')) {
       return { body: { id: PAGE_ID, instagram_business_account: { id: IG_USER_ID, username: 'gdsffofficial' } } }
     }
@@ -220,7 +281,7 @@ test('a workspace saved with blank identifiers picks up the seeded ones', () => 
 
   const meta = normalizeState(stale).settings.meta
   assert.equal(meta.facebookPageId, PAGE_ID)
-  assert.equal(meta.instagramBusinessId, PORTFOLIO_ASSET_ID)
+  assert.equal(meta.instagramBusinessId, IG_USER_ID)
   assert.equal(meta.facebookPageName, 'GDSFF', 'a value that was actually set stays put')
 })
 
@@ -280,6 +341,7 @@ test('a User token is named as the cause rather than the account', async () => {
   stubGraph((url) => {
     if (url.includes('/me/permissions')) return { body: { data: [{ permission: 'instagram_basic', status: 'granted' }] } }
     if (url.includes('/me?')) return { body: { id: '777000777', name: 'George Gagnidze' } }
+    if (url.includes(`/${PORTFOLIO_ASSET_ID}?`)) return { ok: false, body: { error: { message: 'Unsupported get request' } } }
     if (url.includes('instagram_business_account')) return { body: { id: PAGE_ID } }
     return { body: { id: PAGE_ID, name: 'GDSFF' } }
   })
@@ -297,6 +359,7 @@ test('a Page token missing instagram_basic is named as the cause', async () => {
       return { body: { data: [{ permission: 'pages_manage_posts', status: 'granted' }] } }
     }
     if (url.includes('/me?')) return { body: { id: PAGE_ID, name: 'GDSFF' } }
+    if (url.includes(`/${PORTFOLIO_ASSET_ID}?`)) return { ok: false, body: { error: { message: 'Unsupported get request' } } }
     if (url.includes('instagram_business_account')) return { body: { id: PAGE_ID } }
     return { body: { id: PAGE_ID, name: 'GDSFF' } }
   })
@@ -312,6 +375,7 @@ test('a Page token with the scope still reports the link as the remaining cause'
   stubGraph((url) => {
     if (url.includes('/me/permissions')) return { body: { data: [{ permission: 'instagram_basic', status: 'granted' }] } }
     if (url.includes('/me?')) return { body: { id: PAGE_ID, name: 'GDSFF' } }
+    if (url.includes(`/${PORTFOLIO_ASSET_ID}?`)) return { ok: false, body: { error: { message: 'Unsupported get request' } } }
     if (url.includes('instagram_business_account')) return { body: { id: PAGE_ID } }
     return { body: { id: PAGE_ID, name: 'GDSFF' } }
   })

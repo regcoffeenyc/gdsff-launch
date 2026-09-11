@@ -209,6 +209,34 @@ export async function describeMetaConnection({ facebookPageId, instagramBusiness
       report.instagram.graphError = resolved.graphError || ''
       report.instagram.error = `The Page could not be read for Instagram: ${resolved.graphError}. If it mentions permissions, the token needs instagram_basic and instagram_content_publish — re-generate it with those scopes rather than changing anything in Business Suite.`
     } else {
+      /* The Page not reporting a link does not mean the account is
+         unreachable. If an IG User ID is configured, read it directly: if the
+         token can see the account, publishing works regardless of what the
+         Page's link fields say. This is the question that actually matters, so
+         ask it before diagnosing anything. */
+      if (hasValue(instagramBusinessId)) {
+        try {
+          const account = await readGraph(
+            `/${instagramBusinessId}`,
+            { fields: 'id,username' },
+            instagramToken,
+          )
+
+          if (account?.id) {
+            report.instagram.checked = true
+            report.instagram.resolvedId = account.id
+            report.instagram.resolvedFrom = 'direct'
+            report.instagram.username = account.username || ''
+            report.instagram.matchesConfigured = true
+            report.instagram.note =
+              'The Page does not report the link, but the saved IG User ID reads back with this token, which is what publishing needs.'
+            return report
+          }
+        } catch (error) {
+          report.instagram.directError = error?.message || ''
+        }
+      }
+
       /* Before blaming the link, rule out the two things that produce an
          identical silent absence: a token that is not a Page token, and a token
          without instagram_basic. */

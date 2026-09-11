@@ -654,14 +654,18 @@ export function createDefaultState() {
          appear in page URLs and in ordinary API responses, and nothing can be
          published with them alone. The tokens stay in the environment.
 
-         instagramBusinessId is the number Business Suite shows on the
-         Instagram account's Summary screen. Publishing does not use it
-         directly — metaGraph.js asks the Page for the IG User ID, because the
-         two are different numbers and only the Page's answer works. It is kept
-         here as the recorded asset id and as a fallback. */
+         The Instagram account has two numbers and only one of them publishes.
+         instagramBusinessId is the IG User ID (17841…), which is what
+         /{id}/media accepts. instagramAssetId is what Business Suite shows on
+         the account's Summary screen — the business-portfolio asset id, which
+         Graph will not publish to. The asset id was seeded here as
+         instagramBusinessId earlier the same day, which was wrong; the owner
+         supplied the real IG User ID that evening. Both are kept so the two are
+         never confused again. */
       meta: {
         facebookPageId: '1081637585022289',
-        instagramBusinessId: '1068919759631644',
+        instagramBusinessId: '17841442047686365',
+        instagramAssetId: '1068919759631644',
         businessPortfolioId: '963423796338624',
         facebookPageName: socialHubLaunchPack.facebook.pageName,
         instagramHandle: socialHubLaunchPack.instagram.recommendedUsername,

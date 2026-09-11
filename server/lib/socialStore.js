@@ -41,9 +41,28 @@ function mergeValues(defaultValue, currentValue) {
    real value — which is how a deployment carrying the correct ids in code still
    reported "Set the Page ID in the workspace". An empty one falls back to the
    seed; one that has been set is left alone. */
-const META_IDENTIFIER_KEYS = ['facebookPageId', 'instagramBusinessId', 'businessPortfolioId']
+const META_IDENTIFIER_KEYS = [
+  'facebookPageId',
+  'instagramBusinessId',
+  'instagramAssetId',
+  'businessPortfolioId',
+]
 
-function fillBlankMetaIdentifiers(merged, defaults) {
+/* A workspace saved earlier on 11 September holds the business-portfolio asset
+   id as instagramBusinessId, because that is what was seeded before the real IG
+   User ID was known. It is not blank, so the blank-fill above never reaches it,
+   and Graph will not publish to it — /{asset-id}/media fails with an unhelpful
+   error. Replacing exactly that one known-wrong value is a correction, not a
+   preference being overridden: the asset id is never a valid publishing id. */
+function upgradeStaleInstagramId(meta, defaultMeta) {
+  const stored = typeof meta.instagramBusinessId === 'string' ? meta.instagramBusinessId.trim() : ''
+
+  if (stored && defaultMeta.instagramAssetId && stored === defaultMeta.instagramAssetId) {
+    meta.instagramBusinessId = defaultMeta.instagramBusinessId
+  }
+}
+
+function reconcileMetaIdentifiers(merged, defaults) {
   const meta = merged.settings?.meta
   const defaultMeta = defaults.settings?.meta
 
@@ -58,12 +77,14 @@ function fillBlankMetaIdentifiers(merged, defaults) {
     }
   }
 
+  upgradeStaleInstagramId(meta, defaultMeta)
+
   return merged
 }
 
 export function normalizeState(state) {
   const defaults = createDefaultState()
-  return fillBlankMetaIdentifiers(mergeValues(defaults, state || {}), defaults)
+  return reconcileMetaIdentifiers(mergeValues(defaults, state || {}), defaults)
 }
 
 function ensureDataDir() {
