@@ -262,8 +262,24 @@ export async function describeMetaConnection({ facebookPageId, instagramBusiness
         report.instagram.error = `The token does not carry instagram_basic, so Meta omits the Instagram link rather than reporting it. Granted: ${token.scopes.join(', ') || 'none'}. Re-generate the token with instagram_basic and instagram_content_publish.`
       } else {
         report.instagram.reason = 'page-has-no-linked-account'
+
+        /* Report what was observed before what it might mean. The direct read's
+           own error is the most specific fact available and was being dropped;
+           and a Page token cannot read /me/permissions, so claiming it "carries
+           instagram_basic" when the scopes came back unknown asserts something
+           never checked — the same habit that produced the last four wrong
+           diagnoses. */
+        const scopeNote = token.scopesKnown
+          ? `The token carries: ${token.scopes.join(', ') || 'none'}.`
+          : 'Its granted scopes could not be read — a Page token cannot read /me/permissions — so instagram_basic is unconfirmed here.'
+
+        const directNote = report.instagram.directError
+          ? ` Reading the saved IG User ID directly also failed: "${report.instagram.directError}".`
+          : ''
+
         report.instagram.error =
-          'The Page is reachable and reports no linked Instagram account under either field Meta uses, with a Page token that carries instagram_basic. If the account is a linked Business account, the remaining cause is the app itself: instagram_basic and instagram_content_publish must be granted to the app the token came from, and an app that has not been through App Review only grants them to people with a role on it.'
+          `The Page is reachable with a Page token, and reports no linked Instagram account under either field Meta uses.${directNote} ${scopeNote} ` +
+          'Two causes fit: the app the token came from has not been granted instagram_basic and instagram_content_publish (an app that has not passed App Review grants them only to people with a role on it), or the Instagram account is not attached to that app\'s business portfolio. Both are settings on the app, not on the account.'
       }
     }
   }

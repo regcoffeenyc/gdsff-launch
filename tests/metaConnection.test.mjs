@@ -213,6 +213,29 @@ test('the check tells a permissions failure apart from an unlinked account', asy
   const withNoLink = await describeMetaConnection({ facebookPageId: PAGE_ID, instagramBusinessId: PORTFOLIO_ASSET_ID })
   assert.equal(withNoLink.instagram.reason, 'page-has-no-linked-account')
   assert.match(withNoLink.instagram.error, /no linked Instagram account/)
+  /* The direct read's own error is the most specific fact available. */
+  assert.match(withNoLink.instagram.error, /Unsupported get request/)
+})
+
+/* Claiming the token "carries instagram_basic" when the scopes came back
+   unknown asserts something never checked. */
+test('unknown scopes are reported as unknown, not as present', async () => {
+  process.env.META_PAGE_ACCESS_TOKEN = 'token'
+  stubGraph((url) => {
+    if (url.includes(`/${IG_USER_ID}?`)) {
+      return { ok: false, body: { error: { message: 'Unsupported get request' } } }
+    }
+    /* Page tokens genuinely cannot read this edge. */
+    if (url.includes('/me/permissions')) return { ok: false, body: { error: { message: 'not available' } } }
+    if (url.includes('/me?')) return { body: { id: PAGE_ID, name: 'GDSFF' } }
+    if (url.includes('instagram_business_account')) return { body: { id: PAGE_ID } }
+    return { body: { id: PAGE_ID, name: 'GDSFF' } }
+  })
+
+  const report = await describeMetaConnection({ facebookPageId: PAGE_ID, instagramBusinessId: IG_USER_ID })
+  assert.equal(report.instagram.reason, 'page-has-no-linked-account')
+  assert.match(report.instagram.error, /unconfirmed/)
+  assert.doesNotMatch(report.instagram.error, /carries instagram_basic/)
 })
 
 test('publishing to Instagram posts to the resolved id, not the saved one', async () => {
