@@ -58,22 +58,45 @@ async function readGraph(endpoint, params, accessToken) {
  */
 export async function resolveInstagramUserId({ facebookPageId, instagramBusinessId, accessToken }) {
   if (!hasValue(facebookPageId) || !hasValue(accessToken)) {
-    return { id: instagramBusinessId, source: 'settings' }
+    return { id: instagramBusinessId, source: 'settings', reason: 'no-page-or-token' }
   }
 
   try {
-    const page = await readGraph(`/${facebookPageId}`, { fields: 'instagram_business_account{id,username}' }, accessToken)
-    const linked = page?.instagram_business_account
+    /* Both fields, because Meta links an account through either one depending
+       on how it was connected: instagram_business_account for an account linked
+       from the Page, connected_instagram_account for one linked from the
+       Instagram side. Asking for only the first reports a linked account as
+       absent. */
+    const page = await readGraph(
+      `/${facebookPageId}`,
+      { fields: 'instagram_business_account{id,username},connected_instagram_account{id,username}' },
+      accessToken,
+    )
+
+    const linked = page?.instagram_business_account || page?.connected_instagram_account
 
     if (linked?.id) {
-      return { id: linked.id, source: 'page', username: linked.username || '' }
+      return {
+        id: linked.id,
+        source: 'page',
+        username: linked.username || '',
+        field: page?.instagram_business_account?.id ? 'instagram_business_account' : 'connected_instagram_account',
+      }
     }
-  } catch {
-    /* A revoked token or a missing permission should surface as the publish
-       error it causes, not as a resolution error with less context. */
-  }
 
-  return { id: instagramBusinessId, source: 'settings' }
+    return { id: instagramBusinessId, source: 'settings', reason: 'page-has-no-linked-account' }
+  } catch (error) {
+    /* Swallowing this reported a permissions failure as "the Page has no
+       connected account" — a different problem with a different fix, and one
+       that sends someone to relink an account that was never unlinked. The
+       Graph message names which it is. */
+    return {
+      id: instagramBusinessId,
+      source: 'settings',
+      reason: 'graph-error',
+      graphError: error?.message || 'The Page could not be read.',
+    }
+  }
 }
 
 /* A read-only "does this actually work" check, so the first proof that a token
@@ -137,9 +160,19 @@ export async function describeMetaConnection({ facebookPageId, instagramBusiness
   report.instagram.username = resolved.username || ''
   report.instagram.matchesConfigured = Boolean(resolved.id) && resolved.id === instagramBusinessId
 
+  /* Three different failures used to read as one. They need different fixes:
+     re-link the account, re-generate the token with the right scopes, or read
+     the Graph error and decide. */
   if (resolved.source === 'settings') {
-    report.instagram.error =
-      'The Page reports no connected Instagram business account. Connect the account to the Page in Business Suite, or the saved id will be used as-is.'
+    report.instagram.reason = resolved.reason || ''
+
+    if (resolved.reason === 'graph-error') {
+      report.instagram.graphError = resolved.graphError || ''
+      report.instagram.error = `The Page could not be read for Instagram: ${resolved.graphError}. If it mentions permissions, the token needs instagram_basic and instagram_content_publish — re-generate it with those scopes rather than changing anything in Business Suite.`
+    } else {
+      report.instagram.error =
+        'The Page is reachable and reports no linked Instagram account, under either field Meta uses. In Business Suite, check that the account is a Business or Creator account and that it is linked to this Page — not only added to the portfolio.'
+    }
   }
 
   return report
