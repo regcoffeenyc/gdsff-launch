@@ -385,6 +385,21 @@ test('a Page token with the scope still reports the link as the remaining cause'
   assert.match(report.instagram.error, /App Review/)
 })
 
+/* Graph names the expiry to the second and says nothing about the fix, which is
+   not "generate another one" — that expires too. */
+test('an expired token is told how to get one that does not expire', async () => {
+  process.env.META_PAGE_ACCESS_TOKEN = 'token'
+  stubGraph(() => ({
+    ok: false,
+    body: { error: { message: 'Error validating access token: Session has expired on Friday, 11-Sep-26 13:00:00 PDT.' } },
+  }))
+
+  const report = await describeMetaConnection({ facebookPageId: PAGE_ID, instagramBusinessId: IG_USER_ID })
+  assert.equal(report.facebook.expired, true)
+  assert.match(report.facebook.error, /Session has expired/, 'the Graph message survives')
+  assert.match(report.facebook.error, /me\/accounts/, 'and the derivation step is named')
+})
+
 test('a bad token is reported, not swallowed', async () => {
   process.env.META_PAGE_ACCESS_TOKEN = 'token'
   stubGraph(() => ({ ok: false, body: { error: { message: 'Error validating access token' } } }))

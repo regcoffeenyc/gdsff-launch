@@ -188,7 +188,18 @@ export async function describeMetaConnection({ facebookPageId, instagramBusiness
     report.facebook.reachable = page?.id === String(facebookPageId)
     report.facebook.name = page?.name || ''
   } catch (error) {
-    report.facebook.error = error?.message || 'Could not read the Page.'
+    const message = error?.message || 'Could not read the Page.'
+    report.facebook.error = message
+
+    /* Graph names the expiry precisely and says nothing about the fix, which is
+       not "generate another one" — that expires too. A Page token derived from
+       a long-lived user token does not expire at all, and that derivation is
+       the step people skip. */
+    if (/session has expired|expired.*token|token is invalid|malformed/i.test(message)) {
+      report.facebook.expired = true
+      report.facebook.error = `${message} — This was a short-lived token. Generate one in the Graph API Explorer, extend it in the Access Token Debugger, then call /me/accounts with the extended token and use the Page's own access_token from that response. Only a Page token derived from a long-lived user token never expires.`
+    }
+
     return report
   }
 
