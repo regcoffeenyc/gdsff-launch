@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-07-06T19:30:35.902Z",
+  "updatedAt": "2026-09-11T13:45:55.153Z",
   "settings": {
     "meta": {
-      "facebookPageId": "",
-      "instagramBusinessId": "",
+      "facebookPageId": "1234567890",
+      "instagramBusinessId": "0987654321",
       "facebookPageName": "GDSFF | Georgian Dynamic Shooting and Functional Fitness Federation",
       "instagramHandle": "@gdsff.org"
     },
@@ -29,6 +29,40 @@
     "notes": "Demo mode keeps approval-first workflow. Configure ADMIN_USERNAME and ADMIN_PASSWORD for protected mode."
   },
   "socialPosts": [
+    {
+      "id": "5f21afed-f734-4657-8cf9-7bddf6240bc8",
+      "title": "iF3 Certificate of Membership",
+      "category": "announcement",
+      "platforms": [
+        "facebook"
+      ],
+      "status": "draft",
+      "captions": {
+        "short": "iF3 Certificate of Membership",
+        "medium": "",
+        "long": "iF3 Certificate of Membership\n\nhttps://gdsff.org\noffice@gdsff.org"
+      },
+      "englishCaption": "",
+      "hashtags": [
+        "#GDSFF",
+        "#DynamicShooting",
+        "#FunctionalFitness",
+        "#GeorgiaSports",
+        "#ShootingSport"
+      ],
+      "imagePlaceholder": "",
+      "mediaAssetIds": [],
+      "link": "https://gdsff.org",
+      "approval": {
+        "approvedBy": "",
+        "approvedAt": ""
+      },
+      "notes": "edited",
+      "scheduledFor": "",
+      "createdAt": "2026-09-11T13:45:55.146Z",
+      "updatedAt": "2026-09-11T13:45:55.146Z",
+      "publishedAt": ""
+    },
     {
       "id": "printable-target-download",
       "title": "Printable Target Download and Membership Links",
@@ -63,7 +97,7 @@
       "notes": "Facebook pinned-post candidate. Publish only from the official Page after owner approval.",
       "scheduledFor": "",
       "createdAt": "2026-07-06T19:30:35.902Z",
-      "updatedAt": "2026-07-06T19:30:35.902Z"
+      "updatedAt": "2026-09-11T13:45:55.141Z"
     },
     {
       "id": "official-statement-governance",
@@ -1073,6 +1107,38 @@
   ],
   "activityLog": [
     {
+      "id": "publish-facebook-1789134355153",
+      "type": "publish",
+      "entityType": "publish",
+      "entityId": "facebook",
+      "summary": "Dry run against facebook.",
+      "createdAt": "2026-09-11T13:45:55.153Z"
+    },
+    {
+      "id": "settings-workspace-1789134355151",
+      "type": "settings",
+      "entityType": "settings",
+      "entityId": "workspace",
+      "summary": "Communications settings were updated.",
+      "createdAt": "2026-09-11T13:45:55.151Z"
+    },
+    {
+      "id": "social-post-5f21afed-f734-4657-8cf9-7bddf6240bc8-1789134355146",
+      "type": "social",
+      "entityType": "social-post",
+      "entityId": "5f21afed-f734-4657-8cf9-7bddf6240bc8",
+      "summary": "Social post \"iF3 Certificate of Membership\" was saved with status draft.",
+      "createdAt": "2026-09-11T13:45:55.146Z"
+    },
+    {
+      "id": "social-post-printable-target-download-1789134355141",
+      "type": "social",
+      "entityType": "social-post",
+      "entityId": "printable-target-download",
+      "summary": "Social post \"Printable Target Download and Membership Links\" moved to approved.",
+      "createdAt": "2026-09-11T13:45:55.141Z"
+    },
+    {
       "id": "target-pack-1783366235905",
       "type": "content-update",
       "entityType": "social-post",
@@ -1149,6 +1215,26 @@
   "assistantSessions": [],
   "replies": [],
   "webhooks": [],
-  "publishHistory": [],
+  "publishHistory": [
+    {
+      "id": "publish-1789134355153",
+      "createdAt": "2026-09-11T13:45:55.153Z",
+      "platform": "facebook",
+      "dryRun": true,
+      "message": "test",
+      "imageUrl": "",
+      "result": {
+        "dryRun": true,
+        "platform": "facebook",
+        "request": {
+          "facebookPageId": "1234567890",
+          "instagramBusinessId": "0987654321",
+          "message": "test",
+          "imageUrl": "",
+          "link": ""
+        }
+      }
+    }
+  ],
   "inboxTriage": []
 }

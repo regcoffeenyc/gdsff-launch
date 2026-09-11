@@ -35,7 +35,7 @@ function mergeValues(defaultValue, currentValue) {
   return currentValue === undefined ? defaultValue : currentValue
 }
 
-function normalizeState(state) {
+export function normalizeState(state) {
   return mergeValues(createDefaultState(), state || {})
 }
 
@@ -83,7 +83,7 @@ function getPendingMessageStatuses() {
   return new Set(['new', 'pending', 'in progress', 'waiting'])
 }
 
-function enrichMessages(state) {
+export function enrichMessages(state) {
   const followUpDays = Number(state.settings?.automation?.followUpDays || 3)
 
   return (state.messages || []).map((message) => ({
