@@ -1,7 +1,11 @@
+/* Late corrections applied to launch content at render time.
+   The two phone-number rewrites that used to live here are gone. They were a
+   safety net for an old number that no content carries any more — so the only
+   thing they still did was publish that number, in this file, in the browser
+   bundle. It is the shop's number and belongs nowhere in the federation's
+   code. tests/noShopNumber.test.mjs keeps it out. */
 const STRING_REPLACEMENTS = [
   ['დინამიკური', 'დინამიური'],
-  ['+995 599 663232', '+995 511 560038'],
-  ['+995599663232', '+995511560038'],
 ]
 
 export function normalizeLaunchValue(value) {
