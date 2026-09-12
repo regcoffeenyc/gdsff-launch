@@ -100,6 +100,18 @@ async function request(path, options = {}) {
       clearSavedAuthToken()
     }
 
+    /* A 404 here is not a failed request, it is a feature with no deployed
+       function behind it — the AI and email endpoints exist only on the local
+       server. "Request failed." sent people looking for a fault in their own
+       setup, which is the confusion this whole area kept causing. */
+    if (response.status === 404) {
+      throw createRequestError(
+        `This feature is not available on the deployed site: ${path} has no function behind it. It works only against the local server (npm run social:api).`,
+        404,
+        data,
+      )
+    }
+
     throw createRequestError(data?.error || 'Request failed.', response.status, data)
   }
 
