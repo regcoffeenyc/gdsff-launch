@@ -82,9 +82,40 @@ function reconcileMetaIdentifiers(merged, defaults) {
   return merged
 }
 
+/* Posts saved before the image path was fixed carry "/media/<assetId>" — the
+   asset's id glued onto a path, pointing at no file. Stored arrays win over
+   the corrected defaults, so those posts keep the broken value and the publish
+   form fills itself with it. The asset knows its real source; use it.
+   Only a placeholder of exactly that shape is touched, and only when the
+   asset it names has a source, so a deliberately chosen URL is never
+   rewritten. */
+function repairAssetImagePaths(merged) {
+  const assets = Array.isArray(merged.mediaAssets) ? merged.mediaAssets : []
+  if (!assets.length || !Array.isArray(merged.socialPosts)) {
+    return merged
+  }
+
+  const sourceById = new Map(assets.filter((asset) => asset?.id && asset.source).map((a) => [a.id, a.source]))
+
+  for (const post of merged.socialPosts) {
+    const placeholder = typeof post?.imagePlaceholder === 'string' ? post.imagePlaceholder : ''
+    const match = /^\/media\/([^/]+)$/.exec(placeholder)
+    if (!match) {
+      continue
+    }
+
+    const source = sourceById.get(match[1])
+    if (source && source !== placeholder) {
+      post.imagePlaceholder = source
+    }
+  }
+
+  return merged
+}
+
 export function normalizeState(state) {
   const defaults = createDefaultState()
-  return reconcileMetaIdentifiers(mergeValues(defaults, state || {}), defaults)
+  return repairAssetImagePaths(reconcileMetaIdentifiers(mergeValues(defaults, state || {}), defaults))
 }
 
 function ensureDataDir() {
