@@ -390,6 +390,32 @@ export function toPublicImageUrl(imageUrl) {
   return `${origin}/${value.replace(/^\/+/, '')}`
 }
 
+/* Meta fetches the image itself, so an unreachable URL fails inside Graph with
+   a message about the post rather than about the picture. Ask first: one HEAD
+   request turns "the publish failed" into "the image 404s". */
+export async function checkImageReachable(publicImageUrl) {
+  if (!hasValue(publicImageUrl)) {
+    return { checked: false, ok: false, reason: 'no image URL' }
+  }
+
+  try {
+    const response = await fetch(publicImageUrl, { method: 'HEAD' })
+    const contentType = response.headers?.get?.('content-type') || ''
+
+    if (!response.ok) {
+      return { checked: true, ok: false, status: response.status, reason: `the URL returned ${response.status}` }
+    }
+
+    if (contentType && !contentType.startsWith('image/')) {
+      return { checked: true, ok: false, contentType, reason: `the URL serves ${contentType}, not an image` }
+    }
+
+    return { checked: true, ok: true, status: response.status, contentType }
+  } catch (error) {
+    return { checked: true, ok: false, reason: error?.message || 'the URL could not be reached' }
+  }
+}
+
 export async function publishToMeta({ platform, message, imageUrl, link, dryRun, facebookPageId, instagramBusinessId }) {
   const facebookToken = process.env.META_PAGE_ACCESS_TOKEN || ''
   const instagramToken = process.env.META_INSTAGRAM_ACCESS_TOKEN || facebookToken
@@ -409,6 +435,9 @@ export async function publishToMeta({ platform, message, imageUrl, link, dryRun,
         imageUrlAsGiven: imageUrl || '',
         link,
       },
+      /* The rehearsal should predict the outcome, which means checking the one
+         thing the real publish depends on and cannot control. */
+      image: await checkImageReachable(publicImageUrl),
     }
   }
 
@@ -418,6 +447,15 @@ export async function publishToMeta({ platform, message, imageUrl, link, dryRun,
     throw new Error(
       `The image URL "${imageUrl}" is not a public https address. Meta fetches images from its own servers, so a site-relative path reaches nothing. Set PUBLIC_SITE_ORIGIN or give the image an absolute https URL.`,
     )
+  }
+
+  /* Stop before Graph does, and say which part is wrong. Graph reports an
+     unfetchable image as a failure of the post. */
+  if (hasValue(publicImageUrl)) {
+    const image = await checkImageReachable(publicImageUrl)
+    if (!image.ok) {
+      throw new Error(`Meta could not be given this image: ${publicImageUrl} — ${image.reason}. Nothing was published.`)
+    }
   }
 
   if (platform === 'facebook') {

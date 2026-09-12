@@ -19,7 +19,7 @@ delete process.env.BLOB_READ_WRITE_TOKEN
 
 const { createDefaultState } = await import('../server/lib/defaultState.js')
 const { normalizeState } = await import('../server/lib/socialStore.js')
-const { describeMetaConnection, publishToMeta, resolveInstagramUserId, toPublicImageUrl } = await import(
+const { checkImageReachable, describeMetaConnection, publishToMeta, resolveInstagramUserId, toPublicImageUrl } = await import(
   '../server/lib/metaGraph.js'
 )
 
@@ -529,6 +529,91 @@ test('a token with an expiry says when, and how to stop it recurring', async () 
   assert.equal(report.token.neverExpires, false)
   assert.match(report.facebook.expiryWarning, /never expires/)
   assert.ok(report.facebook.expiresAt)
+})
+
+/* A stored post keeps "/media/<assetId>" — a path to no file — because stored
+   arrays win over the corrected defaults. The asset knows its real source. */
+test('a stale asset image path is repaired from the media library', () => {
+  const stale = {
+    mediaAssets: [{ id: 'if3-certificate', source: '/media/if3-certificate-square.jpg', title: 'cert' }],
+    socialPosts: [{ id: 'p1', imagePlaceholder: '/media/if3-certificate' }],
+  }
+
+  const post = normalizeState(stale).socialPosts.find((p) => p.id === 'p1')
+  assert.equal(post.imagePlaceholder, '/media/if3-certificate-square.jpg')
+})
+
+test('an image path that is not the id-shaped placeholder is left alone', () => {
+  const chosen = {
+    mediaAssets: [{ id: 'if3-certificate', source: '/media/if3-certificate-square.jpg' }],
+    socialPosts: [{ id: 'p1', imagePlaceholder: 'https://cdn.example.com/chosen.jpg' }],
+  }
+
+  const post = normalizeState(chosen).socialPosts.find((p) => p.id === 'p1')
+  assert.equal(post.imagePlaceholder, 'https://cdn.example.com/chosen.jpg')
+})
+
+/* Graph reports an unfetchable image as a failure of the post, which is how a
+   broken picture reads as a broken publish. */
+test('a dry run says whether Meta could fetch the image', async () => {
+  globalThis.fetch = async () => ({
+    ok: true,
+    status: 200,
+    headers: { get: () => 'image/jpeg' },
+    json: async () => ({}),
+  })
+
+  const result = await publishToMeta({
+    platform: 'facebook',
+    message: 'test',
+    imageUrl: '/media/if3-certificate-square.jpg',
+    dryRun: true,
+    facebookPageId: PAGE_ID,
+    instagramBusinessId: IG_USER_ID,
+  })
+
+  assert.equal(result.image.checked, true)
+  assert.equal(result.image.ok, true)
+})
+
+test('a real publish stops on an unreachable image instead of letting Graph fail', async () => {
+  process.env.META_PAGE_ACCESS_TOKEN = 'token'
+  let posted = false
+
+  globalThis.fetch = async (url, options) => {
+    if (options?.method === 'HEAD') {
+      return { ok: false, status: 404, headers: { get: () => '' }, json: async () => ({}) }
+    }
+    posted = true
+    return { ok: true, status: 200, headers: { get: () => 'application/json' }, json: async () => ({ id: '1' }) }
+  }
+
+  await assert.rejects(
+    publishToMeta({
+      platform: 'facebook',
+      message: 'test',
+      imageUrl: '/media/missing.jpg',
+      dryRun: false,
+      facebookPageId: PAGE_ID,
+      instagramBusinessId: IG_USER_ID,
+    }),
+    /returned 404/,
+  )
+
+  assert.equal(posted, false, 'nothing may be sent once the image is known to be missing')
+})
+
+test('a URL serving something other than an image is refused', async () => {
+  globalThis.fetch = async () => ({
+    ok: true,
+    status: 200,
+    headers: { get: () => 'text/html' },
+    json: async () => ({}),
+  })
+
+  const image = await checkImageReachable('https://www.gdsff.com/not-an-image')
+  assert.equal(image.ok, false)
+  assert.match(image.reason, /text\/html/)
 })
 
 test('a bad token is reported, not swallowed', async () => {
