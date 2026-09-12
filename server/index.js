@@ -1,4 +1,5 @@
 import { createServer } from 'node:http'
+import { saveContact, saveMediaAsset, saveTemplate } from './lib/workspaceRecords.js'
 import { randomUUID } from 'node:crypto'
 import { socialHubLaunchPack } from '../src/content/socialHubLaunchPack.js'
 import { login, logout, validateSession } from './lib/adminAuth.js'
@@ -546,56 +547,7 @@ function buildMessageRecord(state, input) {
 
 
 
-function saveMediaAsset(state, asset) {
-  const now = new Date().toISOString()
-  const existingIndex = (state.mediaAssets || []).findIndex((item) => item.id === asset.id)
-  const current = existingIndex >= 0 ? state.mediaAssets[existingIndex] : null
 
-  const nextAsset = {
-    id: current?.id || asset.id || randomUUID(),
-    title: asset.title ?? current?.title ?? 'Untitled asset',
-    kind: asset.kind ?? current?.kind ?? 'photo',
-    source: asset.source ?? current?.source ?? '',
-    tags: unique([...(current?.tags || []), ...toArray(asset.tags)]),
-    alt: asset.alt ?? current?.alt ?? '',
-    createdAt: current?.createdAt || now,
-    updatedAt: now,
-  }
-
-  if (existingIndex >= 0) {
-    state.mediaAssets[existingIndex] = nextAsset
-  } else {
-    state.mediaAssets = [nextAsset, ...(state.mediaAssets || [])]
-  }
-
-  return nextAsset
-}
-
-function saveTemplate(state, scope, template) {
-  if (!['email', 'social'].includes(scope)) {
-    throw new Error('Template scope must be "email" or "social".')
-  }
-
-  const collection = Array.isArray(state.templates?.[scope]) ? state.templates[scope] : []
-  const existingIndex = collection.findIndex((item) => item.id === template.id)
-  const nextTemplate = {
-    ...collection[existingIndex],
-    ...template,
-    id: template.id || randomUUID(),
-  }
-
-  if (!state.templates) {
-    state.templates = { email: [], social: [] }
-  }
-
-  if (existingIndex >= 0) {
-    state.templates[scope][existingIndex] = nextTemplate
-  } else {
-    state.templates[scope] = [nextTemplate, ...collection]
-  }
-
-  return nextTemplate
-}
 
 
 const server = createServer(async (request, response) => {
