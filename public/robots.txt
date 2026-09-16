@@ -1,9 +1,11 @@
+# /ka|en/membership-admin, /social and /search are kept out of search by a
+# noindex meta tag on each page (src/seo/routesMeta.js), not by a Disallow.
+#
+# The two do not combine: Disallow stops the crawl, and a page that is never
+# crawled is a page whose noindex is never read. Google can then index the URL
+# anyway from any link pointing at it, which is the "Indexed, though blocked by
+# robots.txt" warning. Blocking here would make these pages harder to remove,
+# not easier. Leave them crawlable so the noindex is seen and obeyed.
 User-agent: *
 Allow: /
-Disallow: /ka/membership-admin
-Disallow: /en/membership-admin
-Disallow: /ka/social
-Disallow: /en/social
-Disallow: /ka/search
-Disallow: /en/search
 Sitemap: https://www.gdsff.com/sitemap.xml
