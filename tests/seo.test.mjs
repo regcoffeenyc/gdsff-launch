@@ -47,6 +47,34 @@ test('legacy redirects are permanent and every destination was prerendered', () 
   assert.match(read('dist/404.html'), /name="robots" content="noindex"/)
 })
 
+/* Disallow and noindex cancel each other out. A page that is never crawled is
+   a page whose noindex is never read, so Google may index the URL from a link
+   anyway and report "Indexed, though blocked by robots.txt" — the block makes
+   the page harder to remove, not easier. Every route we want out of the index
+   carries noindex, so none of them may be blocked here. */
+test('no noindex route is also blocked in robots.txt', () => {
+  const robots = read('public/robots.txt')
+  const disallowed = [...robots.matchAll(/^\s*Disallow:\s*(\S+)/gim)].map((match) => match[1])
+
+  for (const route of allRoutes) {
+    for (const language of LANGS) {
+      if (!getRouteMetadata(route, language).noindex) {
+        continue
+      }
+
+      const path = `/${language}${route === '/' ? '' : route}`
+      assert.ok(
+        !disallowed.some((rule) => path === rule || path.startsWith(rule.replace(/\*$/, ''))),
+        `${path} is noindex and must stay crawlable, but robots.txt blocks it`,
+      )
+    }
+  }
+})
+
+test('robots.txt still points at the sitemap', () => {
+  assert.match(read('public/robots.txt'), new RegExp(`^Sitemap: ${SITE}/sitemap\\.xml$`, 'm'))
+})
+
 test('trailing slash aliases keep the same canonical; unknown routes have no public metadata', () => {
   assert.equal(getRouteMetadata('/about/', 'en').url, `${SITE}/en/about`)
   assert.equal(getRouteMetadata('/', 'ka').url, `${SITE}/ka/`)
