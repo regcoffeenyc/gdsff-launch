@@ -17,6 +17,15 @@ test('all 30 built pages have route-specific metadata and populated HTML', () =>
       assert.equal((html.match(/rel="canonical"/g) ?? []).length, 1, meta.url)
       assert.ok(html.includes(`<link rel="canonical" href="${meta.url}" />`), meta.url)
       assert.ok(html.includes(`<meta property="og:url" content="${meta.url}" />`), meta.url)
+      assert.ok(html.includes(`<meta property="og:image" content="${meta.ogImage}" />`), meta.url)
+      assert.ok(html.includes(`<meta name="twitter:image" content="${meta.ogImage}" />`), meta.url)
+      assert.ok(!html.includes('gdsff-logo-approved.png" />'), `${meta.url} still references the 2.5 MB logo in the head`)
+      if (route === '/') {
+        assert.match(html, /<link rel="preload" as="image" href="\/range-hero-1600\.webp"/, meta.url)
+        assert.ok(html.includes('"@type":"FAQPage"'), meta.url)
+      }
+      if (route === '/events') assert.ok(html.includes('"@type":"SportsEvent"'), meta.url)
+      if (route === '/leadership') assert.ok(html.includes('"@type":"Person"'), meta.url)
       assert.ok(html.includes(`<meta name="twitter:description" content="${escape(meta.description)}" />`), meta.url)
       assert.equal(html.includes('<meta name="robots" content="noindex" />'), meta.noindex, meta.url)
       assert.match(html, /<main[\s>]/, meta.url)
@@ -29,7 +38,9 @@ test('all 30 built pages have route-specific metadata and populated HTML', () =>
 })
 
 test('sitemap includes exactly the 26 public canonical URLs', () => {
-  const actual = [...read('dist/sitemap.xml').matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1])
+  const sitemap = read('dist/sitemap.xml')
+  const actual = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1])
+  assert.equal((sitemap.match(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/g) ?? []).length, 26)
   const expected = LANGS.flatMap((language) => indexableRoutes.map((route) => getRouteMetadata(route, language).url))
   assert.equal(actual.length, 26)
   assert.deepEqual(actual.sort(), expected.sort())

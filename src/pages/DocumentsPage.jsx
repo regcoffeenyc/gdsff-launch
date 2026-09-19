@@ -26,7 +26,7 @@ const libraryCopy = {
   en: {
     libraryTitle: 'Official Document Library',
     libraryText:
-      'All core federation files and public brand assets are grouped in one controlled download center to keep the page clear, structured, and launch-ready.',
+      'The charter, leadership biographies, membership form, safety rules, printable target and the official logo, in one place.',
     categories: [
       {
         key: 'governance',
@@ -62,13 +62,6 @@ const libraryCopy = {
         title: 'GDSFF branded 1-inch grid target',
         text: 'A print-ready Letter-size target sheet with federation logo, contact details, scale note, and 1-inch grid.',
         itemIds: ['printable-target'],
-      },
-      {
-        key: 'resources',
-        kicker: 'Resources and Downloads',
-        title: 'Launch resources and operational files',
-        text: 'Supporting website and deployment resources prepared for official rollout.',
-        itemIds: ['content-pack', 'upload-checklist'],
       },
       {
         key: 'branding',
@@ -111,13 +104,6 @@ const libraryCopy = {
         title: 'უსაფრთხოების წესები და ინფორმირებული თანხმობა',
         text: 'მონაწილეთა უსაფრთხოებასა და თანხმობასთან დაკავშირებული დოკუმენტები ფედერაციის პრაქტიკული გამოყენებისთვის.',
         itemIds: ['safety-consent'],
-      },
-      {
-        key: 'resources',
-        kicker: 'რესურსები და ჩამოტვირთვები',
-        title: 'გაშვების რესურსები და საოპერაციო ფაილები',
-        text: 'საიტისა და ოფიციალური გაშვების მხარდამჭერი დამატებითი მასალები.',
-        itemIds: ['content-pack', 'upload-checklist'],
       },
       {
         key: 'branding',
