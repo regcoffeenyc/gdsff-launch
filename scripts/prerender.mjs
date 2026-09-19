@@ -1,12 +1,17 @@
 // Build-time prerenderer.
 // Runs after `vite build` (client) and `vite build --ssr` (server entry).
 // For every route x language it renders real HTML and writes
-// dist/<lang><route>/index.html with route-specific head tags + hreflang.
+// dist/<lang><route>/index.html with route-specific head tags, hreflang,
+// share image and structured data. It also generates dist/sitemap.xml from
+// routesMeta so the sitemap can never disagree with what was prerendered.
 
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { mkdirSync, readFileSync, writeFileSync, cpSync, existsSync } from 'node:fs'
-import { getRouteMetadata, allRoutes, LANGS } from '../src/seo/routesMeta.js'
+import { getRouteMetadata, allRoutes, indexableRoutes, LANGS, SITE } from '../src/seo/routesMeta.js'
+import { faqContent } from '../src/content/faqContent.js'
+import { enContent } from '../src/content/enContent.js'
+import { kaContent } from '../src/content/kaContent.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = join(__dirname, '..')
@@ -16,12 +21,93 @@ const ssrDist = join(root, 'dist-ssr')
 const { render } = await import(join(ssrDist, 'prerender-entry.js'))
 const template = readFileSync(join(dist, 'index.html'), 'utf8')
 
-const FAQ_JSONLD = `<script type="application/ld+json">
-    {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "რა არის GDSFF?", "acceptedAnswer": {"@type": "Answer", "text": "GDSFF — საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციაა: ეროვნული პლატფორმა, რომელიც აერთიანებს სპორტულ სროლას, სასროლეთებს, ფუნქციურ ფიტნესს, სპორტსმენების განვითარებასა და შეჯიბრებებს მთელი საქართველოს მასშტაბით."}}, {"@type": "Question", "name": "როგორ გავხდე ფედერაციის წევრი?", "acceptedAnswer": {"@type": "Answer", "text": "გახსენით გვერდი წევრობა და შეავსეთ განაცხადი. ფედერაცია განიხილავს განაცხადს და დაგიკავშირდებათ შემდეგი ნაბიჯებისთვის — სპორტსმენებს, კლუბებსა და პარტნიორებს."}}, {"@type": "Question", "name": "სად ტარდება ვარჯიშები და შეჯიბრებები?", "acceptedAnswer": {"@type": "Answer", "text": "ივენთები იმართება პარტნიორ სასროლეთებსა და პოლიგონებზე საქართველოში. მიმდინარე განრიგი ქვეყნდება ივენთების გვერდზე და სოციალურ არხებზე."}}, {"@type": "Question", "name": "მჭირდება თუ არა საკუთარი იარაღი მონაწილეობისთვის?", "acceptedAnswer": {"@type": "Answer", "text": "არა. დამწყებები ვარჯიშობენ სასროლეთის აღჭურვილობით, სერტიფიცირებული ინსტრუქტორების მეთვალყურეობით და უსაფრთხოების მკაცრი წესების დაცვით. გამოცდილ მსროლელებს შეუძლიათ საკუთარი რეგისტრირებული იარაღის გამოყენება."}}, {"@type": "Question", "name": "რა არის დინამიური სროლა?", "acceptedAnswer": {"@type": "Answer", "text": "დინამიური სროლა სპორტული დისციპლინაა, რომელიც აერთიანებს სიზუსტეს, სისწრაფესა და მოძრაობას პრაქტიკულ სავარჯიშო ტრასებზე — ერთ-ერთი ყველაზე სწრაფად მზარდი სასროლო სპორტი მსოფლიოში."}}]}
-    </script>`
+const ORG_ID = `${SITE}/#organization`
+const content = { en: enContent, ka: kaContent }
 
 function esc(s) {
   return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}
+
+function jsonld(payload) {
+  return `<script type="application/ld+json">\n    ${JSON.stringify(payload)}\n    </script>`
+}
+
+// FAQPage mirrors the visible homepage FAQ, both languages.
+function faqJsonld(lang) {
+  return jsonld({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqContent[lang].map(({ q, a }) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })),
+  })
+}
+
+// One SportsEvent per calendar entry, built from the same data the page renders.
+function eventsJsonld(lang, pageUrl, image) {
+  const events = content[lang].events.calendar.events
+  return jsonld({
+    '@context': 'https://schema.org',
+    '@graph': events.map((event) => ({
+      '@type': 'SportsEvent',
+      name: event.title,
+      description: event.description,
+      startDate: event.date,
+      endDate: event.endDate ?? event.date,
+      eventStatus: 'https://schema.org/EventScheduled',
+      eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+      location: {
+        '@type': 'Place',
+        name: event.location,
+        address: { '@type': 'PostalAddress', addressLocality: event.location, addressCountry: 'GE' },
+      },
+      organizer: { '@id': ORG_ID },
+      url: `${pageUrl}#calendar-2026`,
+      image,
+      inLanguage: lang,
+    })),
+  })
+}
+
+// Person nodes for the named leadership, bound to the organization.
+function leadershipJsonld(lang, pageUrl) {
+  const people =
+    lang === 'ka'
+      ? [
+          { name: 'გიორგი გაგნიძე', jobTitle: 'პრეზიდენტი', id: 'president' },
+          { name: 'ანა ფანჩულიძე', jobTitle: 'დირექტორი', id: 'director' },
+        ]
+      : [
+          { name: 'George Gagnidze', jobTitle: 'President', id: 'president' },
+          { name: 'Ana Panchulidze', jobTitle: 'Director', id: 'director' },
+        ]
+  return jsonld({
+    '@context': 'https://schema.org',
+    '@graph': people.map((person) => ({
+      '@type': 'Person',
+      '@id': `${SITE}/#${person.id}`,
+      name: person.name,
+      jobTitle: person.jobTitle,
+      worksFor: { '@id': ORG_ID },
+      url: `${pageUrl}#${person.id}`,
+    })),
+  })
+}
+
+function routeHead(route, lang, meta) {
+  const parts = []
+  if (route === '/') {
+    // The hero photo is the LCP element on the homepage: fetch it before CSS is parsed.
+    parts.push(
+      `<link rel="preload" as="image" href="/range-hero-1600.webp" imagesrcset="/range-hero-960.webp 960w, /range-hero-1600.webp 1600w" imagesizes="100vw" fetchpriority="high" />`,
+    )
+    parts.push(faqJsonld(lang))
+  }
+  if (route === '/events') parts.push(eventsJsonld(lang, meta.url, meta.ogImage))
+  if (route === '/leadership') parts.push(leadershipJsonld(lang, meta.url))
+  return parts.join('\n    ')
 }
 
 function buildHead(route, lang) {
@@ -64,6 +150,8 @@ for (const lang of LANGS) {
         /<meta\s+property="og:description"\s+content="[^"]*"\s*\/>/,
         `<meta property="og:description" content="${esc(meta.description)}" />`,
       )
+      .replace(/<meta property="og:image" content="[^"]*" \/>/, `<meta property="og:image" content="${meta.ogImage}" />`)
+      .replace(/<meta name="twitter:image" content="[^"]*" \/>/, `<meta name="twitter:image" content="${meta.ogImage}" />`)
       .replace(
         /<meta name="twitter:title" content="[^"]*" \/>/,
         `<meta name="twitter:title" content="${esc(meta.title)}" />`,
@@ -72,7 +160,8 @@ for (const lang of LANGS) {
         /<meta name="twitter:description" content="[^"]*" \/>/,
         `<meta name="twitter:description" content="${esc(meta.description)}" />`,
       )
-      .replace('<!--faq-jsonld-->', route === '/' && lang === 'ka' ? FAQ_JSONLD : '')
+      .replace('<!--route-head-->', routeHead(route, lang, meta))
+      .replace('<!--faq-jsonld-->', '')
       .replace('<!--app-html-->', appHtml)
 
     const outDir = route === '/' ? join(dist, lang) : join(dist, lang, route.slice(1))
@@ -82,13 +171,25 @@ for (const lang of LANGS) {
   }
 }
 
-// Root index.html should never be served directly (server redirects / -> /ka/),
-// but keep a safe fallback that client-redirects if someone gets it anyway.
-// The template already contains the client-side language redirect via main.jsx.
+// Sitemap: exactly the indexable, canonical URLs, with reciprocal hreflang.
+const urlEntries = []
+for (const route of indexableRoutes) {
+  for (const lang of LANGS) {
+    const meta = getRouteMetadata(route, lang)
+    const alternates = meta.alternates
+      .map((a) => `    <xhtml:link rel="alternate" hreflang="${a.language}" href="${a.url}"/>`)
+      .join('\n')
+    urlEntries.push(`  <url>\n    <loc>${meta.url}</loc>\n    <lastmod>${meta.lastmod}</lastmod>\n${alternates}\n  </url>`)
+  }
+}
+writeFileSync(
+  join(dist, 'sitemap.xml'),
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urlEntries.join('\n')}\n</urlset>\n`,
+)
 
 // 404 page must exist in output for Vercel to serve real 404s.
 if (existsSync(join(root, 'public', '404.html'))) {
   cpSync(join(root, 'public', '404.html'), join(dist, '404.html'))
 }
 
-console.log(`Prerendered ${count} pages (${LANGS.length} languages x ${allRoutes.length} routes).`)
+console.log(`Prerendered ${count} pages (${LANGS.length} languages x ${allRoutes.length} routes) and sitemap.xml with ${urlEntries.length} URLs.`)

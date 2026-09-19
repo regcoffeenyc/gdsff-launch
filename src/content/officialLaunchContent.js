@@ -46,8 +46,8 @@ export const officialLaunchContent = {
       eyebrow: 'About',
       title: 'Federation Overview and Charter',
       text:
-        'Official federation profile, mission, charter basis, and institutional role presented in one clear reference format.',
-      highlights: ['Registered federation', 'Modern sport platform', 'International cooperation'],
+        'Official profile of the federation: mission, vision, charter and institutional status.',
+      highlights: ['Registered federation', 'iF3 member federation', 'International cooperation'],
       overviewTitle: 'Federation Overview',
       overviewParagraphs: [
         'Georgian Dynamic Shooting & Functional Fitness Federation is a registered sports federation dedicated to the development of dynamic shooting and functional fitness in Georgia, athlete support, competition organization, institutional strengthening, and the expansion of international cooperation.',
@@ -173,7 +173,7 @@ export const officialLaunchContent = {
     },
     home: {
       leadershipEyebrow: 'Leadership Preview',
-      leadershipTitle: 'Official leadership presented with direct access to the president and director profiles.',
+      leadershipTitle: 'The president and the director of the federation.',
       leadershipText:
         'The homepage surfaces the leadership profile area so institutions, partners, and members can quickly understand responsibility and coordination.',
       membershipEyebrow: 'Membership Preview',
@@ -193,8 +193,8 @@ export const officialLaunchContent = {
       eyebrow: 'ფედერაციის შესახებ',
       title: 'ფედერაციის შესახებ და წესდება',
       text:
-        'ფედერაციის ოფიციალური პროფილი, მისია, ხედვა, წესდების საფუძველი და ინსტიტუციური სტატუსი წარმოდგენილია ერთ სუფთა ოფიციალურ ფორმატში.',
-      highlights: ['რეგისტრირებული ფედერაცია', 'თანამედროვე სპორტული პლატფორმა', 'საერთაშორისო თანამშრომლობა'],
+        'ფედერაციის ოფიციალური პროფილი: მისია, ხედვა, წესდება და ინსტიტუციური სტატუსი.',
+      highlights: ['რეგისტრირებული ფედერაცია', 'iF3-ის წევრი ფედერაცია', 'საერთაშორისო თანამშრომლობა'],
       overviewTitle: 'ფედერაციის შესახებ',
       overviewParagraphs: [
         'Georgian Dynamic Shooting & Functional Fitness Federation არის რეგისტრირებული სპორტული ფედერაცია, რომელიც მიზნად ისახავს საქართველოში დინამიური სროლისა და ფუნქციური ფიტნესის განვითარებას, სპორტსმენების მხარდაჭერას, შეჯიბრებების ორგანიზებას, ინსტიტუციურ გაძლიერებასა და საერთაშორისო თანამშრომლობის გაფართოებას.',
@@ -268,10 +268,10 @@ export const officialLaunchContent = {
       title: 'ოფიციალური დოკუმენტები და ჩამოტვირთვები',
       text:
         'ამ გვერდზე თავმოყრილია ფედერაციის ძირითადი ოფიციალური დოკუმენტები, ფორმები და საინფორმაციო მასალები, რომლებიც ხელმისაწვდომია ჩამოტვირთვისთვის.',
-      highlights: ['ოფიციალური ფაილები', 'საიტის გაშვების მასალები', 'პირდაპირი ჩამოტვირთვა'],
+      highlights: ['ოფიციალური ფაილები', 'ფორმები და წესები', 'პირდაპირი ჩამოტვირთვა'],
       introTitle: 'ოფიციალური დოკუმენტები',
       introText:
-        'დოკუმენტების ბიბლიოთეკა აერთიანებს წესდებას, ხელმძღვანელობის ბიოგრაფიებს, წევრობის ფორმას, საჯარო ლოგოს ფაილს, საიტის კონტენტის პაკეტს და ატვირთვის შემოწმების სიას.',
+        'დოკუმენტების ბიბლიოთეკა აერთიანებს წესდებას, ხელმძღვანელობის ბიოგრაფიებს, წევრობის ფორმას, უსაფრთხოების წესებსა და საჯარო ლოგოს ფაილს.',
       items: [
         {
           ...documentItems[0],
@@ -322,16 +322,16 @@ export const officialLaunchContent = {
       leadershipEyebrow: 'ხელმძღვანელობის მიმოხილვა',
       leadershipTitle: 'ოფიციალური ხელმძღვანელობის ბლოკი პრეზიდენტისა და დირექტორის პროფილებით.',
       leadershipText:
-        'მთავარ გვერდზე წარმოდგენილია ძირითადი ხელმძღვანელობის პროფილები, რათა ინსტიტუციებმა, პარტნიორებმა და წევრებმა სწრაფად მიიღონ საჭირო ორიენტაცია.',
+        'ფედერაციის პრეზიდენტი და დირექტორი.',
       membershipEyebrow: 'გაწევრიანების მიმოხილვა',
       membershipTitle: 'გაწევრიანების მკაფიო პროცესი ფიზიკური პირების, სპორტსმენების, მწვრთნელებისა და კლუბებისთვის.',
       membershipText:
         'გაწევრიანება დაფუძნებულია ოფიციალურ განაცხადის ფორმაზე და სრულ განაცხადთა გაგზავნაზე ფედერაციის ოფიციალურ ელფოსტაზე.',
       membershipActionLabel: 'გაწევრიანების გვერდი',
       documentsEyebrow: 'დოკუმენტების მიმოხილვა',
-      documentsTitle: 'საიტის მთავარი ოფიციალური დოკუმენტები ხელმისაწვდომია ერთ სივრცეში.',
+      documentsTitle: 'ფედერაციის ოფიციალური დოკუმენტები ერთ სივრცეში.',
       documentsText:
-        'დოკუმენტების ბლოკი აერთიანებს გაშვებისთვის მნიშვნელოვან ფედერაციულ ფაილებსა და ჩამოსატვირთ მასალებს.',
+        'წესდება, წევრობის ფორმა, უსაფრთხოების წესები, ხელმძღვანელობის ბიოგრაფიები და ემბლემა ჩამოსატვირთად.',
       documentsActionLabel: 'დოკუმენტების გვერდი',
     },
   },

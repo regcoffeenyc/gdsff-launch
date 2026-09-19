@@ -124,6 +124,39 @@ export function buildFederationNav(copy) {
       ],
     },
     {
+      key: 'sports',
+      label: isGeorgian ? 'სპორტი' : 'Sports',
+      panelAlign: 'start',
+      overline: isGeorgian ? 'დისციპლინები' : 'Disciplines',
+      description: isGeorgian
+        ? 'დინამიური სროლა და ფუნქციური ფიტნესი ერთი ფედერაციის სტანდარტით.'
+        : 'Dynamic shooting and functional fitness under one federation standard.',
+      matchPaths: ['/sports'],
+      items: [
+        {
+          label: isGeorgian ? 'დინამიური სროლა' : 'Dynamic Shooting',
+          description: isGeorgian
+            ? 'სიზუსტე, სისწრაფე და მოძრაობა სტეიჯებზე.'
+            : 'Accuracy, speed and movement through stage-based courses of fire.',
+          to: '/sports#dynamic-shooting',
+        },
+        {
+          label: isGeorgian ? 'ფუნქციური ფიტნესი' : 'Functional Fitness',
+          description: isGeorgian
+            ? 'ძალა, გამძლეობა და სამუშაო უნარი შეჯიბრებით ფორმატში.'
+            : 'Strength, endurance and work capacity in competitive formats.',
+          to: '/sports#functional-fitness',
+        },
+        {
+          label: isGeorgian ? 'ტაქტიკური შესრულება' : 'Tactical Performance',
+          description: isGeorgian
+            ? 'დისციპლინებს შორის მომზადება და ბანაკები.'
+            : 'Cross-discipline preparation and camps.',
+          to: '/sports#tactical-performance',
+        },
+      ],
+    },
+    {
       key: 'leadership',
       label: labels.leadership,
       panelAlign: 'center',
@@ -230,7 +263,7 @@ export function buildFederationNav(copy) {
       description: isGeorgian
         ? 'ფედერაციის მხარდაჭერის ოფიციალური გვერდი: სპონსორობა, დონაციები და სტრატეგიული პარტნიორობა.'
         : 'Official federation support page for sponsorship, donations, and strategic partnerships.',
-      matchPaths: ['/support'],
+      matchPaths: ['/support', '/partners'],
       items: [
         {
           label: isGeorgian ? 'სპონსორობა და დონაციები' : 'Sponsorship & Donations',
@@ -252,6 +285,13 @@ export function buildFederationNav(copy) {
             ? 'სპონსორობის, დონაციის ან პარტნიორობის ონლაინ მოთხოვნა.'
             : 'Online inquiry for sponsorship, donation, or partnership support.',
           to: '/support#support-inquiry-form',
+        },
+        {
+          label: isGeorgian ? 'პარტნიორები' : 'Partners',
+          description: isGeorgian
+            ? 'პარტნიორი ორგანიზაციები, სასროლეთები და სპონსორები.'
+            : 'Partner organizations, shooting ranges and sponsors.',
+          to: '/partners',
         },
         {
           label: isGeorgian ? 'გამჭვირვალობა' : 'Transparency Note',

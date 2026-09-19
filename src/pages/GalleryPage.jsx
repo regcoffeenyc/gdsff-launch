@@ -18,9 +18,9 @@ import {
 const galleryWallCopy = {
   en: {
     eyebrow: 'Photo Gallery',
-    title: 'Competition, training, and federation visuals presented as an official media gallery.',
+    title: 'Competition and training photography',
     text:
-      'The gallery now combines the federation range image, emblem usage, and added action photography into one polished media archive for members, partners, and public presentation.',
+      'Photos from the federation range, functional fitness competition lanes and outdoor courses.',
     items: [
       {
         src: functionalFitnessCollageSrc,
@@ -48,15 +48,15 @@ const galleryWallCopy = {
         alt: 'Athletes climbing ropes on an outdoor competition course',
         eyebrow: 'Course Design',
         title: 'Outdoor Competition Format',
-        text: 'Wide-angle course imagery that broadens the gallery beyond portrait moments and identity shots.',
+        text: 'Outdoor course used for cross-discipline camps and competition stages.',
       },
     ],
   },
   ka: {
     eyebrow: 'ფოტო გალერეა',
-    title: 'შეჯიბრების, ვარჯიშისა და ფედერაციის ვიზუალები წარმოდგენილია, როგორც ოფიციალური მედია გალერეა.',
+    title: 'შეჯიბრებებისა და ვარჯიშების ფოტოები',
     text:
-      'გალერეა ახლა აერთიანებს ფედერაციის მთავარ რენჟის ფოტოს, ემბლემის გამოყენებას და დამატებულ მოქმედებით ფოტოებს ერთ მოწესრიგებულ მედია არქივში წევრებისთვის, პარტნიორებისთვის და საჯარო წარდგენისთვის.',
+      'ფოტოები ფედერაციის სასროლეთიდან, ფუნქციური ფიტნესის საშეჯიბრო ხაზებიდან და ღია ტრასებიდან.',
     items: [
       {
         src: functionalFitnessCollageSrc,
@@ -103,7 +103,7 @@ const galleryUiCopy = {
       eyebrow: 'Venue Presentation',
       title: 'Federation Range Environment',
       text:
-        'A wide visual of the federation venue presented as part of the official media archive and event-hosting identity.',
+        'The range where federation members train and where ranking matches are held.',
     },
   },
   ka: {
@@ -138,7 +138,7 @@ export default function GalleryPage({ copy }) {
           eyebrow: '\u10dd\u10e4\u10d8\u10ea\u10d8\u10d0\u10da\u10e3\u10e0\u10d8 \u10d5\u10d8\u10d3\u10d4\u10dd',
           title: 'GDSFF Promo Loop',
           text:
-            '\u10db\u10dd\u10d9\u10da\u10d4 \u10dd\u10e4\u10d8\u10ea\u10d8\u10d0\u10da\u10e3\u10e0\u10d8 \u10e1\u10d0\u10e4\u10d4\u10d3\u10d4\u10e0\u10d0\u10ea\u10d8\u10dd \u10de\u10e0\u10dd\u10db\u10dd \u10e0\u10dd\u10db\u10d4\u10da\u10d8\u10ea \u10db\u10dd\u10db\u10d6\u10d0\u10d3\u10d4\u10d1\u10e3\u10da\u10d8\u10d0 \u10d2\u10d0\u10da\u10d4\u10e0\u10d4\u10d8\u10e1, \u10db\u10d7\u10d0\u10d5\u10d0\u10e0\u10d8 \u10d2\u10d5\u10d4\u10e0\u10d3\u10d8\u10e1 \u10d3\u10d0 \u10e1\u10d0\u10ef\u10d0\u10e0\u10dd \u10db\u10d4\u10d3\u10d8\u10d0 \u10ec\u10d0\u10e0\u10db\u10dd\u10d3\u10d2\u10d4\u10dc\u10d8\u10e1\u10d7\u10d5\u10d8\u10e1.',
+            'ფედერაციის ოფიციალური მოკლე სარეკლამო ვიდეო.',
         }
       : {
           mediaType: 'video',
@@ -148,7 +148,7 @@ export default function GalleryPage({ copy }) {
           eyebrow: 'Official Video',
           title: 'GDSFF Promo Loop',
           text:
-            'Short-form official federation promo prepared for gallery presentation, homepage hero placement, and launch-ready media use.',
+            'The official short promo video of the federation.',
         }
   const galleryWallItems = [promoGalleryItem, ...galleryWall.items]
   const [searchParams, setSearchParams] = useSearchParams()

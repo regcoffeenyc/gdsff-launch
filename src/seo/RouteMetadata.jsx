@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { getRouteMetadata, OG_IMAGE } from './routesMeta'
+import { getRouteMetadata } from './routesMeta'
 
 function setTag(selector, tagName, attributes) {
   const [existing, ...duplicates] = document.head.querySelectorAll(selector)
@@ -33,7 +33,7 @@ export default function RouteMetadata({ language }) {
       description: meta.description,
       'twitter:title': meta.title,
       'twitter:description': meta.description,
-      'twitter:image': OG_IMAGE,
+      'twitter:image': meta.ogImage,
     })) {
       setTag(`meta[name="${name}"]`, 'meta', { name, content })
     }
@@ -41,7 +41,7 @@ export default function RouteMetadata({ language }) {
       'og:title': meta.title,
       'og:description': meta.description,
       'og:url': meta.url,
-      'og:image': OG_IMAGE,
+      'og:image': meta.ogImage,
       'og:locale': meta.locale,
       'og:locale:alternate': meta.alternateLocale,
     })) {

@@ -3,19 +3,22 @@
 // (so deep links work) but excluded from search.
 
 export const SITE = 'https://www.gdsff.com'
-export const OG_IMAGE = `${SITE}/gdsff-logo-approved.png`
+export const OG_IMAGES = { ka: `${SITE}/og-ka.jpg`, en: `${SITE}/og-en.jpg` }
+export const OG_IMAGE = OG_IMAGES.ka
+// Bump when a page's content changes; drives <lastmod> in the generated sitemap.
+export const LASTMOD = '2026-09-19'
 
 export const routesMeta = {
   '/': {
     ka: {
-      title: 'GDSFF | დინამიური სროლის ფედერაცია საქართველოში',
+      title: 'GDSFF | დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაცია',
       description:
-        'გაიგეთ GDSFF-ის შეჯიბრებების, ვარჯიშების, წევრობისა და უსაფრთხო დინამიური სროლის პროგრამების შესახებ საქართველოში.',
+        'დინამიური სროლისა და ფუნქციური ფიტნესის ეროვნული ფედერაცია საქართველოში: 2026 წლის ღონისძიებები, წევრობა, უსაფრთხოების წესები, დოკუმენტები და კონტაქტი.',
     },
     en: {
-      title: 'GDSFF | Georgian Dynamic Shooting Federation',
+      title: 'GDSFF | Georgian Dynamic Shooting & Functional Fitness Federation',
       description:
-        'Learn about GDSFF competitions, training, membership and safe dynamic shooting programs in Georgia.',
+        'The national federation for dynamic shooting and functional fitness in Georgia: 2026 events, membership, safety rules, official documents and contacts.',
     },
   },
   '/about': {
@@ -25,7 +28,7 @@ export const routesMeta = {
         'გაეცანით საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციის მისიას, წესდებასა და ისტორიას.',
     },
     en: {
-      title: 'About GDSFF | Georgian Shooting Federation',
+      title: 'About the Federation | GDSFF',
       description:
         'The mission, charter and history of the Georgian Dynamic Shooting & Functional Fitness Federation.',
     },
@@ -71,7 +74,7 @@ export const routesMeta = {
         'GDSFF-ის 2026 წლის კალენდარი — ეროვნული ჩემპიონატები, სავარჯიშო ბანაკები და საერთაშორისო ივენთები.',
     },
     en: {
-      title: 'Shooting Events & Competitions in Georgia | GDSFF',
+      title: 'Dynamic Shooting & Functional Fitness Events 2026 | GDSFF',
       description:
         'GDSFF 2026 calendar — national championships, training camps and international events in Georgia.',
     },
@@ -147,7 +150,7 @@ export const routesMeta = {
         'დაუკავშირდით საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციას — ტელეფონი, ელფოსტა, მისამართი.',
     },
     en: {
-      title: 'Contact GDSFF | Georgian Shooting Federation',
+      title: 'Contact the Federation | GDSFF',
       description:
         'Get in touch with the Georgian Dynamic Shooting & Functional Fitness Federation — phone, email, address.',
     },
@@ -185,6 +188,8 @@ export function getRouteMetadata(pathname, language) {
     ...entry[language],
     language,
     url: urlFor(language),
+    ogImage: OG_IMAGES[language],
+    lastmod: entry.lastmod ?? LASTMOD,
     noindex: Boolean(entry.noindex),
     alternates: [
       { language: 'ka', url: urlFor('ka') },

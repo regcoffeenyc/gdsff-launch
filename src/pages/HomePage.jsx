@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import GalleryLightbox from '../components/GalleryLightbox'
 import If3Announcement from '../components/If3Announcement'
+import { faqContent } from '../content/faqContent'
 import { membershipApplicationContent } from '../content/membershipApplicationContent'
 import { officialLaunchContent } from '../content/officialLaunchContent'
 import { EmailLink, LocationLink, PhoneLink, SocialLinks } from '../components/SiteMetaLinks'
@@ -10,6 +11,7 @@ import {
   federationBadgeArtSrc,
   functionalFitnessCollageSrc,
   logoSrc,
+  rangeHeroSmallSrc,
   rangeHeroSrc,
   ropeClimbCourseSrc,
   tacticalRifleLineSrc,
@@ -43,22 +45,22 @@ const homePageCopy = {
       primaryAction: { label: 'Explore Federation', to: '/about#federation-overview' },
       secondaryAction: { label: 'View Events', to: '/events#calendar-2026' },
       metrics: [
-        { value: '2026', label: 'Official launch season' },
+        { value: '2026', label: 'First competition season' },
         { value: '2', label: 'Core disciplines' },
         { value: 'International', label: 'Public-facing standard' },
       ],
       briefTitle: 'Federation Brief',
       briefItems: [
-        'Official governance, competition, and institutional identity presented in one disciplined digital platform.',
+        'Registered national federation with a published charter and governing bodies.',
         'Dynamic shooting and functional fitness aligned under one disciplined federation standard.',
-        'Built for athlete development, event readiness, and international cooperation.',
+        'Athlete development, safety education and international cooperation as an iF3 member.',
       ],
     },
     mission: {
       eyebrow: 'Mission / Identity',
       title: 'A modern federation platform built for discipline, performance, and public credibility.',
       text:
-        'The launch website presents the federation through a strong institutional identity supported by development, safety culture, event structure, and international ambition.',
+        'The federation exists to develop both sports in Georgia on a foundation of safety culture, structured competition and international cooperation.',
       items: [
         {
           title: 'Dynamic Shooting Development',
@@ -104,9 +106,9 @@ const homePageCopy = {
     },
     events: {
       eyebrow: 'Events Preview',
-      title: 'The 2026 federation season is presented through an official calendar view.',
+      title: '2026 season: ranking matches, clinics, camps and the Georgian Grand Prix.',
       text:
-        'The events section gives athletes, clubs, partners, and guests a professional view of the federation season and its publishing structure.',
+        'The full calendar lists dates, venues and registration status for athletes, clubs, partners and guests.',
       actionLabel: 'Open Full Calendar',
     },
     hub: {
@@ -117,47 +119,26 @@ const homePageCopy = {
       pillars: [
         'Regional accessibility for visiting athletes, partners, and event stakeholders',
         'Strong potential for camps, showcase competitions, and championship weekends',
-        'Tourism value and host-destination appeal for outdoor sport presentation',
+        'Tourism value and host-destination appeal for outdoor sport events',
         'Institutional and operational potential for long-term federation-led growth',
       ],
     },
     media: {
       eyebrow: 'Media / Gallery Preview',
-      title: 'Official visual identity supported by range presentation, emblem use, and event imagery.',
+      title: 'Photos and video from the range, competitions and training.',
       text:
-        'The media area is built for public bulletins, editorial storytelling, and sponsor-facing federation presentation.',
+        'Event coverage, the official promo video and the federation emblem for press and partner use.',
       actionLabel: 'View Full Gallery',
       items: [
         { title: 'Federation Emblem', src: federationBadgeArtSrc, alt: 'GDSFF emblem artwork', to: '/gallery#news-updates' },
-        { title: 'Range Presentation', src: rangeHeroSrc, alt: 'Federation range', to: '/gallery#venue-presentation' },
+        { title: 'Federation Range', src: rangeHeroSmallSrc, alt: 'Federation range', to: '/gallery#venue-presentation' },
         { title: 'Competition Coverage', src: ropeClimbCourseSrc, alt: 'Outdoor competition course', to: '/gallery#photo-gallery' },
       ],
     },
     faq: {
       eyebrow: 'FAQ',
       title: 'Frequently Asked Questions',
-      items: [
-        {
-          q: 'What is GDSFF?',
-          a: 'GDSFF is the Georgian Dynamic Shooting & Functional Fitness Federation — the national platform uniting dynamic shooting sport, shooting ranges, functional fitness, athlete development, and competitions across Georgia.',
-        },
-        {
-          q: 'How do I become a federation member?',
-          a: 'Open the Membership page and submit the application form. The federation reviews applications and contacts you with the next steps for athletes, clubs, and partners.',
-        },
-        {
-          q: 'Where do trainings and competitions take place?',
-          a: 'Events are held at partner shooting ranges and training grounds across Georgia. The current schedule is published on the Events page and on our social channels.',
-        },
-        {
-          q: 'Do I need my own firearm to participate?',
-          a: 'No. Beginners train with range equipment under certified instructors, following strict federation safety protocols. Experienced shooters may use their own registered firearms.',
-        },
-        {
-          q: 'What is dynamic shooting?',
-          a: 'Dynamic shooting is a sport discipline combining accuracy, speed, and movement through practical courses of fire — one of the fastest-growing shooting sports worldwide.',
-        },
-      ],
+      items: faqContent.en,
     },
     closing: {
       eyebrow: 'Final Contact / CTA',
@@ -180,22 +161,22 @@ const homePageCopy = {
       primaryAction: { label: 'ფედერაციის გაცნობა', to: '/about#federation-overview' },
       secondaryAction: { label: 'ღონისძიებების ნახვა', to: '/events#calendar-2026' },
       metrics: [
-        { value: '2026', label: 'ოფიციალური გაშვების სეზონი' },
+        { value: '2026', label: 'პირველი საშეჯიბრო სეზონი' },
         { value: '2', label: 'ძირითადი დისციპლინა' },
         { value: 'საერთაშორისო', label: 'საჯარო სტანდარტი' },
       ],
       briefTitle: 'ფედერაციის მოკლე მიმოხილვა',
       briefItems: [
-        'ოფიციალური მმართველობა, შეჯიბრებები და ინსტიტუციური იდენტობა წარმოდგენილია ერთ გაშვებისთვის მზა პლატფორმაში.',
+        'რეგისტრირებული ეროვნული ფედერაცია გამოქვეყნებული წესდებითა და მმართველი ორგანოებით.',
         'დინამიური სროლა და ფუნქციური ფიტნესი გაერთიანებულია ერთ დისციპლინირებულ ფედერაციულ სტანდარტში.',
-        'პლატფორმა შექმნილია სპორტსმენთა განვითარებისთვის, ღონისძიებების მზადყოფნისთვის და საერთაშორისო თანამშრომლობისთვის.',
+        'სპორტსმენთა განვითარება, უსაფრთხოების განათლება და საერთაშორისო თანამშრომლობა iF3-ის წევრის სტატუსით.',
       ],
     },
     mission: {
       eyebrow: 'მისია / იდენტობა',
       title: 'თანამედროვე ფედერაციული პლატფორმა დისციპლინის, შედეგისა და საჯარო სანდოობისთვის.',
       text:
-        'საიტი წარმოაჩენს ფედერაციას ძლიერი ინსტიტუციური იდენტობით, რომელსაც ამყარებს განვითარება, უსაფრთხოების კულტურა, ღონისძიებების სტრუქტურა და საერთაშორისო ხედვა.',
+        'ფედერაციის მიზანია ორივე სპორტის განვითარება საქართველოში უსაფრთხოების კულტურის, სტრუქტურირებული შეჯიბრებებისა და საერთაშორისო თანამშრომლობის საფუძველზე.',
       items: [
         {
           title: 'დინამიური სროლის განვითარება',
@@ -241,9 +222,9 @@ const homePageCopy = {
     },
     events: {
       eyebrow: 'ღონისძიებების მიმოხილვა',
-      title: '2026 წლის საწყისი ღონისძიებები უკვე წარმოდგენილია ოფიციალური კალენდრის ფორმატში.',
+      title: '2026 წლის სეზონი: რეიტინგული მატჩები, კლინიკები, ბანაკები და საქართველოს გრან-პრი.',
       text:
-        'ღონისძიებების სექცია სპორტსმენებს, კლუბებს, პარტნიორებსა და სტუმრებს სთავაზობს მომავალი სეზონის პროფესიულ მიმოხილვას.',
+        'სრულ კალენდარში მოცემულია თარიღები, ლოკაციები და რეგისტრაციის სტატუსი სპორტსმენებისთვის, კლუბებისთვის, პარტნიორებისა და სტუმრებისთვის.',
       actionLabel: 'სრული კალენდარი',
     },
     hub: {
@@ -260,41 +241,20 @@ const homePageCopy = {
     },
     media: {
       eyebrow: 'მედია / გალერეის მიმოხილვა',
-      title: 'ოფიციალური ვიზუალური იდენტობა გამყარებულია რენჟის პრეზენტაციით, ემბლემით და ღონისძიებების ფოტოებით.',
+      title: 'ფოტო და ვიდეო სასროლეთიდან, შეჯიბრებებიდან და ვარჯიშებიდან.',
       text:
-        'მედიის სივრცე შექმნილია საჯარო ბიულეტენებისთვის, სარედაქციო თხრობისთვის და პარტნიორებზე ორიენტირებული წარდგენისთვის.',
+        'ღონისძიებების გაშუქება, ოფიციალური სარეკლამო ვიდეო და ფედერაციის ემბლემა პრესისა და პარტნიორებისთვის.',
       actionLabel: 'სრული გალერეა',
       items: [
         { title: 'ფედერაციის ემბლემა', src: federationBadgeArtSrc, alt: 'GDSFF ემბლემა', to: '/gallery#news-updates' },
-        { title: 'რენჟის პრეზენტაცია', src: rangeHeroSrc, alt: 'ფედერაციის რენჟი', to: '/gallery#venue-presentation' },
+        { title: 'ფედერაციის სასროლეთი', src: rangeHeroSmallSrc, alt: 'ფედერაციის რენჟი', to: '/gallery#venue-presentation' },
         { title: 'ღონისძიების გაშუქება', src: ropeClimbCourseSrc, alt: 'შეჯიბრების სივრცე', to: '/gallery#photo-gallery' },
       ],
     },
     faq: {
       eyebrow: 'ხშირი კითხვები',
       title: 'ხშირად დასმული კითხვები',
-      items: [
-        {
-          q: 'რა არის GDSFF?',
-          a: 'GDSFF — საქართველოს დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაციაა: ეროვნული პლატფორმა, რომელიც აერთიანებს სპორტულ სროლას, სასროლეთებს, ფუნქციურ ფიტნესს, სპორტსმენების განვითარებასა და შეჯიბრებებს მთელი საქართველოს მასშტაბით.',
-        },
-        {
-          q: 'როგორ გავხდე ფედერაციის წევრი?',
-          a: 'გახსენით გვერდი „წევრობა" და შეავსეთ განაცხადი. ფედერაცია განიხილავს განაცხადს და დაგიკავშირდებათ შემდეგი ნაბიჯებისთვის — სპორტსმენებს, კლუბებსა და პარტნიორებს.',
-        },
-        {
-          q: 'სად ტარდება ვარჯიშები და შეჯიბრებები?',
-          a: 'ივენთები იმართება პარტნიორ სასროლეთებსა და პოლიგონებზე საქართველოში. მიმდინარე განრიგი ქვეყნდება „ივენთების" გვერდზე და ჩვენს სოციალურ არხებზე.',
-        },
-        {
-          q: 'მჭირდება თუ არა საკუთარი იარაღი მონაწილეობისთვის?',
-          a: 'არა. დამწყებები ვარჯიშობენ სასროლეთის აღჭურვილობით, სერტიფიცირებული ინსტრუქტორების მეთვალყურეობით და ფედერაციის უსაფრთხოების მკაცრი წესების დაცვით. გამოცდილ მსროლელებს შეუძლიათ საკუთარი რეგისტრირებული იარაღის გამოყენება.',
-        },
-        {
-          q: 'რა არის დინამიური სროლა?',
-          a: 'დინამიური სროლა სპორტული დისციპლინაა, რომელიც აერთიანებს სიზუსტეს, სისწრაფესა და მოძრაობას პრაქტიკულ სავარჯიშო ტრასებზე — ერთ-ერთი ყველაზე სწრაფად მზარდი სასროლო სპორტი მსოფლიოში.',
-        },
-      ],
+      items: faqContent.ka,
     },
     closing: {
       eyebrow: 'საბოლოო კონტაქტი / CTA',
@@ -317,7 +277,11 @@ export default function HomePage({ copy }) {
   const membershipFormView = membershipApplicationContent[localeKey]
   const [membershipSummary, setMembershipSummary] = useState({ totalApplications: 0 })
   const [leadershipLightboxIndex, setLeadershipLightboxIndex] = useState(null)
-  const featuredEvents = copy.events.calendar.events.slice(0, 4)
+  // Upcoming events first; past ones only fill remaining slots.
+  const featuredEvents = [
+    ...copy.events.calendar.events.filter((event) => !event.past),
+    ...copy.events.calendar.events.filter((event) => event.past),
+  ].slice(0, 4)
   const facebookLink =
     copy.meta.socials.find((item) => item.id === 'facebook')?.href ??
     'https://www.facebook.com/profile.php?id=61578666412435'
@@ -379,12 +343,18 @@ export default function HomePage({ copy }) {
   return (
     <>
       <section className="home-hero">
-        <div
-          className="home-hero-media"
-          style={{
-            backgroundImage: `linear-gradient(90deg, rgba(6, 8, 10, 0.88) 0%, rgba(6, 8, 10, 0.72) 42%, rgba(6, 8, 10, 0.55) 100%), url(${rangeHeroSrc})`,
-          }}
-        />
+        <div className="home-hero-media">
+          <img
+            src={rangeHeroSrc}
+            srcSet={`${rangeHeroSmallSrc} 960w, ${rangeHeroSrc} 1600w`}
+            sizes="100vw"
+            width="1600"
+            height="1066"
+            alt=""
+            fetchpriority="high"
+            decoding="async"
+          />
+        </div>
         <div className="home-hero-tint" />
 
         <div className="container home-hero-grid">
@@ -395,7 +365,7 @@ export default function HomePage({ copy }) {
             </div>
 
             <div className="home-hero-brand">
-              <img src={logoSrc} alt="GDSFF federation emblem" className="home-hero-logo" />
+              <img src={logoSrc} alt="GDSFF federation emblem" className="home-hero-logo" width="96" height="96" decoding="async" />
               <div>
                 <p className="hero-slogan">{copy.brand.slogan}</p>
                 <h1>{copy.brand.fullName}</h1>

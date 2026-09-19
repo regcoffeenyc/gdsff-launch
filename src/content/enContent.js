@@ -76,11 +76,11 @@ export const enContent = {
       'Official communications issued in Georgian and English',
     ],
     followText: 'Official federation channels for announcements, event bulletins, and public updates.',
-    note: 'Official bilingual website prepared for static deployment on modern hosting platforms.',
+    note: 'Official website of the federation, published in Georgian and English.',
   },
   home: {
     hero: {
-      badge: 'Official Federation Website',
+      badge: 'National Federation',
       title: 'Georgian Dynamic Shooting & Functional Fitness Federation',
       lead: 'National federation platform for governance, competition, and international representation.',
       text:
@@ -91,24 +91,24 @@ export const enContent = {
       commandTitle: 'Federation Brief',
       commandItems: [
         '2026 season structure published with official event windows',
-        'Leadership, governance, and sport direction presented publicly',
+        'Leadership, governing bodies and sport directions published',
         'Partner, media, and host-club outreach channels open',
       ],
       overlayKicker: 'Official Range Image',
-      overlayTitle: 'The corrected federation emblem and range photography define the public visual identity of GDSFF.',
-      mediaBadge: 'Official brand and venue presentation',
+      overlayTitle: 'The federation emblem and the range where members train and compete.',
+      mediaBadge: 'Federation range',
     },
     stats: [
       { value: '2', label: 'Core competition disciplines' },
       { value: '2026', label: 'Official season calendar' },
       { value: 'Bilingual', label: 'Public communications' },
-      { value: 'Partner-ready', label: 'Official digital presentation' },
+      { value: 'iF3', label: 'International member federation since 2026' },
     ],
     mandate: {
       eyebrow: 'Mandate',
       title: 'A national federation platform designed for clarity, discipline, and international credibility.',
       text:
-        'The federation website presents a clear national structure for sanctioned competition, transparent governance, and institutional communication across athlete development, event delivery, and international engagement.',
+        'GDSFF sanctions competitions, publishes the national calendar, sets safety and officiating standards, and represents Georgian athletes in dynamic shooting and functional fitness internationally.',
       pillars: [
         'National championship framework and seasonal ranking logic',
         'Safety-first range and competition procedures',
@@ -143,39 +143,39 @@ export const enContent = {
       eyebrow: 'Upcoming Calendar',
       title: '2026 federation calendar and event bulletins.',
       text:
-        'The events area now presents the season with an official calendar grid, professional event cards, and clear publishing states for members, partners, and guests.',
-      note: '2026 dates are published as a planning calendar and may be refined through official federation notices and event bulletins.',
+        'The 2026 season calendar lists ranking matches, clinics, camps and the Georgian Grand Prix with dates, venues and registration status.',
+      note: 'Dates and venues are confirmed in the official bulletin for each event.',
     },
     leadershipSpotlight: {
       eyebrow: 'Leadership',
       title: 'Visible governance with defined operational responsibility.',
       text:
-        'Leadership is presented with formal profiles so athletes, partners, and institutions can quickly understand responsibility for strategy, technical standards, and season delivery.',
+        'The president, the director and the governing bodies each carry a defined responsibility for strategy, technical standards and season delivery.',
     },
     partnersSpotlight: {
       eyebrow: 'Partner Network',
-      title: 'A sponsor-ready environment for official federation partners.',
+      title: 'Partners and sponsors of the federation.',
       text:
-        'The partner area presents neutral, premium partner panels that can transition directly to approved sponsor and institutional marks.',
+        'Shooting ranges, clubs, equipment suppliers and institutions that support federation events and programmes.',
     },
     closingCta: {
-      eyebrow: 'Official Federation Platform',
-      title: 'Prepared for public release, federation outreach, and sponsor review.',
+      eyebrow: 'Get in touch',
+      title: 'Questions about membership, events or partnership?',
       text:
-        'The site now combines disciplined branding, clear governance presentation, bilingual publishing, and deployment-ready publishing in one official federation platform.',
+        'The federation office answers athletes, clubs, partners and media in Georgian and English.',
       primaryAction: { label: 'Open Contact Page', to: '/contact' },
       secondaryAction: { label: 'Review Leadership', to: '/leadership' },
     },
   },
   about: {
     eyebrow: 'About the Federation',
-    title: 'A governing body established to support disciplined growth, safe operations, and public trust.',
+    title: 'The national federation for dynamic shooting and functional fitness in Georgia',
     text:
-      'GDSFF is structured as a national federation that aligns standards, competition delivery, athlete support, and institutional communication within one coherent operating model.',
+      'GDSFF is a registered sports federation that sanctions competitions, trains officials, supports athletes and clubs, and represents Georgia in the international functional fitness community as an iF3 member.',
     highlights: [
       'National governance framework',
       'Safety and compliance culture',
-      'Competition-ready federation identity',
+      'iF3 member federation',
     ],
     cards: [
       {
@@ -199,7 +199,7 @@ export const enContent = {
       'Competition sanctioning and annual calendar publication',
       'Documented range safety, briefing, and officiating expectations',
       'Bilingual updates for local clubs and international stakeholders',
-      'Partner-ready presentation across digital and live events',
+      'Transparent partner and sponsor relationships',
     ],
     roadmapTitle: 'Implementation roadmap',
     roadmap: [
@@ -253,10 +253,10 @@ export const enContent = {
   },
   leadership: {
     eyebrow: 'Leadership and Governance',
-    title: 'Structured leadership for strategy, sport operations, and federation accountability.',
+    title: 'Leadership and governance of the federation',
     text:
-      'The leadership section is designed to feel official and transparent, combining named leadership with visible governance bodies and committee responsibilities.',
-    highlights: ['Public-facing leadership profiles', 'Committee accountability', 'Season planning ownership'],
+      'The president, the director and the governing bodies, with the responsibilities each holds.',
+    highlights: ['President and director', 'Executive board and commissions', 'Athlete and club council'],
     profiles: [
       {
         role: 'President',
@@ -297,21 +297,21 @@ export const enContent = {
   },
   events: {
     eyebrow: 'Competition Calendar',
-    title: 'Season planning with formal dates, publication states, and professional event presentation.',
+    title: '2026 dynamic shooting and functional fitness events in Georgia',
     text:
-      'The events section presents the federation season through a structured calendar, published schedule data, and bulletin-ready event cards suitable for public release.',
-    highlights: ['Month grid', 'Schedule notice', 'Event detail cards'],
+      'Ranking matches, officials clinics, the Functional Fitness Cup, training camps and the Georgian Grand Prix, with dates, venues and registration status.',
+    highlights: ['Ranking matches', 'Clinics and camps', 'Georgian Grand Prix'],
     calendar: {
       title: '2026 Federation Competition and Development Calendar',
       text:
-        'The 2026 calendar uses published schedule data so the site can present a complete season view while dates, venues, and formal bulletins are updated through official federation notices.',
+        'Every event is confirmed by an official federation bulletin with the final venue, schedule and registration details.',
       entryLabel: 'official entries',
       noticeTitle: 'Schedule Notice',
       noticeText:
-        'The 2026 calendar is published as planning data. Dates, venues, and event bulletins remain subject to official federation confirmation.',
-      month: '2026-04',
+        'Past events are kept for reference. Dates and venues of upcoming events are confirmed in each event bulletin.',
+      month: '2026-11',
       days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      legend: ['Registration open', 'Confirmed', 'Coming soon', 'Members only'],
+      legend: ['Registration open', 'Confirmed', 'Members only', 'Past event'],
       events: [
         {
           date: '2026-04-18',
@@ -319,7 +319,8 @@ export const enContent = {
           title: 'National Ranking Match I',
           location: 'Rustavi',
           type: 'Dynamic shooting',
-          status: 'Registration open',
+          status: 'Past event',
+          past: true,
           description: 'Season-opening ranking match with official briefing, stage roster, and club participation slots.',
         },
         {
@@ -328,7 +329,8 @@ export const enContent = {
           title: 'Officials and Safety Officer Clinic',
           location: 'Tbilisi',
           type: 'Education',
-          status: 'Confirmed',
+          status: 'Past event',
+          past: true,
           description: 'Judge education, safety refreshers, and host club operating workshop for federation-standard events.',
         },
         {
@@ -337,7 +339,8 @@ export const enContent = {
           title: 'Functional Fitness Cup',
           location: 'Batumi',
           type: 'Functional fitness',
-          status: 'Coming soon',
+          status: 'Past event',
+          past: true,
           description: 'Mixed-modality competition weekend with multiple divisions and sponsor visibility opportunities.',
         },
         {
@@ -346,7 +349,8 @@ export const enContent = {
           title: 'Summer Tactical Performance Camp',
           location: 'Bazaleti',
           type: 'Camp',
-          status: 'Registration open',
+          status: 'Past event',
+          past: true,
           description: 'Athlete development camp focused on work capacity, movement quality, and cross-discipline preparation.',
         },
         {
@@ -355,7 +359,8 @@ export const enContent = {
           title: 'Georgian Grand Prix',
           location: 'Kakheti',
           type: 'International',
-          status: 'Confirmed',
+          status: 'Past event',
+          past: true,
           description: 'Flagship competition weekend structured for regional guests, media coverage, and federation showcase value.',
         },
         {
@@ -372,27 +377,27 @@ export const enContent = {
     operations: [
       {
         title: 'Event bulletins',
-        text: 'Each event card is ready to support documents, registration links, sponsor mentions, and venue notes.',
+        text: 'Each event is announced with a bulletin: stage roster or programme, venue notes, registration and sponsor acknowledgements.',
       },
       {
         title: 'Club coordination',
-        text: 'The structure supports host-club announcements, staff assignments, and volunteer planning in one place.',
+        text: 'Host clubs coordinate staffing, volunteers and announcements with the federation office before each event.',
       },
       {
         title: 'Public updates',
-        text: 'Status chips and dated entries help members and guests quickly see what is open, confirmed, or member-only.',
+        text: 'Registration status and dates are published in the calendar and on the federation social channels.',
       },
     ],
   },
   partners: {
     eyebrow: 'Partners and Sponsors',
-    title: 'A sponsor-ready presentation for federation partners, institutions, and host venues.',
+    title: 'Partners, sponsors and host venues',
     text:
-      'The partner page provides a disciplined environment for official logos, sponsorship categories, and collaboration formats suited to institutional, technical, and commercial partners.',
-    highlights: ['Reserved partner panels', 'Sponsor categories', 'Host event support'],
-    logoWallTitle: 'Reserved partner marks',
+      'How institutions, shooting ranges, equipment suppliers and commercial sponsors work with the federation, and what each partnership category includes.',
+    highlights: ['Partner categories', 'Sponsorship formats', 'Host venue support'],
+    logoWallTitle: 'Federation partners',
     logoWallText:
-      'Neutral reserved panels are shown until official partner artwork is approved for publication by the federation.',
+      'Partner logos are published once each partnership agreement is signed.',
     logoWall: [
       { short: 'SPORT', name: 'National sport stakeholders', type: 'Institutional', note: 'Reserved partner placement' },
       { short: 'RANGE', name: 'Range and venue operations', type: 'Infrastructure', note: 'Reserved partner placement' },
@@ -417,9 +422,9 @@ export const enContent = {
   },
   gallery: {
     eyebrow: 'Media and Identity',
-    title: 'Official identity and media presentation built around the approved emblem and range photography.',
+    title: 'Photos and video from federation events and training',
     text:
-      'The media page presents the approved emblem and range photography in an editorial layout suitable for federation announcements, event coverage, and sponsor-facing presentations.',
+      'The federation range, competition and training photography, the official promo video and the emblem for press use.',
     highlights: [],
     cards: [],
   },
