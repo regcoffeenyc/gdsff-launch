@@ -5,7 +5,6 @@ import SafetyField from '../components/SafetyField'
 import SignaturePadField from '../components/SignaturePadField'
 import { safetyConsentContent } from '../content/safetyConsentContent'
 import { logoSrc } from '../siteAssets'
-import { createSafetyConsentPayload, submitSafetyConsentForm } from '../utils/safetyConsentSubmit'
 
 function buildEmptyParticipantState(fields) {
   return fields.reduce((accumulator, field) => {
@@ -16,13 +15,6 @@ function buildEmptyParticipantState(fields) {
 
 function buildChecks(items) {
   return items.map(() => false)
-}
-
-function mapChecks(items, values) {
-  return items.map((label, index) => ({
-    label,
-    accepted: Boolean(values[index]),
-  }))
 }
 
 function selectAccepted(items, values) {
@@ -42,10 +34,6 @@ export default function SafetyConsentPage({ copy }) {
     localeKey === 'ka'
       ? 'PDF ფაილი წარმატებით მომზადდა და ჩამოტვირთვა დაიწყო.'
       : 'The PDF file was prepared successfully and the download has started.'
-  const submitErrorText =
-    localeKey === 'ka'
-      ? 'ფორმის ელექტრონული გაგზავნა ამ ეტაპზე ვერ შესრულდა. სცადეთ თავიდან.'
-      : 'The electronic form submission could not be completed right now. Please try again.'
   const participantFields = view.participantFields
   const [participant, setParticipant] = useState(() => buildEmptyParticipantState(participantFields))
   const [guardian, setGuardian] = useState({ name: '', phone: '' })
@@ -195,45 +183,14 @@ export default function SafetyConsentPage({ copy }) {
     }
   }
 
-  async function handleSubmit(event) {
+  function handleSubmit(event) {
+    // Also guard programmatic and implicit (Enter-key) form submission.
     event.preventDefault()
-
-    if (!validateForm()) {
-      return
-    }
-
-    setBusyAction('submit')
-
-    try {
-      const payload = createSafetyConsentPayload({
-        participant,
-        signerName,
-        safetyChecks: mapChecks(view.safetyItems, safetyChecks),
-        consentChecks: mapChecks(view.consentItems, consentChecks),
-        isMinor,
-        guardian,
-        signatureDate,
-        participantSignature,
-        guardianSignature,
-        declarationText: view.declarationText,
-      })
-
-      const result = await submitSafetyConsentForm(payload)
-
-      setFeedback({
-        type: 'success',
-        title: view.submitSuccessTitle,
-        text: `${view.submitSuccessText} ${result.reference}`,
-      })
-    } catch {
-      setFeedback({
-        type: 'error',
-        title: view.actionSubmit,
-        text: submitErrorText,
-      })
-    } finally {
-      setBusyAction('')
-    }
+    setFeedback({
+      type: 'info',
+      title: view.submitUnavailableTitle,
+      text: view.submitUnavailableText,
+    })
   }
 
   return (
@@ -267,7 +224,7 @@ export default function SafetyConsentPage({ copy }) {
 
           <article className="feature-card safety-summary-card">
             <span className="card-kicker">{view.introCardTitle}</span>
-            <p>{view.submitReadyText}</p>
+            <p>{view.submitUnavailableText}</p>
             <div className="detail-list">
               {sectionList.map((item) => (
                 <div key={item} className="detail-list-item">
@@ -420,7 +377,7 @@ export default function SafetyConsentPage({ copy }) {
           <div className="feature-card safety-actions-card">
             <div>
               <span className="card-kicker">{copy.brand.shortName}</span>
-              <p>{view.submitReadyText}</p>
+              <p id="safety-submission-unavailable">{view.submitUnavailableText}</p>
             </div>
 
             <div className="safety-actions">
@@ -430,8 +387,8 @@ export default function SafetyConsentPage({ copy }) {
               <button type="button" className="secondary-button inline-button" onClick={handleDownload} disabled={busyAction !== ''}>
                 {busyAction === 'download' ? `${view.actionDownload}...` : view.actionDownload}
               </button>
-              <button type="submit" className="primary-button" disabled={busyAction !== ''}>
-                {busyAction === 'submit' ? `${view.actionSubmit}...` : view.actionSubmit}
+              <button type="submit" className="primary-button" disabled aria-describedby="safety-submission-unavailable">
+                {view.actionSubmit}
               </button>
               <button type="button" className="ghost-button" onClick={resetForm} disabled={busyAction !== ''}>
                 {view.actionReset}

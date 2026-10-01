@@ -367,8 +367,10 @@ export function buildFederationNav(copy) {
           to: '/documents#downloads',
         },
         {
-          label: 'Printable Target',
-          description: '1-inch grid target download with GDSFF branding and contact details.',
+          label: isGeorgian ? 'დასაბეჭდი სამიზნე' : 'Printable Target',
+          description: isGeorgian
+            ? '1-დუიმიანი ბადის მქონე სამიზნის ჩამოტვირთვა GDSFF-ის სიმბოლიკითა და საკონტაქტო ინფორმაციით.'
+            : '1-inch grid target download with GDSFF branding and contact details.',
           to: '/documents#printable-target',
         },
       ],
@@ -424,7 +426,10 @@ export function buildFederationNav(copy) {
     },
   ]
 
-  return attachGroupTargets(groups)
+  return attachGroupTargets(groups).map((group) => ({
+    ...group,
+    menuLabel: `${group.label} ${isGeorgian ? 'მენიუ' : 'menu'}`,
+  }))
 }
 
 function NavigationLink({ item, location, className, onActivate }) {
@@ -484,7 +489,7 @@ export function DesktopFederationNav({ groups, location, openKey, openMenu, queu
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 aria-haspopup="true"
-                aria-label={`${group.label} menu`}
+                aria-label={group.menuLabel}
                 onClick={() => (isOpen ? closeMenu() : openMenu(group.key))}
                 onFocus={() => openMenu(group.key)}
               >
@@ -547,7 +552,7 @@ export function MobileFederationNav({ groups, location, openKey, setOpenKey, clo
                 className={isOpen ? 'mobile-accordion-toggle is-open' : active ? 'mobile-accordion-toggle is-active' : 'mobile-accordion-toggle'}
                 aria-expanded={isOpen}
                 aria-controls={panelId}
-                aria-label={`${group.label} menu`}
+                aria-label={group.menuLabel}
                 onClick={() => setOpenKey((current) => (current === group.key ? null : group.key))}
               >
                 <ChevronDownIcon className="mobile-accordion-icon" />

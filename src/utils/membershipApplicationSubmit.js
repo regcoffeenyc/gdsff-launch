@@ -80,7 +80,7 @@ export function formatMembershipApplicationSummary(application, view, localeKey)
   const lines = [
     `${headings.reference}: ${application.reference || ''}`,
     `${headings.submittedAt}: ${application.submittedAt || ''}`,
-    `${headings.status}: ${application.status || ''}`,
+    `${headings.status}: ${view.statusLabels?.[application.status] ?? application.status ?? ''}`,
     '',
     headings.details,
     `${resolveFieldLabel(view, 'fullName')}: ${applicant.fullName}`,

@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { ChevronDownIcon } from '../components/SiteIcons'
 import PageHero from '../components/PageHero'
 import { officialLaunchContent } from '../content/officialLaunchContent'
@@ -117,11 +118,20 @@ const libraryCopy = {
 }
 
 const targetCategoryFallback = {
-  key: 'target-practice',
-  kicker: 'Printable Target',
-  title: 'GDSFF branded 1-inch grid target',
-  text: 'A print-ready Letter-size target sheet with federation logo, contact details, scale note, and 1-inch grid.',
-  itemIds: ['printable-target'],
+  en: {
+    key: 'target-practice',
+    kicker: 'Printable Target',
+    title: 'GDSFF branded 1-inch grid target',
+    text: 'A print-ready Letter-size target sheet with federation logo, contact details, scale note, and 1-inch grid.',
+    itemIds: ['printable-target'],
+  },
+  ka: {
+    key: 'target-practice',
+    kicker: 'დასაბეჭდი სამიზნე',
+    title: 'GDSFF-ის სამიზნე 1-დუიმიანი ბადით',
+    text: 'Letter ზომის დასაბეჭდი სამიზნე ფედერაციის ლოგოთი, საკონტაქტო ინფორმაციით, მასშტაბის მითითებითა და 1-დუიმიანი ბადით.',
+    itemIds: ['printable-target'],
+  },
 }
 
 const targetFeatureCopy = {
@@ -135,13 +145,13 @@ const targetFeatureCopy = {
     signatureLabel: 'Open Signature Workflow',
   },
   ka: {
-    kicker: 'Printable Target',
-    title: 'GDSFF 1-inch grid target sheet',
+    kicker: 'დასაბეჭდი სამიზნე',
+    title: 'GDSFF-ის სამიზნე 1-დუიმიანი ბადით',
     text:
-      'Download the federation-branded Letter-size 1-inch grid target with logo, contact details, diamond drills, ring drills, and a scale check for 100% printing.',
-    actionLabel: 'Download Target PDF',
-    secondaryLabel: 'Open Membership Form',
-    signatureLabel: 'Open Signature Workflow',
+      'ჩამოტვირთეთ Letter ზომის სამიზნე 1-დუიმიანი ბადით, ფედერაციის ლოგოთი, საკონტაქტო ინფორმაციით, რომბისა და წრიული სავარჯიშოებით და მასშტაბის შემოწმებით 100%-ზე ბეჭდვისთვის.',
+    actionLabel: 'სამიზნის PDF-ის ჩამოტვირთვა',
+    secondaryLabel: 'წევრობის ფორმის გახსნა',
+    signatureLabel: 'ხელმოწერის ფორმის გახსნა',
   },
 }
 
@@ -174,8 +184,6 @@ export default function DocumentsPage({ copy }) {
   const targetFeature = targetFeatureCopy[localeKey]
   const [openKey, setOpenKey] = useState('governance')
   const targetDownloadHref = `${baseUrl}downloads/gdsff-printable-target-1in-grid.pdf`
-  const targetMembershipHref = `${baseUrl}membership#online-application`
-  const signatureHref = `${baseUrl}safety-consent`
 
   const safetySourceItem =
     localeKey === 'ka'
@@ -202,9 +210,11 @@ export default function DocumentsPage({ copy }) {
     id: 'printable-target',
     fileName: 'gdsff-printable-target-1in-grid.pdf',
     href: targetDownloadHref,
-    title: 'GDSFF Printable Target',
-    description: 'Letter-size 1-inch grid GDSFF target with logo, contact details, diamond drills, ring drills, and scale note.',
-    actionLabel: 'Download Target PDF',
+    title: localeKey === 'ka' ? 'GDSFF-ის დასაბეჭდი სამიზნე' : 'GDSFF Printable Target',
+    description: localeKey === 'ka'
+      ? 'Letter ზომის GDSFF-ის სამიზნე 1-დუიმიანი ბადით, ლოგოთი, საკონტაქტო ინფორმაციით, რომბისა და წრიული სავარჯიშოებით და მასშტაბის მითითებით.'
+      : 'Letter-size 1-inch grid GDSFF target with logo, contact details, diamond drills, ring drills, and scale note.',
+    actionLabel: targetFeature.actionLabel,
     format: 'PDF',
   }
 
@@ -220,9 +230,10 @@ export default function DocumentsPage({ copy }) {
       }))
   }, [baseUrl, view.items, safetySourceItem, targetDownloadItem])
 
-  const libraryCategories = library.categories.some((category) => category.key === targetCategoryFallback.key)
+  const targetCategory = targetCategoryFallback[localeKey]
+  const libraryCategories = library.categories.some((category) => category.key === targetCategory.key)
     ? library.categories
-    : [...library.categories.slice(0, 4), targetCategoryFallback, ...library.categories.slice(4)]
+    : [...library.categories.slice(0, 4), targetCategory, ...library.categories.slice(4)]
 
   const groupedDocuments = libraryCategories
     .map((category) => ({
@@ -261,12 +272,12 @@ export default function DocumentsPage({ copy }) {
               <a href={targetDownloadHref} className="download-action" download>
                 {targetFeature.actionLabel}
               </a>
-              <a href={targetMembershipHref} className="secondary-button">
+              <Link to="/membership#online-application" className="secondary-button">
                 {targetFeature.secondaryLabel}
-              </a>
-              <a href={signatureHref} className="ghost-button">
+              </Link>
+              <Link to="/safety-consent" className="ghost-button">
                 {targetFeature.signatureLabel}
-              </a>
+              </Link>
             </div>
           </div>
 

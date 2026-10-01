@@ -75,12 +75,8 @@ async function request(path, options = {}) {
       ...options,
       headers,
     })
-  } catch (error) {
-    console.error('[gdsff-api] backend unreachable', {
-      path,
-      apiBase,
-      error: error instanceof Error ? error.message : error,
-    })
+  } catch {
+    // Keep request errors out of the console: they may contain applicant data.
     throw createRequestError(`Online registration backend is unreachable at ${apiBase}.`, 0, {
       apiBase,
     })
@@ -90,12 +86,7 @@ async function request(path, options = {}) {
   const data = contentType.includes('application/json') ? await response.json() : await response.text()
 
   if (!response.ok) {
-    console.error('[gdsff-api] request failed', {
-      path,
-      status: response.status,
-      data,
-    })
-
+    // Preserve response details for the UI without logging private form data.
     if (response.status === 401) {
       clearSavedAuthToken()
     }
