@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
+import { inspect } from 'node:util'
 import { JSDOM } from 'jsdom'
 import { build } from 'vite'
 import React, { act } from 'react'
@@ -23,6 +24,7 @@ await build({
       input: {
         membershipPage: 'src/pages/MembershipPage.jsx',
         membershipSubmit: 'src/utils/membershipApplicationSubmit.js',
+        membershipApi: 'src/utils/socialHubApi.js',
       },
     },
   },
@@ -30,24 +32,38 @@ await build({
 const { default: MembershipPage } = await import('../node_modules/.cache/membership-feedback/membershipPage.js')
 const { formatMembershipApplicationSummary, createMembershipApplicationPayload } =
   await import('../node_modules/.cache/membership-feedback/membershipSubmit.js')
+const { submitMembershipApplication: submitMembershipApplicationRequest } =
+  await import('../node_modules/.cache/membership-feedback/membershipApi.js')
 
-const rawMessage = '<img src=x onerror=alert(1)> SMTP_SECRET=private-server-detail'
+// These are synthetic sentinels, never real applicant or server data. Include
+// health/guardian information in free text because those fields can contain it.
+const privateMarkers = {
+  identity: 'PRIVACY_IDENTITY_SYNTHETIC',
+  contact: 'privacy_contact_synthetic',
+  health: 'PRIVACY_HEALTH_SYNTHETIC',
+  guardian: 'PRIVACY_GUARDIAN_SYNTHETIC',
+  payload: 'PRIVACY_PAYLOAD_SYNTHETIC',
+  response: 'PRIVACY_SERVER_RESPONSE_SYNTHETIC',
+  error: 'PRIVACY_ERROR_MESSAGE_SYNTHETIC',
+  reference: 'PRIVACY_REFERENCE_SYNTHETIC',
+}
+const rawMessage = `<img src=x onerror=alert(1)> SMTP_SECRET=${privateMarkers.response} ${privateMarkers.error}`
 const applicant = {
-  fullName: 'Test Applicant',
+  fullName: privateMarkers.identity,
   birthDate: '1990-01-02',
-  personalId: '12345678901',
-  citizenship: 'Georgia',
-  address: 'Test address',
-  phone: '+995555010101',
-  email: 'test@example.com',
+  personalId: `ID-${privateMarkers.identity}`,
+  citizenship: 'Synthetic citizenship',
+  address: `Synthetic address ${privateMarkers.contact}`,
+  phone: '+15550100000',
+  email: `${privateMarkers.contact}@example.invalid`,
   membershipType: 'athlete',
   sportInterest: 'both',
-  additionalInfo: 'Test application',
+  additionalInfo: `${privateMarkers.health} ${privateMarkers.guardian} ${privateMarkers.payload}`,
 }
 
 function applicationFor(view, notificationStatus = 'sent') {
   return {
-    reference: 'MEM-20261001-TEST1234',
+    reference: `MEM-20261001-${privateMarkers.reference}`,
     submittedAt: '2026-10-01T03:00:00.000Z',
     status: 'submitted',
     applicant: { ...applicant },
@@ -56,11 +72,85 @@ function applicationFor(view, notificationStatus = 'sent') {
   }
 }
 
+function spyOnConsole(t) {
+  const calls = []
+  for (const method of ['log', 'info', 'warn', 'error', 'debug']) {
+    t.mock.method(console, method, (...args) => { calls.push({ method, args }) })
+  }
+  return calls
+}
+
+function assertNoPrivateConsoleOutput(calls) {
+  for (const { method, args } of calls) {
+    // JSON.stringify alone misses Error.message/stack and other non-enumerable
+    // details. Do not invoke getters or custom inspection on hostile objects.
+    const output = inspect(args, { depth: Infinity, showHidden: true, customInspect: false, getters: false })
+    for (const [category, marker] of Object.entries(privateMarkers)) {
+      assert.ok(!output.includes(marker), `console.${method} must not contain the ${category} marker`)
+    }
+  }
+  // No framework warning needs an exemption in this isolated page. Require
+  // silence as well, so a new log cannot hide unmarked application data.
+  assert.deepEqual(calls, [], 'membership submission must not write to any console method')
+}
+
 function jsonResponse(body, status = 200) {
   return new Response(JSON.stringify(body), {
     status,
     headers: { 'Content-Type': 'application/json' },
   })
+}
+
+// The request layer must never decide a reference is safe to log based on its
+// presence or expected format. Exercise unexpected JSON shapes without turning
+// this privacy regression suite into a separate UI response-schema change.
+const referenceCases = [
+  ['missing', undefined],
+  ['null', null],
+  ['boolean', false],
+  ['number', 12345],
+  ['array', [privateMarkers.reference, privateMarkers.identity]],
+  ['object', { reference: privateMarkers.reference, guardian: privateMarkers.guardian }],
+  ['invalid-toString', { toString: privateMarkers.reference, contact: privateMarkers.contact }],
+  ['hostile-string', `<script>${privateMarkers.reference}</script>\n${privateMarkers.identity} ${privateMarkers.contact}`],
+]
+
+for (const [referenceCase, reference] of referenceCases) {
+  for (const storedError of [false, true]) {
+    test(`membership API: ${storedError ? 'stored HTTP error' : 'success'} with ${referenceCase} reference never logs private data`, async (t) => {
+      const consoleCalls = spyOnConsole(t)
+      const view = membershipApplicationContent.en
+      const payload = createMembershipApplicationPayload({ values: applicant, consents: [true, true, true], view, localeKey: 'en' })
+      const application = { ...applicationFor(view, storedError ? 'failed' : 'sent'), reference }
+      const body = {
+        application,
+        notification: application.notification,
+        diagnostics: { ...privateMarkers, payload },
+        ...(storedError ? { error: rawMessage, stored: true } : {}),
+      }
+      const expectedBody = JSON.parse(JSON.stringify(body))
+      const requests = []
+      t.mock.method(globalThis, 'fetch', async (url, options) => {
+        requests.push({ url, options })
+        return jsonResponse(body, storedError ? 502 : 200)
+      })
+      if (storedError) {
+        await assert.rejects(submitMembershipApplicationRequest(payload), (error) => {
+          assert.equal(error.statusCode, 502)
+          assert.equal(error.message, rawMessage)
+          assert.deepEqual(error.details, expectedBody, 'preserve stored application details for localized feedback')
+          return true
+        })
+      } else {
+        assert.deepEqual(await submitMembershipApplicationRequest(payload), expectedBody)
+      }
+      assert.equal(requests.length, 1)
+      assert.ok(requests[0].url.endsWith('/api/membership/applications'))
+      assert.equal(requests[0].options.method, 'POST')
+      assert.deepEqual(JSON.parse(requests[0].options.body), payload)
+      assertNoPrivateConsoleOutput(consoleCalls)
+    })
+  }
 }
 
 for (const localeKey of ['ka', 'en']) {
@@ -168,8 +258,11 @@ for (const localeKey of ['ka', 'en']) {
     })
   })
 
-  for (const outcome of ['sent', 'unsent-response', 'stored-error', 'validation-error', 'network-error', 'invalid-form']) {
-    test(`${localeKey}: rendered membership form handles ${outcome} without leaking raw errors`, async (t) => {
+  for (const outcome of [
+    'sent', 'unsent-response', 'stored-error', 'validation-error', 'network-error', 'invalid-form',
+    'hostile-reference-sent', 'hostile-reference-stored-error', 'malformed-json', 'malformed-error-json', 'unknown-error',
+  ]) {
+    test(`${localeKey}: rendered membership form handles ${outcome} without displaying raw errors or logging private data`, async (t) => {
       const dom = new JSDOM('<!doctype html><div id="root"></div>', {
         url: `https://gdsff.org/${localeKey}/membership`, pretendToBeVisual: true,
       })
@@ -182,8 +275,13 @@ for (const localeKey of ['ka', 'en']) {
       globalThis.window = dom.window
       globalThis.document = dom.window.document
       globalThis.IS_REACT_ACT_ENVIRONMENT = true
-      t.mock.method(console, 'error', () => {})
-      const application = applicationFor(view, outcome === 'sent' ? 'sent' : 'failed')
+      const consoleCalls = spyOnConsole(t)
+      const sent = ['sent', 'hostile-reference-sent'].includes(outcome)
+      const storedError = ['stored-error', 'hostile-reference-stored-error'].includes(outcome)
+      const application = applicationFor(view, sent ? 'sent' : 'failed')
+      if (outcome.startsWith('hostile-reference')) {
+        application.reference = `<img src=x onerror=alert(1)> ${privateMarkers.reference} ${privateMarkers.identity} ${privateMarkers.contact}`
+      }
       const requests = []
       globalThis.fetch = async (url, options) => {
         if (url.endsWith('/api/membership/summary')) {
@@ -192,15 +290,28 @@ for (const localeKey of ['ka', 'en']) {
         assert.ok(url.endsWith('/api/membership/applications'))
         requests.push(JSON.parse(options.body))
         if (outcome === 'network-error') throw new TypeError(rawMessage)
+        if (['malformed-json', 'malformed-error-json'].includes(outcome)) {
+          return new Response(`{"error":"${privateMarkers.error}","reference":"${privateMarkers.reference}","payload":`, {
+            status: outcome === 'malformed-error-json' ? 502 : 200,
+            headers: { 'Content-Type': 'application/json' },
+          })
+        }
         if (outcome === 'validation-error') {
-          return jsonResponse({ error: 'Please enter a valid email address before submitting.' }, 500)
+          return jsonResponse({
+            error: 'Please enter a valid email address before submitting.',
+            diagnostics: { ...privateMarkers, payload: requests[0] },
+          }, 500)
+        }
+        if (outcome === 'unknown-error') {
+          return jsonResponse({ error: rawMessage, diagnostics: { ...privateMarkers, payload: requests[0] } }, 500)
         }
         return jsonResponse({
           application,
           summary: { totalApplications: 1, statusCounts: { submitted: 1 } },
           notification: application.notification,
-          ...(outcome === 'stored-error' ? { stored: true, error: rawMessage } : {}),
-        }, outcome === 'stored-error' ? 502 : 200)
+          diagnostics: { ...privateMarkers, payload: requests[0] },
+          ...(storedError ? { stored: true, error: rawMessage } : {}),
+        }, storedError ? 502 : 200)
       }
       const { default: ReactDOMClient } = await import('react-dom/client')
       const root = ReactDOMClient.createRoot(document.getElementById('root'))
@@ -210,17 +321,17 @@ for (const localeKey of ['ka', 'en']) {
           language: localeKey,
         })))
         const form = document.querySelector('form')
+        for (const [name, value] of Object.entries(applicant)) {
+          const input = form.elements.namedItem(name)
+          const prototype = input.tagName === 'SELECT' ? dom.window.HTMLSelectElement.prototype
+            : input.tagName === 'TEXTAREA' ? dom.window.HTMLTextAreaElement.prototype
+              : dom.window.HTMLInputElement.prototype
+          await act(async () => {
+            Object.getOwnPropertyDescriptor(prototype, 'value').set.call(input, value)
+            input.dispatchEvent(new dom.window.Event(input.tagName === 'SELECT' ? 'change' : 'input', { bubbles: true }))
+          })
+        }
         if (outcome !== 'invalid-form') {
-          for (const [name, value] of Object.entries(applicant)) {
-            const input = form.elements.namedItem(name)
-            const prototype = input.tagName === 'SELECT' ? dom.window.HTMLSelectElement.prototype
-              : input.tagName === 'TEXTAREA' ? dom.window.HTMLTextAreaElement.prototype
-                : dom.window.HTMLInputElement.prototype
-            await act(async () => {
-              Object.getOwnPropertyDescriptor(prototype, 'value').set.call(input, value)
-              input.dispatchEvent(new dom.window.Event(input.tagName === 'SELECT' ? 'change' : 'input', { bubbles: true }))
-            })
-          }
           for (const checkbox of form.querySelectorAll('input[type="checkbox"]')) {
             await act(async () => checkbox.click())
           }
@@ -243,27 +354,34 @@ for (const localeKey of ['ka', 'en']) {
           assert.equal(requests.length, 1)
           assert.deepEqual(requests[0].applicant, applicant)
           assert.deepEqual(requests[0].confirmations, application.confirmations)
-          if (['sent', 'unsent-response', 'stored-error'].includes(outcome)) {
+          if (sent || outcome === 'unsent-response' || storedError) {
             assert.ok(banner.textContent.includes(application.reference))
-            assert.equal(banner.className, `status-banner is-${outcome === 'sent' ? 'success' : outcome === 'unsent-response' ? 'warning' : 'error'}`)
+            assert.equal(banner.className, `status-banner is-${sent ? 'success' : outcome === 'unsent-response' ? 'warning' : 'error'}`)
             assert.equal(document.querySelector('.membership-reference-chip strong').textContent, application.reference)
             assert.ok(document.querySelector('.membership-summary-textarea').value.includes(view.statusLabels.submitted))
             assert.equal(form.elements.namedItem('fullName').value, '')
+            if (!sent) {
+              assert.match(banner.textContent, localeKey === 'ka' ? /თავიდან ნუ გააგზავნით/ : /do not submit it again/)
+            }
           } else {
             assert.equal(banner.className, 'status-banner is-error')
-            assert.ok(banner.textContent.includes(outcome === 'network-error' ? view.submitErrorText : view.validationTitle))
+            assert.ok(banner.textContent.includes(outcome === 'validation-error' ? view.validationTitle : view.submitErrorText))
             assert.equal(form.elements.namedItem('fullName').value, applicant.fullName)
             assert.equal(document.querySelector('.membership-reference-chip'), null)
           }
         }
       } finally {
-        await act(async () => root.unmount())
-        dom.window.close()
-        globalThis.window = originals.window
-        globalThis.document = originals.document
-        globalThis.fetch = originals.fetch
-        globalThis.IS_REACT_ACT_ENVIRONMENT = originals.act
+        try {
+          await act(async () => root.unmount())
+        } finally {
+          dom.window.close()
+          globalThis.window = originals.window
+          globalThis.document = originals.document
+          globalThis.fetch = originals.fetch
+          globalThis.IS_REACT_ACT_ENVIRONMENT = originals.act
+        }
       }
+      assertNoPrivateConsoleOutput(consoleCalls)
     })
   }
 }

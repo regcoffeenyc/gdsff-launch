@@ -202,11 +202,7 @@ export default function MembershipPage({ copy, language = 'en', setLanguage }) {
       setValues(buildEmptyApplicationState(view.fields))
       setConsents(buildConsentState(view.consentItems))
     } catch (error) {
-      console.error('[membership] submission failed', {
-        error,
-        details: error?.details || null,
-      })
-
+      // Error details can include a stored application; never log them.
       const storedApplication = error?.details?.application || null
       const storedSummary = error?.details?.summary || null
 
