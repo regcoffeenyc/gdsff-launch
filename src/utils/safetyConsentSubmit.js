@@ -25,16 +25,7 @@ export function createSafetyConsentPayload({
   }
 }
 
-export async function submitSafetyConsentForm(payload) {
-  // Frontend-ready placeholder to be replaced with API/email delivery later.
-  console.info('GDSFF safety consent submission payload', payload)
-
-  await new Promise((resolve) => {
-    window.setTimeout(resolve, 800)
-  })
-
-  return {
-    ok: true,
-    reference: `SC-${Date.now().toString(36).toUpperCase()}`,
-  }
+export async function submitSafetyConsentForm() {
+  // No delivery service is configured. Do not collect, log, or persist form data.
+  return { ok: false, code: 'NOT_CONFIGURED' }
 }

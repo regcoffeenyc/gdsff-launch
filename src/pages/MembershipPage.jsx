@@ -11,6 +11,11 @@ import {
   submitMembershipApplication,
 } from '../utils/membershipApplicationSubmit'
 import { getMembershipSummary } from '../utils/socialHubApi'
+import {
+  buildMembershipFeedback,
+  buildMembershipErrorFeedback,
+  buildNotificationLabel,
+} from '../utils/membershipFeedback'
 
 function buildEmptyApplicationState(fields) {
   return fields.reduce((accumulator, field) => {
@@ -67,94 +72,6 @@ function formatDateLabel(value, locale) {
     hour: '2-digit',
     minute: '2-digit',
   }).format(date)
-}
-
-function buildMembershipFeedback(result, view, localeKey) {
-  const notification = result.notification || result.application?.notification || {}
-  const referenceText = `${view.referenceLabel}: ${result.reference}.`
-
-  if (notification.status === 'sent') {
-    return {
-      type: 'success',
-      title: view.submitSuccessTitle,
-      text:
-        localeKey === 'ka'
-          ? `${view.submitSuccessText} ${referenceText} განაცხადი წარმატებით გადაიგზავნა ფედერაციის სარეგისტრაციო დამუშავების არხზე. ${view.submitSuccessHint}`
-          : `${view.submitSuccessText} ${referenceText} The completed application was also delivered through the federation registration processing channel. ${view.submitSuccessHint}`,
-    }
-  }
-
-  const warningTitle =
-    localeKey === 'ka' ? 'განაცხადი შენახულია, მაგრამ იმეილი ვერ დადასტურდა' : 'Application Stored, Email Not Confirmed'
-  const warningText =
-    localeKey === 'ka'
-      ? `განაცხადი შენახულია და მინიჭებულია ცოცხალი ნომერი. ${referenceText} თუმცა ფედერაციის სარეგისტრაციო დამუშავების არხზე ელფოსტით გაგზავნა ვერ დადასტურდა.`
-      : `The application was stored and assigned a live reference. ${referenceText} However, email delivery through the federation registration processing channel could not be confirmed.`
-  const fallbackHint =
-    localeKey === 'ka'
-      ? 'ჩანაწერი დაცულია წევრობის რეესტრში, ხოლო საჭიროების შემთხვევაში ჩამოსატვირთი ფორმაც ისევ ხელმისაწვდომია.'
-      : 'The application record is safe in the membership register, and the downloadable membership form remains available if needed.'
-  const detail = notification.message ? ` ${notification.message}` : ''
-
-  return {
-    type: 'warning',
-    title: warningTitle,
-    text: `${warningText}${detail} ${fallbackHint}`,
-  }
-}
-
-function buildMembershipErrorFeedback(error, view, localeKey) {
-  const details = error && typeof error === 'object' ? error.details : null
-  const application = details?.application || null
-  const notificationMessage = details?.notification?.message || details?.application?.notification?.message || ''
-  const errorMessage = error instanceof Error && error.message ? error.message : ''
-  const exactMessage = notificationMessage || errorMessage
-
-  if (!application) {
-    return {
-      type: 'error',
-      title: view.submitErrorTitle,
-      text: exactMessage ? `${view.submitErrorText} ${exactMessage}` : view.submitErrorText,
-    }
-  }
-
-  const referenceText = application.reference ? `${view.referenceLabel}: ${application.reference}.` : ''
-  const storedHint =
-    localeKey === 'ka'
-      ? 'განაცხადი უკვე შენახულია სისტემაში, ამიტომ თავიდან ნუ გააგზავნით. დაუკავშირდით ფედერაციას და მიუთითეთ ეს ნომერი.'
-      : 'The application is already stored in the system, so please do not submit it again. Contact the federation and mention this reference.'
-
-  return {
-    type: 'error',
-    title: localeKey === 'ka' ? 'განაცხადი შენახულია, მაგრამ იმეილი ვერ გაიგზავნა' : 'Application Stored, Email Delivery Failed',
-    text: `${referenceText} ${exactMessage} ${storedHint}`.trim(),
-  }
-}
-
-function buildNotificationLabel(notification, localeKey) {
-  if (!notification) {
-    return ''
-  }
-
-  if (notification.status === 'sent') {
-    return localeKey === 'ka'
-      ? 'ელფოსტა წარმატებით გაიგზავნა.'
-      : 'Email delivered successfully.'
-  }
-
-  if (notification.status === 'not-configured') {
-    return notification.message
-      ? notification.message
-      : localeKey === 'ka'
-        ? 'ელფოსტა ჯერ არ არის დაკონფიგურირებული სერვერზე.'
-        : 'Email delivery is not configured on the server yet.'
-  }
-
-  return notification.message
-    ? notification.message
-    : localeKey === 'ka'
-      ? 'ჩანაწერი შენახულია, მაგრამ ელფოსტის გაგზავნა ვერ დადასტურდა.'
-      : 'The application is stored, but email delivery could not be confirmed.'
 }
 
 export default function MembershipPage({ copy, language = 'en', setLanguage }) {
