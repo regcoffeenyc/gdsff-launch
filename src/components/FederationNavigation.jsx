@@ -180,6 +180,13 @@ export function buildFederationNav(copy) {
             : 'Official profile for Ana Panchulidze.',
           to: '/leadership#director',
         },
+        {
+          label: isGeorgian ? 'უსაფრთხოების ოფიცრები და ინსტრუქტორები' : 'Safety Officers & Instructors',
+          description: isGeorgian
+            ? 'ფედერაციის IDPA უსაფრთხოების ოფიცრები და GDSFF-ის ინსტრუქტორები.'
+            : 'Meet the federation’s IDPA Safety Officers and GDSFF instructors.',
+          to: '/leadership#safety-officers-instructors',
+        },
       ],
     },
     {

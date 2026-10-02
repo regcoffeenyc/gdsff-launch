@@ -2,6 +2,7 @@ import { buildFederationNav } from '../components/FederationNavigation'
 import { officialLaunchContent } from '../content/officialLaunchContent'
 import { supportContent } from '../content/supportContent'
 import { if3Membership } from '../content/if3Membership'
+import { getSafetyTeamName, safetyTeamContent, safetyTeamMembers } from '../content/safetyTeamContent'
 
 const sportsAnchorIds = ['dynamic-shooting', 'functional-fitness', 'tactical-performance']
 const hiddenDocumentIds = new Set(['content-pack', 'upload-checklist'])
@@ -433,6 +434,15 @@ export function buildSiteSearchIndex(copy) {
     },
     ...buildPageEntries(copy, localeKey),
     ...navEntries,
+    ...safetyTeamMembers.map((member) => ({
+      kind: 'section',
+      title: getSafetyTeamName(member, localeKey),
+      description: `${safetyTeamContent[localeKey].safetyOfficerRole} · ${safetyTeamContent[localeKey].instructorRole}`,
+      to: `/leadership#safety-team-${member.id}`,
+      section: safetyTeamContent[localeKey].title,
+      meta: `/leadership#safety-team-${member.id}`,
+      keywords: [member.name, member.nameKa, 'IDPA', 'SO', 'GDSFF'],
+    })),
     ...buildSportsEntries(copy),
     ...buildPartnerEntries(copy),
     ...buildSupportEntries(copy, localeKey),
