@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import GalleryLightbox from '../components/GalleryLightbox'
 import PageHero from '../components/PageHero'
+import SafetyTeamSection from '../components/SafetyTeamSection'
 import { officialLaunchContent } from '../content/officialLaunchContent'
 
 export default function LeadershipPage({ copy }) {
@@ -86,6 +87,8 @@ export default function LeadershipPage({ copy }) {
           ))}
         </div>
       </section>
+
+      <SafetyTeamSection localeKey={localeKey} />
 
       <GalleryLightbox
         items={lightboxItems}
