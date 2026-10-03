@@ -8676,7 +8676,8 @@ html[lang="ka"] .federation-nav.desktop-nav .nav-group-link * { max-width: none;
   padding-block: 0.7rem;
 }
 .site-header-with-menu .brand-mark { min-width: 0; max-width: 100%; width: auto; }
-.site-header-with-menu .header-actions { align-self: center; margin: 0; }
+.site-header-with-menu .header-actions { width: auto; min-width: 0; flex-shrink: 0; align-self: center; margin: 0; }
+html[lang='ka'] .site-header-with-menu .brand-mark { max-width: 100%; }
 .site-menu-toggle {
   display: inline-flex;
   align-items: center;
