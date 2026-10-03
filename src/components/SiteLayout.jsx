@@ -2,8 +2,8 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { logoSrc } from '../siteAssets'
 import BrandLockup from './BrandLockup'
-import { buildFederationNav, DesktopFederationNav, isGroupActive, MobileFederationNav } from './FederationNavigation'
-import { CloseIcon, SearchIcon } from './SiteIcons'
+import { buildSiteMenu, SiteMenuNavigation } from './FederationNavigation'
+import { ChevronDownIcon, CloseIcon, SearchIcon } from './SiteIcons'
 import { EmailLink, LocationLink, PhoneLink, SocialLinks } from './SiteMetaLinks'
 import { getSearchUiCopy } from '../utils/siteSearch'
 import RouteMetadata from '../seo/RouteMetadata'
@@ -38,348 +38,143 @@ function SearchForm({ className, copy, idPrefix, value, onChange, onSubmit }) {
 
 export default function SiteLayout({ children, copy, language, setLanguage }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [openDesktopMenu, setOpenDesktopMenu] = useState(null)
-  const [openMobileSection, setOpenMobileSection] = useState(null)
+  const [openSection, setOpenSection] = useState(null)
   const [searchValue, setSearchValue] = useState('')
-  const headerRef = useRef(null)
-  const desktopCloseTimerRef = useRef(null)
+  const menuButtonRef = useRef(null)
+  const menuPanelRef = useRef(null)
+  const menuCloseRef = useRef(null)
+  const restoreMenuFocusRef = useRef(false)
   const location = useLocation()
   const navigate = useNavigate()
-  const navGroups = useMemo(() => buildFederationNav(copy), [copy])
+  const previousLocationKeyRef = useRef(location.key)
+  const menuPages = useMemo(() => buildSiteMenu(copy), [copy])
   const searchCopy = useMemo(() => getSearchUiCopy(copy.locale), [copy.locale])
+  const isGeorgian = copy.locale === 'ka-GE'
+  const menuLabel = isGeorgian ? 'მენიუ' : 'Menu'
   const showLocation = copy.meta.showLocation !== false
 
-  const clearDesktopCloseTimer = () => {
-    if (desktopCloseTimerRef.current) {
-      window.clearTimeout(desktopCloseTimerRef.current)
-      desktopCloseTimerRef.current = null
-    }
-  }
-
-  const openDesktopMenuNow = (key) => {
-    clearDesktopCloseTimer()
-    setOpenDesktopMenu(key)
-  }
-
-  const queueDesktopMenuClose = (key, delay = 180) => {
-    clearDesktopCloseTimer()
-    desktopCloseTimerRef.current = window.setTimeout(() => {
-      setOpenDesktopMenu((current) => (current === key ? null : current))
-      desktopCloseTimerRef.current = null
-    }, delay)
-  }
-
-  const closeDesktopMenuNow = () => {
-    clearDesktopCloseTimer()
-    setOpenDesktopMenu(null)
-  }
-
-  const closeMobileMenu = () => {
+  function closeMenu() {
     setMenuOpen(false)
-    setOpenMobileSection(null)
+    setOpenSection(null)
+    restoreMenuFocusRef.current = true
   }
 
   useEffect(() => {
-    closeMobileMenu()
-    closeDesktopMenuNow()
-
+    setMenuOpen(false)
+    setOpenSection(null)
+    const isNavigation = previousLocationKeyRef.current !== location.key
+    previousLocationKeyRef.current = location.key
     const hashId = location.hash.replace(/^#/, '')
-    const scrollFrame = window.requestAnimationFrame(() => {
-      if (hashId) {
-        const target = document.getElementById(hashId)
-
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' })
-          return
-        }
+    const frame = window.requestAnimationFrame(() => {
+      const target = hashId ? document.getElementById(hashId) : null
+      if (target) {
+        // Put keyboard/screen-reader users at the selected section as well.
+        target.setAttribute('tabindex', '-1')
+        target.focus({ preventScroll: true })
+        target.scrollIntoView({ behavior: 'auto', block: 'start' })
+      } else {
+        if (isNavigation) document.getElementById('main-content')?.focus({ preventScroll: true })
+        window.scrollTo({ top: 0, behavior: 'auto' })
       }
-
-      window.scrollTo({ top: 0, behavior: 'auto' })
     })
-
-    return () => {
-      window.cancelAnimationFrame(scrollFrame)
-    }
-  }, [location.hash, location.pathname])
+    return () => window.cancelAnimationFrame(frame)
+  }, [location.key, location.pathname, location.hash, location.search, language])
 
   useEffect(() => {
-    closeDesktopMenuNow()
-    closeMobileMenu()
-  }, [language])
-
-  useEffect(() => {
-    if (location.pathname !== '/search') {
-      return
+    if (location.pathname === '/search') {
+      setSearchValue(new URLSearchParams(location.search).get('q') ?? '')
     }
-
-    const params = new URLSearchParams(location.search)
-    setSearchValue(params.get('q') ?? '')
   }, [location.pathname, location.search])
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : ''
-    document.body.classList.toggle('mobile-menu-active', menuOpen)
-
-    return () => {
-      document.body.style.overflow = ''
-      document.body.classList.remove('mobile-menu-active')
-    }
-  }, [menuOpen])
-
-  useEffect(() => {
     if (!menuOpen) {
+      // Wait until React has removed inert from the page before restoring focus.
+      if (restoreMenuFocusRef.current) menuButtonRef.current?.focus({ preventScroll: true })
+      restoreMenuFocusRef.current = false
       return
     }
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    menuCloseRef.current?.focus()
 
-    function handleEscape(event) {
+    function handleKeyDown(event) {
       if (event.key === 'Escape') {
-        closeMobileMenu()
+        event.preventDefault()
+        closeMenu()
+      }
+      if (event.key !== 'Tab') return
+      const controls = [...menuPanelRef.current.querySelectorAll('a[href], button, input, [tabindex="0"]')]
+        .filter((element) => !element.disabled && !element.closest('[hidden]') && element.tabIndex >= 0)
+      const first = controls[0]
+      const last = controls[controls.length - 1]
+      if (event.shiftKey && (document.activeElement === first || !menuPanelRef.current.contains(document.activeElement))) {
+        event.preventDefault()
+        last?.focus()
+      } else if (!event.shiftKey && (document.activeElement === last || !menuPanelRef.current.contains(document.activeElement))) {
+        event.preventDefault()
+        first?.focus()
       }
     }
-
-    document.addEventListener('keydown', handleEscape)
-
+    document.addEventListener('keydown', handleKeyDown)
     return () => {
-      document.removeEventListener('keydown', handleEscape)
+      document.body.style.overflow = previousOverflow
+      document.removeEventListener('keydown', handleKeyDown)
     }
   }, [menuOpen])
 
-  useEffect(() => {
-    if (!menuOpen || openMobileSection) {
-      return
-    }
-
-    const activeGroup = navGroups.find((group) => isGroupActive(group, location))
-    setOpenMobileSection(activeGroup?.key ?? navGroups[0]?.key ?? null)
-  }, [location, menuOpen, navGroups, openMobileSection])
-
-  useEffect(() => {
-    return () => {
-      clearDesktopCloseTimer()
-    }
-  }, [])
-
-  useEffect(() => {
-    if (!openDesktopMenu) {
-      return
-    }
-
-    function handlePointerDown(event) {
-      if (!headerRef.current?.contains(event.target)) {
-        closeDesktopMenuNow()
-      }
-    }
-
-    function handleEscape(event) {
-      if (event.key === 'Escape') {
-        closeDesktopMenuNow()
-      }
-    }
-
-    document.addEventListener('pointerdown', handlePointerDown)
-    document.addEventListener('keydown', handleEscape)
-
-    return () => {
-      document.removeEventListener('pointerdown', handlePointerDown)
-      document.removeEventListener('keydown', handleEscape)
-    }
-  }, [openDesktopMenu])
-
-  function handleSearchSubmit(event, onComplete) {
+  function handleSearchSubmit(event) {
     event.preventDefault()
+    const query = searchValue.trim()
+    navigate(query ? `/search?q=${encodeURIComponent(query)}` : '/search')
+    closeMenu()
+  }
 
-    const nextQuery = searchValue.trim()
-    navigate(nextQuery ? `/search?q=${encodeURIComponent(nextQuery)}` : '/search')
-    onComplete?.()
+  function languageButtons(className) {
+    return (
+      <div className={`language-toggle ${className}`} aria-label={copy.header.languageLabel}>
+        {['en', 'ka'].map((next) => (
+          <button key={next} type="button"
+            className={language === next ? 'language-button active' : 'language-button'}
+            aria-pressed={language === next}
+            onClick={() => { closeMenu(); setLanguage(next) }}>
+            {next.toUpperCase()}
+          </button>
+        ))}
+      </div>
+    )
   }
 
   return (
     <div className="site-shell">
       <RouteMetadata language={language} />
-      <a href="#main-content" className="skip-link">
-        {copy.header.skipLink}
-      </a>
-
-      <header ref={headerRef} className={menuOpen ? 'site-header is-mobile-menu-open' : 'site-header'}>
-        <div className="site-topbar">
-          <div className="container site-topbar-inner">
-            <div className="topbar-contacts">
-              <EmailLink email={copy.meta.email} className="topbar-contact-link" />
-              <PhoneLink phone={copy.meta.phone} className="topbar-contact-link" />
-              {showLocation ? (
-                <LocationLink
-                  href={copy.meta.locationHref}
-                  label={copy.meta.locationLabel}
-                  className="topbar-contact-link topbar-location-link"
-                />
-              ) : null}
-            </div>
-
-            <div className="topbar-actions">
-              <SocialLinks items={copy.meta.socials} className="topbar-socials" />
+      <div inert={menuOpen ? '' : undefined} aria-hidden={menuOpen || undefined}>
+        <a href="#main-content" className="skip-link">{copy.header.skipLink}</a>
+        <header className="site-header site-header-with-menu">
+          <div className="site-topbar">
+            <div className="container site-topbar-inner">
+              <div className="topbar-contacts">
+                <EmailLink email={copy.meta.email} className="topbar-contact-link" />
+                <PhoneLink phone={copy.meta.phone} className="topbar-contact-link" />
+                {showLocation ? <LocationLink href={copy.meta.locationHref} label={copy.meta.locationLabel} className="topbar-contact-link topbar-location-link" /> : null}
+              </div>
+              <div className="topbar-actions"><SocialLinks items={copy.meta.socials} className="topbar-socials" /></div>
             </div>
           </div>
-        </div>
-
-        <div className="container header-main-row">
-          <BrandLockup copy={copy} />
-
-          <div className="header-actions">
-            <SearchForm
-              className="site-search-form desktop-search-form"
-              copy={searchCopy}
-              idPrefix="desktop"
-              value={searchValue}
-              onChange={(event) => setSearchValue(event.target.value)}
-              onSubmit={(event) => handleSearchSubmit(event)}
-            />
-
-            <Link className="header-utility-link desktop-utility header-calendar-link" to="/events#calendar-2026">
-              {copy.header.quickAction}
-            </Link>
-
-            <div className="language-toggle desktop-language-toggle" aria-label={copy.header.languageLabel}>
-              <button
-                type="button"
-                className={language === 'en' ? 'language-button active' : 'language-button'}
-                onClick={() => setLanguage('en')}
-              >
-                EN
-              </button>
-              <button
-                type="button"
-                className={language === 'ka' ? 'language-button active' : 'language-button'}
-                onClick={() => setLanguage('ka')}
-              >
-                KA
+          <div className="container header-main-row">
+            <BrandLockup copy={copy} />
+            <div className="header-actions">
+              <SearchForm className="site-search-form desktop-search-form" copy={searchCopy}
+                idPrefix="desktop" value={searchValue} onChange={(event) => setSearchValue(event.target.value)} onSubmit={handleSearchSubmit} />
+              {languageButtons('desktop-language-toggle')}
+              <button ref={menuButtonRef} type="button" className="site-menu-toggle"
+                aria-expanded={menuOpen} aria-controls="site-navigation" aria-haspopup="dialog"
+                onClick={() => setMenuOpen((value) => !value)}>
+                <span>{menuLabel}</span><ChevronDownIcon />
               </button>
             </div>
-
-            <button
-              type="button"
-              className={menuOpen ? 'nav-toggle is-open' : 'nav-toggle'}
-              aria-expanded={menuOpen}
-              aria-controls="mobile-navigation"
-              aria-label={menuOpen ? copy.header.menuClose : copy.header.menuOpen}
-              onClick={() => setMenuOpen((value) => !value)}
-            >
-              {menuOpen ? (
-                <CloseIcon className="nav-toggle-icon" />
-              ) : (
-                <>
-                  <span />
-                  <span />
-                  <span />
-                </>
-              )}
-            </button>
           </div>
-        </div>
-
-        <div className="header-nav-row">
-          <div className="container header-nav-shell">
-            <DesktopFederationNav
-              groups={navGroups}
-              location={location}
-              openKey={openDesktopMenu}
-              openMenu={openDesktopMenuNow}
-              queueCloseMenu={queueDesktopMenuClose}
-              closeMenu={closeDesktopMenuNow}
-              ariaLabel={copy.header.mainNavigation}
-            />
-          </div>
-        </div>
-
-        <div
-          id="mobile-navigation"
-          className={menuOpen ? 'mobile-drawer is-open' : 'mobile-drawer'}
-          aria-hidden={!menuOpen}
-        >
-          <button
-            type="button"
-            className="mobile-drawer-backdrop"
-            aria-label={copy.header.menuClose}
-            onClick={closeMobileMenu}
-          />
-
-          <div className="mobile-drawer-panel" role="dialog" aria-modal="true" aria-label={copy.header.mobileNavigation}>
-            <div className="mobile-drawer-header">
-              <div>
-                <div className="season-badge">{copy.header.seasonBadge}</div>
-                <div className="mobile-drawer-kicker">{copy.brand.shortName}</div>
-                <div className="mobile-drawer-title">{copy.brand.fullName}</div>
-              </div>
-
-              <button
-                type="button"
-                className="mobile-drawer-close"
-                aria-label={copy.header.menuClose}
-                onClick={closeMobileMenu}
-              >
-                <CloseIcon className="nav-toggle-icon" />
-              </button>
-            </div>
-
-            <MobileFederationNav
-              groups={navGroups}
-              location={location}
-              openKey={openMobileSection}
-              setOpenKey={setOpenMobileSection}
-              closeMenu={closeMobileMenu}
-              ariaLabel={copy.header.mobileNavigation}
-            />
-
-            <div className="mobile-drawer-tools">
-              <SearchForm
-                className="site-search-form mobile-search-form"
-                copy={searchCopy}
-                idPrefix="mobile"
-                value={searchValue}
-                onChange={(event) => setSearchValue(event.target.value)}
-                onSubmit={(event) => handleSearchSubmit(event, closeMobileMenu)}
-              />
-
-              <div className="mobile-contact-links">
-                <EmailLink email={copy.meta.email} className="mobile-meta-link" />
-                <PhoneLink phone={copy.meta.phone} className="mobile-meta-link" />
-                {showLocation ? (
-                  <LocationLink
-                    href={copy.meta.locationHref}
-                    label={copy.meta.locationLabel}
-                    className="mobile-meta-link mobile-location"
-                  />
-                ) : null}
-              </div>
-
-              <SocialLinks items={copy.meta.socials} className="mobile-socials" />
-
-              <div className="language-toggle mobile-language-toggle" aria-label={copy.header.languageLabel}>
-                <button
-                  type="button"
-                  className={language === 'en' ? 'language-button active' : 'language-button'}
-                  onClick={() => setLanguage('en')}
-                >
-                  EN
-                </button>
-                <button
-                  type="button"
-                  className={language === 'ka' ? 'language-button active' : 'language-button'}
-                  onClick={() => setLanguage('ka')}
-                >
-                  KA
-                </button>
-              </div>
-            </div>
-
-            <Link className="header-utility-link mobile-calendar-link" to="/events#calendar-2026" onClick={closeMobileMenu}>
-              {copy.header.quickAction}
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      <main id="main-content">{children}</main>
-
+        </header>
+        <main id="main-content" tabIndex="-1">{children}</main>
       <footer className="site-footer">
         <div className="container footer-grid">
           <div className="footer-brand">
@@ -424,6 +219,23 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
           </div>
         </div>
       </footer>
+      </div>
+      <div className="site-menu-overlay" hidden={!menuOpen}>
+          <button type="button" className="site-menu-backdrop" tabIndex="-1" aria-label={copy.header.menuClose} onClick={closeMenu} />
+          <div ref={menuPanelRef} id="site-navigation" className="site-menu-panel" role="dialog" aria-modal="true" aria-labelledby="site-menu-title">
+            <div className="site-menu-header">
+              <h2 id="site-menu-title">{menuLabel}</h2>
+              {languageButtons('site-menu-language mobile-language-toggle')}
+              <button ref={menuCloseRef} type="button" className="site-menu-close" aria-label={copy.header.menuClose} onClick={closeMenu}><CloseIcon /></button>
+            </div>
+            <div className="site-menu-scroll">
+              <p className="site-menu-hint">{isGeorgian ? 'აირჩიეთ გვერდი ან გახსენით მისი განყოფილებები.' : 'Choose a page, or expand it to see its sections.'}</p>
+              <SiteMenuNavigation pages={menuPages} location={location} openKey={openSection} setOpenKey={setOpenSection} closeMenu={closeMenu} ariaLabel={copy.header.mainNavigation} />
+              <SearchForm className="site-search-form site-menu-search" copy={searchCopy}
+                idPrefix="menu" value={searchValue} onChange={(event) => setSearchValue(event.target.value)} onSubmit={handleSearchSubmit} />
+            </div>
+          </div>
+        </div>
     </div>
   )
 }

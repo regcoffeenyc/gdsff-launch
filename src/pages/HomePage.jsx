@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import GalleryLightbox from '../components/GalleryLightbox'
 import If3Announcement from '../components/If3Announcement'
@@ -6,7 +6,7 @@ import { faqContent } from '../content/faqContent'
 import { membershipApplicationContent } from '../content/membershipApplicationContent'
 import { officialLaunchContent } from '../content/officialLaunchContent'
 import { EmailLink, LocationLink, PhoneLink, SocialLinks } from '../components/SiteMetaLinks'
-import { getMembershipSummary } from '../utils/socialHubApi'
+import RegisteredMembersStat from '../components/RegisteredMembersStat'
 import {
   federationBadgeArtSrc,
   functionalFitnessCollageSrc,
@@ -275,7 +275,6 @@ export default function HomePage({ copy }) {
   const view = homePageCopy[localeKey]
   const launch = officialLaunchContent[localeKey]
   const membershipFormView = membershipApplicationContent[localeKey]
-  const [membershipSummary, setMembershipSummary] = useState({ totalApplications: 0 })
   const [leadershipLightboxIndex, setLeadershipLightboxIndex] = useState(null)
   // Upcoming events first; past ones only fill remaining slots.
   const featuredEvents = [
@@ -313,32 +312,6 @@ export default function HomePage({ copy }) {
       text: profile.text,
     }))
 
-  useEffect(() => {
-    let cancelled = false
-
-    async function loadMembershipSummary() {
-      try {
-        const result = await getMembershipSummary()
-        if (cancelled) {
-          return
-        }
-
-        setMembershipSummary(result.summary || { totalApplications: 0 })
-      } catch {
-        if (cancelled) {
-          return
-        }
-
-        setMembershipSummary({ totalApplications: 0 })
-      }
-    }
-
-    loadMembershipSummary()
-
-    return () => {
-      cancelled = true
-    }
-  }, [])
 
   return (
     <>
@@ -564,10 +537,7 @@ export default function HomePage({ copy }) {
           <span className="card-kicker">{launch.home.membershipEyebrow}</span>
           <h3>{launch.home.membershipTitle}</h3>
           <p>{membershipFormView.introText}</p>
-          <div className="home-membership-live-stat">
-            <span>{membershipFormView.totalApplicationsLabel}</span>
-            <strong>{String(membershipSummary.totalApplications || 0).padStart(2, '0')}</strong>
-          </div>
+          <RegisteredMembersStat locale={copy.locale} />
           {[membershipFormView.processText, membershipFormView.supportText].map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}

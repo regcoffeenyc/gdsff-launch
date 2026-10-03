@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import RegisteredMembersStat from '../components/RegisteredMembersStat'
 import PageHero from '../components/PageHero'
 import SafetyCheckboxSection from '../components/SafetyCheckboxSection'
 import SafetyField from '../components/SafetyField'
@@ -285,20 +286,23 @@ export default function MembershipPage({ copy, language = 'en', setLanguage }) {
           </article>
 
           <article className="feature-card membership-stats-card">
+            <RegisteredMembersStat locale={copy.locale} />
+            <div className="membership-application-stats-heading">
             <span className="card-kicker">{view.statsKicker}</span>
             <h2>{view.statsTitle}</h2>
             <p>{view.statsText}</p>
+            </div>
 
             <div className="membership-stat-total">
               <span>{view.totalApplicationsLabel}</span>
-              <strong>{String(summary.totalApplications ?? 0).padStart(2, '0')}</strong>
+              <strong>{summaryState.loading || summaryState.error ? '—' : String(summary.totalApplications ?? 0).padStart(2, '0')}</strong>
             </div>
 
             <div className="membership-status-grid">
               {statusMetrics.map((item) => (
                 <div key={item.key} className="membership-status-chip">
                   <span>{item.label}</span>
-                  <strong>{String(item.value).padStart(2, '0')}</strong>
+                  <strong>{summaryState.loading || summaryState.error ? '—' : String(item.value).padStart(2, '0')}</strong>
                 </div>
               ))}
             </div>
