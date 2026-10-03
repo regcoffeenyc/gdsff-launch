@@ -28,6 +28,27 @@ export default function SafetyTeamSection({ localeKey }) {
               <li>{view.safetyOfficerRole}</li>
               <li>{view.instructorRole}</li>
             </ul>
+            <div className="safety-team-certificate">
+              <img
+                className="safety-team-certificate-preview"
+                src={member.certificatePreviewSrc}
+                alt={`${view.certificatePreviewLabel}: ${getSafetyTeamName(member, localeKey)}`}
+                width="1188"
+                height="918"
+                loading="lazy"
+                decoding="async"
+              />
+              <a
+                href={member.certificateHref}
+                className="download-action"
+                type="application/pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${view.certificateLabel}: ${getSafetyTeamName(member, localeKey)} (${view.certificateNewTab})`}
+              >
+                {view.certificateLabel}
+              </a>
+            </div>
           </article>
         ))}
       </div>

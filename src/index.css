@@ -867,6 +867,25 @@ img {
   color: var(--gold-strong);
 }
 
+.safety-team-card .safety-team-certificate {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 1.25rem;
+}
+
+.safety-team-certificate-preview {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: #fff;
+}
+
+.safety-team-certificate .download-action {
+  justify-self: start;
+}
+
 .dot {
   width: 10px;
   height: 10px;
