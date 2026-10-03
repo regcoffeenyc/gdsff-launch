@@ -4,8 +4,11 @@ import PageHero from '../components/PageHero'
 export default function EventsPage({ copy }) {
   const eventAnchors = {
     'National Ranking Match I': 'national-championships',
+    'ეროვნული რეიტინგული მატჩი I': 'national-championships',
     'Summer Tactical Performance Camp': 'training-camps',
+    'ზაფხულის ტაქტიკური შესრულების ბანაკი': 'training-camps',
     'Georgian Grand Prix': 'international-events',
+    'საქართველოს გრან-პრი': 'international-events',
   }
 
   return (

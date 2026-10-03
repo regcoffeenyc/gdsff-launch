@@ -95,6 +95,17 @@ for (const language of ['en', 'ka']) {
     assert.ok(allDestinations.every((to) => !/admin|social|media-bot/.test(to)))
   })
 
+  test(`${language}: every menu page and section resolves to a unique prerendered destination`, () => {
+    const items = buildSiteMenu(siteContent[language]).flatMap((page) => [page, ...page.items])
+    for (const item of items) {
+      const [route, hash] = item.to.split('#')
+      const html = readFileSync(new URL(`../dist/${language}${route === '/' ? '' : route}/index.html`, import.meta.url), 'utf8')
+      const { document } = new JSDOM(html).window
+      if (hash) assert.equal(document.querySelectorAll(`[id="${hash}"]`).length, 1, item.to)
+      assert.equal(document.querySelectorAll('main h1').length, 1, item.to)
+    }
+  })
+
   test(`${language}: menu opens, collapses, traps keyboard focus and closes by Escape/outside click`, async (t) => {
     await withApp(t, language, '/', async ({ document, click, key }) => {
       const trigger = document.querySelector('.site-menu-toggle')
@@ -120,11 +131,13 @@ for (const language of ['en', 'ka']) {
       assert.equal(document.activeElement, focusable.at(-1))
       await key('Tab')
       assert.equal(document.activeElement, focusable[0])
+      panel.querySelector('.site-menu-scroll').scrollTop = 400
       await key('Escape')
       assert.ok(overlay.hidden)
       assert.equal(document.activeElement, trigger)
       assert.equal(document.body.style.overflow, '')
       await click(trigger)
+      assert.equal(panel.querySelector('.site-menu-scroll').scrollTop, 0, 'reopening starts at the Home and Instructors entries')
       await click(document.querySelector('.site-menu-backdrop'))
       assert.ok(overlay.hidden)
       assert.equal(document.activeElement, trigger)

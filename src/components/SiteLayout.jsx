@@ -95,6 +95,8 @@ export default function SiteLayout({ children, copy, language, setLanguage }) {
     }
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
+    const scrollRegion = menuPanelRef.current?.querySelector('.site-menu-scroll')
+    if (scrollRegion) scrollRegion.scrollTop = 0
     menuCloseRef.current?.focus()
 
     function handleKeyDown(event) {
