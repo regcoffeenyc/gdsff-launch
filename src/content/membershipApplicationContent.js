@@ -231,14 +231,14 @@ export const membershipApplicationContent = {
     introTitle: 'Apply online and send a real membership application to the federation register.',
     introText:
       'The online form below stores each submitted application in the federation registration system and keeps the official downloadable document available as a separate option.',
-    statsKicker: 'Membership Count',
-    statsTitle: 'Live application count from the website register.',
+    statsKicker: 'Online Applications',
+    statsTitle: 'Applications submitted through this website.',
     statsText:
-      'The total updates from real submitted applications stored by the membership registration workflow, not from hardcoded text.',
-    totalApplicationsLabel: 'Total Member Applications',
+      'These live application totals and review statuses cover website submissions only. They are separate from the federation’s registered-member total above.',
+    totalApplicationsLabel: 'Total Online Applications',
     totalApplicationsShortLabel: 'Applications',
     lastSubmittedLabel: 'Last submission',
-    statsLoadingText: 'Checking the current membership register...',
+    statsLoadingText: 'Checking online application records...',
     statsOfflineText: 'The live counter is temporarily unavailable. The downloadable form remains available.',
     statusLabels: {
       submitted: 'Submitted',
@@ -307,14 +307,14 @@ export const membershipApplicationContent = {
     introTitle: 'შეავსეთ ონლაინ განაცხადი და გააგზავნეთ რეალური წევრობის განაცხადი ფედერაციის რეესტრში.',
     introText:
       'ქვემოთ მოცემული ონლაინ ფორმა თითოეულ გაგზავნილ განაცხადს ფედერაციის წევრობის რეგისტრაციის სისტემაში ინახავს და ამავე დროს ოფიციალური ჩამოსატვირთი დოკუმენტი ცალკე ვარიანტად ხელმისაწვდომს ტოვებს.',
-    statsKicker: 'წევრობის რაოდენობა',
-    statsTitle: 'ვებ-რეგისტრიდან მიღებული ცოცხალი განაცხადების რაოდენობა.',
+    statsKicker: 'ონლაინ განაცხადები',
+    statsTitle: 'ამ ვებგვერდიდან გაგზავნილი განაცხადები.',
     statsText:
-      'სულ რაოდენობა განახლდება რეალურად შენახული ონლაინ განაცხადების მიხედვით და არა ფიქსირებული ტექსტით.',
-    totalApplicationsLabel: 'სულ წევრობის განაცხადები',
+      'ეს რაოდენობა და განხილვის სტატუსები მხოლოდ ვებგვერდიდან გაგზავნილ განაცხადებს მოიცავს. ფედერაციის რეგისტრირებული წევრების რაოდენობა ცალკე, ზემოთ არის მითითებული.',
+    totalApplicationsLabel: 'სულ ონლაინ განაცხადები',
     totalApplicationsShortLabel: 'განაცხადები',
     lastSubmittedLabel: 'ბოლო გაგზავნა',
-    statsLoadingText: 'მიმდინარეობს წევრობის რეესტრის შემოწმება...',
+    statsLoadingText: 'მიმდინარეობს ონლაინ განაცხადების შემოწმება...',
     statsOfflineText: 'ცოცხალი მთვლელი დროებით მიუწვდომელია. წევრობის ჩამოსატვირთი ფორმა კვლავ ხელმისაწვდომია.',
     statusLabels: {
       submitted: 'გაგზავნილია',

@@ -452,10 +452,77 @@ function NavigationLink({ item, location, className, onActivate }) {
   }
 
   return (
-    <Link to={item.to} className={linkClassName} onClick={onActivate}>
+    <Link to={item.to} className={linkClassName} onClick={onActivate} aria-current={isItemActive(item, location) ? 'page' : undefined}>
       <span className="nav-entry-title">{item.label}</span>
       <span className="nav-entry-copy">{item.description}</span>
     </Link>
+  )
+}
+
+// Reuse the existing public section registry, exposing every public page at the
+// first level. Private workspaces deliberately never enter this menu.
+export function buildSiteMenu(copy) {
+  const isGeorgian = copy.locale === 'ka-GE'
+  const groups = buildFederationNav(copy)
+  const instructors = groups.find((group) => group.key === 'leadership').items
+    .find((item) => item.to === '/leadership#safety-officers-instructors')
+  const pages = [
+    { key: 'home', label: isGeorgian ? 'მთავარი' : 'Home', to: '/', items: [] },
+    { ...instructors, key: 'instructors', featured: true, items: [] },
+  ]
+  const seen = new Set(['/'])
+  for (const group of groups) {
+    for (const item of [{ label: group.label, to: group.to }, ...group.items]) {
+      if (item.external) continue
+      const path = getTargetPath(item.to)
+      if (seen.has(path)) continue
+      seen.add(path)
+      pages.push({
+        key: path.slice(1),
+        label: item.label,
+        to: path,
+        items: group.items.filter((section) => !section.external && getTargetPath(section.to) === path &&
+          getTargetHash(section.to) && section.to !== instructors.to),
+      })
+    }
+  }
+  return pages.map((page) => ({
+    ...page,
+    sectionsLabel: isGeorgian ? `${page.label}: განყოფილებები` : `${page.label}: sections`,
+  }))
+}
+
+export function SiteMenuNavigation({ pages, location, openKey, setOpenKey, closeMenu, ariaLabel }) {
+  return (
+    <nav aria-label={ariaLabel}>
+      <ul className="site-menu-list">
+        {pages.map((page) => {
+          const isOpen = openKey === page.key
+          const panelId = `site-menu-${page.key}-sections`
+          return (
+            <li key={page.key} className={page.featured ? 'site-menu-item is-featured' : 'site-menu-item'}>
+              <div className="site-menu-row">
+                <NavigationLink item={page} location={location} className="site-menu-link" onActivate={closeMenu} />
+                {page.items.length ? (
+                  <button type="button" className="site-menu-section-toggle" aria-label={page.sectionsLabel}
+                    aria-expanded={isOpen} aria-controls={panelId}
+                    onClick={() => setOpenKey((current) => current === page.key ? null : page.key)}>
+                    <ChevronDownIcon />
+                  </button>
+                ) : null}
+              </div>
+              {page.items.length ? (
+                <ul id={panelId} className="site-menu-sections" hidden={!isOpen}>
+                  {page.items.map((item) => (
+                    <li key={item.to}><NavigationLink item={item} location={location} className="site-menu-section-link" onActivate={closeMenu} /></li>
+                  ))}
+                </ul>
+              ) : null}
+            </li>
+          )
+        })}
+      </ul>
+    </nav>
   )
 }
 
