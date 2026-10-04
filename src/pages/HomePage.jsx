@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import GalleryLightbox from '../components/GalleryLightbox'
 import If3Announcement from '../components/If3Announcement'
+import IdpaAnnouncement from '../components/IdpaAnnouncement'
 import { faqContent } from '../content/faqContent'
 import { membershipApplicationContent } from '../content/membershipApplicationContent'
 import { officialLaunchContent } from '../content/officialLaunchContent'
@@ -383,6 +384,7 @@ export default function HomePage({ copy }) {
         </div>
       </section>
 
+      <IdpaAnnouncement locale={copy.locale} compact />
       <If3Announcement locale={copy.locale} compact />
 
       <section className="container section-space">

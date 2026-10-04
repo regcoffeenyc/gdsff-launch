@@ -3,6 +3,7 @@ import GalleryLightbox from '../components/GalleryLightbox'
 import { PlayIcon } from '../components/SiteIcons'
 import PageHero from '../components/PageHero'
 import If3Announcement from '../components/If3Announcement'
+import IdpaAnnouncement from '../components/IdpaAnnouncement'
 import { normalizeLaunchValue } from '../content/launchNormalizer'
 import {
   functionalFitnessCollageSrc,
@@ -199,7 +200,8 @@ export default function GalleryPage({ copy }) {
         label={copy.header.highlightsLabel}
       />
 
-      <If3Announcement locale={copy.locale} />
+      <IdpaAnnouncement locale={copy.locale} />
+      <If3Announcement locale={copy.locale} anchor="if3-membership" />
 
       <section className="container page-section">
         <div className="gallery-layout">

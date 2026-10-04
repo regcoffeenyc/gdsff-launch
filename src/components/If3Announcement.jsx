@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom'
 import { if3Membership } from '../content/if3Membership'
 import './If3Announcement.css'
 
-export default function If3Announcement({ locale, compact = false }) {
+export default function If3Announcement({ locale, compact = false, anchor }) {
   const news = if3Membership[locale === 'ka-GE' ? 'ka' : 'en']
   return (
-    <section id={compact ? 'latest-news' : 'news-updates'} className="container section-space anchor-section">
+    <section id={anchor || (compact ? 'latest-news' : 'news-updates')} className="container section-space anchor-section">
       <article className={`if3-announcement${compact ? ' if3-announcement-compact' : ''}`} aria-labelledby="if3-news-title">
         <div className="if3-news-mark" aria-hidden="true">
           <span>GDSFF</span>
@@ -41,7 +41,7 @@ export default function If3Announcement({ locale, compact = false }) {
           )}
           <div className="if3-news-actions">
             {compact ? (
-              <Link className="primary-button" to="/gallery#news-updates">{news.readMore}</Link>
+              <Link className="primary-button" to="/gallery#if3-membership">{news.readMore}</Link>
             ) : (
               <Link className="primary-button" to="/membership#online-application">{news.membershipLabel}</Link>
             )}
