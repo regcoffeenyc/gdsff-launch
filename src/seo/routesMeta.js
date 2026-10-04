@@ -10,6 +10,7 @@ export const LASTMOD = '2026-09-19'
 
 export const routesMeta = {
   '/': {
+    lastmod: '2026-10-04',
     ka: {
       title: 'GDSFF | დინამიური სროლისა და ფუნქციური ფიტნესის ფედერაცია',
       description:
@@ -102,6 +103,7 @@ export const routesMeta = {
     },
   },
   '/gallery': {
+    lastmod: '2026-10-04',
     ka: {
       title: 'სიახლეები და გალერეა | GDSFF',
       description: 'GDSFF-ის ოფიციალური სიახლეები, iF3-ის წევრობა და ფოტო-ვიდეო მასალა ფედერაციის ღონისძიებებიდან.',

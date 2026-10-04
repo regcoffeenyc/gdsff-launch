@@ -1,3 +1,4 @@
+import { idpaAnnouncement } from '../content/idpaAnnouncement'
 import { buildFederationNav } from '../components/FederationNavigation'
 import { officialLaunchContent } from '../content/officialLaunchContent'
 import { supportContent } from '../content/supportContent'
@@ -425,11 +426,20 @@ export function buildSiteSearchIndex(copy) {
   const entries = [
     {
       kind: 'section',
+      title: idpaAnnouncement[localeKey].title,
+      description: idpaAnnouncement[localeKey].summary,
+      to: '/gallery#news-updates',
+      section: idpaAnnouncement[localeKey].eyebrow,
+      meta: '/gallery#news-updates',
+      keywords: ['IDPA', 'SO', 'Safety Officer', 'CL100829', 'Federico Iannelli', idpaAnnouncement[localeKey].lead],
+    },
+    {
+      kind: 'section',
       title: if3Membership[localeKey].title,
       description: if3Membership[localeKey].lead,
-      to: '/gallery#news-updates',
+      to: '/gallery#if3-membership',
       section: if3Membership[localeKey].eyebrow,
-      meta: '/gallery#news-updates',
+      meta: '/gallery#if3-membership',
       keywords: ['iF3', 'IF3', 'International Functional Fitness Federation', 'membership', 'წევრობა', if3Membership[localeKey].text],
     },
     ...buildPageEntries(copy, localeKey),
