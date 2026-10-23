@@ -289,7 +289,7 @@ export default function DocumentsPage({ copy }) {
             <div className="printable-target-rings" />
             <div className="printable-target-preview-foot">
               <span>office@gdsff.org</span>
-              <span>+995 511 560038</span>
+              <span>+995 595 733 390</span>
             </div>
           </div>
         </div>

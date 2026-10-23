@@ -19,7 +19,7 @@ const BRAND = {
   regCode: '406552902',
   website: 'gdsff.org',
   email: 'office@gdsff.org',
-  phone: '+995 511 560038',
+  phone: '+995 595 733 390',
 }
 
 const docText = {
