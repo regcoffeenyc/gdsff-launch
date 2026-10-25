@@ -92,3 +92,29 @@ test('trailing slash aliases keep the same canonical; unknown routes have no pub
   assert.equal(getRouteMetadata('/missing-page', 'en'), null)
   assert.equal(getRouteMetadata('/about', 'fr'), null)
 })
+
+/* Search Console, October 2026: "Blocked due to other 4xx issue". Googlebot
+   reads /api/ paths out of the bundle, fetches them with GET and gets 405 from
+   the POST-only endpoints. /api/ is kept out of the crawl, except the two GET
+   endpoints the public pages call while rendering. */
+test('robots.txt keeps /api/ out of the crawl but allows the render endpoints', () => {
+  const robots = read('public/robots.txt')
+  assert.match(robots, /^Disallow: \/api\/$/m)
+  for (const path of ['/api/auth/session', '/api/membership/summary']) {
+    assert.match(robots, new RegExp(`^Allow: ${path}$`, 'm'), `${path} must stay crawlable for rendering`)
+  }
+  const headers = JSON.parse(read('vercel.json')).headers
+  const api = headers.find((rule) => rule.source === '/api/(.*)')
+  assert.ok(api?.headers.some((h) => h.key === 'X-Robots-Tag' && h.value === 'noindex'), 'API responses must carry X-Robots-Tag: noindex')
+})
+
+/* Every image path exported by siteAssets.js must exist in public/: a missing
+   file is a broken image for visitors and a 404 for Google. */
+test('every image in siteAssets.js exists in public/', async () => {
+  const source = read('src/siteAssets.js')
+  const files = [...source.matchAll(/BASE_URL\}([^`'"]+)/g)].map((match) => match[1])
+  assert.ok(files.length > 0)
+  for (const file of files) {
+    assert.doesNotThrow(() => readFileSync(new URL(`../public/${file}`, import.meta.url)), `public/${file} is missing`)
+  }
+})
