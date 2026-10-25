@@ -6,6 +6,17 @@
 # anyway from any link pointing at it, which is the "Indexed, though blocked by
 # robots.txt" warning. Blocking here would make these pages harder to remove,
 # not easier. Leave them crawlable so the noindex is seen and obeyed.
+#
+# /api/ is different: it serves JSON, not pages, and most endpoints accept only
+# POST. Googlebot finds their paths in the JavaScript bundle, requests them with
+# GET and gets 405 Method Not Allowed, which Search Console reports as
+# "Blocked due to other 4xx issue" (October 2026). Nothing under /api/ is meant
+# for the index, so it is not crawled. The two GET endpoints the public pages
+# call while rendering stay allowed so Google renders those pages as visitors
+# see them; their responses carry X-Robots-Tag: noindex (vercel.json).
 User-agent: *
 Allow: /
+Disallow: /api/
+Allow: /api/auth/session
+Allow: /api/membership/summary
 Sitemap: https://www.gdsff.com/sitemap.xml
