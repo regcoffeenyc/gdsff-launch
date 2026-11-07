@@ -45,9 +45,44 @@ function faqJsonld(lang) {
   })
 }
 
+// The federation itself, inline, so performer and organizer resolve even where
+// a validator does not follow the @id to the Organization node in the template.
+const FEDERATION = {
+  '@type': 'SportsOrganization',
+  '@id': ORG_ID,
+  name: 'Georgian Dynamic Shooting & Functional Fitness Federation',
+  url: SITE,
+}
+
+// How to take part, as an Offer. Only facts the calendar holds go in: the
+// entry route (the calendar entry, where the bulletin is published), the
+// currency, and whether entries are open. A price is stated only when the
+// calendar entry carries one (`entryFee`, in GEL); none is invented.
+function eventOffer(event, url) {
+  const membersOnly = /members only|მხოლოდ წევრ/i.test(event.status || '')
+  const offer = {
+    '@type': 'Offer',
+    url,
+    priceCurrency: 'GEL',
+    availability: event.past
+      ? 'https://schema.org/SoldOut'
+      : membersOnly
+        ? 'https://schema.org/LimitedAvailability'
+        : 'https://schema.org/InStock',
+    category: membersOnly ? 'Members' : 'Entry',
+  }
+  if (typeof event.entryFee === 'number') offer.price = event.entryFee
+  return offer
+}
+
 // One SportsEvent per calendar entry, built from the same data the page renders.
+// Search Console, 7 November 2026: "Missing field 'offers'" and "Missing field
+// 'performer'" on every entry. The performer of a federation event is the
+// federation (its athletes compete under it; clinics and the assembly are run
+// by it), and the offer is the entry route above.
 function eventsJsonld(lang, pageUrl, image) {
   const events = content[lang].events.calendar.events
+  const url = `${pageUrl}#calendar-2026`
   return jsonld({
     '@context': 'https://schema.org',
     '@graph': events.map((event) => ({
@@ -63,8 +98,10 @@ function eventsJsonld(lang, pageUrl, image) {
         name: event.location,
         address: { '@type': 'PostalAddress', addressLocality: event.location, addressCountry: 'GE' },
       },
-      organizer: { '@id': ORG_ID },
-      url: `${pageUrl}#calendar-2026`,
+      organizer: FEDERATION,
+      performer: FEDERATION,
+      offers: eventOffer(event, url),
+      url,
       image,
       inLanguage: lang,
     })),
