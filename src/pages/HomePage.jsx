@@ -442,6 +442,9 @@ export default function HomePage({ copy }) {
         </div>
 
         <div className="events-preview-grid">
+          {!copy.events.calendar.events.some((event) => !event.past) && (
+            <p className="section-copy">{copy.events.calendar.emptyState}</p>
+          )}
           {featuredEvents.map((event) => (
             <article key={`${event.date}-${event.title}`} className="event-preview-card premium-event-card">
               <div className="event-card-top">

@@ -148,6 +148,10 @@ export default function EventCalendar({ calendar, locale, eyebrow = 'Calendar', 
             <p>{calendar.noticeText}</p>
           </article>
 
+          {!calendar.events.some((event) => !event.past) && (
+            <p className="section-copy">{calendar.emptyState}</p>
+          )}
+
           {calendar.events.map((event) => (
             <article
               key={`${event.date}-${event.title}`}
@@ -168,7 +172,7 @@ export default function EventCalendar({ calendar, locale, eyebrow = 'Calendar', 
       </div>
 
       <div className="calendar-legend">
-        {calendar.legend.map((item) => (
+        {calendar.legend.filter((item) => calendar.events.some((event) => event.status === item)).map((item) => (
           <span key={item} className="legend-chip">
             {item}
           </span>

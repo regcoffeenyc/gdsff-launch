@@ -309,6 +309,7 @@ export const enContent = {
       noticeTitle: 'Schedule Notice',
       noticeText:
         'Past events are kept for reference. Dates and venues of upcoming events are confirmed in each event bulletin.',
+      emptyState: 'No upcoming events are currently scheduled.',
       month: '2026-11',
       days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
       legend: ['Registration open', 'Confirmed', 'Members only', 'Past event'],
@@ -362,14 +363,6 @@ export const enContent = {
           status: 'Past event',
           past: true,
           description: 'Flagship competition weekend structured for regional guests, media coverage, and federation showcase value.',
-        },
-        {
-          date: '2026-11-14',
-          title: 'Annual Assembly and Awards',
-          location: 'Tbilisi',
-          type: 'Federation',
-          status: 'Members only',
-          description: 'Season review, member assembly, and official recognition of athlete, club, and volunteer achievements.',
         },
       ],
     },
