@@ -24,7 +24,20 @@ test('all 30 built pages have route-specific metadata and populated HTML', () =>
         assert.match(html, /<link rel="preload" as="image" href="\/range-hero-1600\.webp"/, meta.url)
         assert.ok(html.includes('"@type":"FAQPage"'), meta.url)
       }
-      if (route === '/events') assert.ok(html.includes('"@type":"SportsEvent"'), meta.url)
+      if (route === '/events') {
+        assert.ok(html.includes('"@type":"SportsEvent"'), meta.url)
+        // Search Console, 7 Nov 2026: every event needs performer and offers.
+        const events = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+          .map((m) => JSON.parse(m[1]))
+          .flatMap((j) => j['@graph'] || [j])
+          .filter((n) => n['@type'] === 'SportsEvent')
+        assert.ok(events.length > 0, meta.url)
+        for (const e of events) {
+          assert.equal(e.performer?.name, 'Georgian Dynamic Shooting & Functional Fitness Federation', `${meta.url} ${e.name}`)
+          assert.equal(e.offers?.['@type'], 'Offer', `${meta.url} ${e.name}`)
+          assert.match(e.offers.availability, /^https:\/\/schema\.org\//, `${meta.url} ${e.name}`)
+        }
+      }
       if (route === '/leadership') assert.ok(html.includes('"@type":"Person"'), meta.url)
       assert.ok(html.includes(`<meta name="twitter:description" content="${escape(meta.description)}" />`), meta.url)
       assert.equal(html.includes('<meta name="robots" content="noindex" />'), meta.noindex, meta.url)
