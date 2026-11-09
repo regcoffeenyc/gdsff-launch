@@ -94,6 +94,11 @@
       "source": "/:lang(ka|en)/:page/",
       "destination": "/:lang/:page",
       "permanent": true
+    },
+    {
+      "source": "/:lang(ka|en)",
+      "destination": "/:lang/",
+      "permanent": true
     }
   ],
   "headers": [

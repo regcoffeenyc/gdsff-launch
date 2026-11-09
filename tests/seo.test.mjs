@@ -141,7 +141,7 @@ test('every image in siteAssets.js exists in public/', async () => {
 test('trailing-slash and index.html aliases redirect to the canonical URL', () => {
   const redirects = JSON.parse(read('vercel.json')).redirects
   const find = (source) => redirects.find((r) => r.source === source)
-  for (const source of ['/:lang(ka|en)/index.html', '/:lang(ka|en)/:page/index.html', '/:lang(ka|en)/:page/']) {
+  for (const source of ['/:lang(ka|en)', '/:lang(ka|en)/index.html', '/:lang(ka|en)/:page/index.html', '/:lang(ka|en)/:page/']) {
     assert.equal(find(source)?.permanent, true, source)
   }
   assert.equal(find('/:lang(ka|en)/:page/').destination, '/:lang/:page')
