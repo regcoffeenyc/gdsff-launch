@@ -2,6 +2,8 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 import { allRoutes, getRouteMetadata, indexableRoutes, LANGS, SITE } from '../src/seo/routesMeta.js'
+import { enContent } from '../src/content/enContent.js'
+import { kaContent } from '../src/content/kaContent.js'
 
 const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8')
 const escape = (text) => text.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -25,14 +27,18 @@ test('all 30 built pages have route-specific metadata and populated HTML', () =>
         assert.ok(html.includes('"@type":"FAQPage"'), meta.url)
       }
       if (route === '/events') {
-        assert.ok(html.includes('"@type":"SportsEvent"'), meta.url)
         // Search Console, 7 Nov 2026: every event needs performer and offers.
+        // 8-9 Nov: offers need price and validFrom, so only upcoming events,
+        // which carry both in the calendar, are marked up.
         const events = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
           .map((m) => JSON.parse(m[1]))
           .flatMap((j) => j['@graph'] || [j])
           .filter((n) => n['@type'] === 'SportsEvent')
-        assert.ok(events.length > 0, meta.url)
+        const upcoming = (language === 'ka' ? kaContent : enContent).events.calendar.events.filter((e) => !e.past)
+        assert.equal(events.length, upcoming.length, meta.url)
         for (const e of events) {
+          assert.equal(typeof e.offers?.price, 'number', `${meta.url} ${e.name}: offers.price`)
+          assert.match(e.offers?.validFrom || '', /^\d{4}-\d{2}-\d{2}/, `${meta.url} ${e.name}: offers.validFrom`)
           assert.equal(e.performer?.name, 'Georgian Dynamic Shooting & Functional Fitness Federation', `${meta.url} ${e.name}`)
           assert.equal(e.offers?.['@type'], 'Offer', `${meta.url} ${e.name}`)
           assert.match(e.offers.availability, /^https:\/\/schema\.org\//, `${meta.url} ${e.name}`)
@@ -148,5 +154,16 @@ test('trailing-slash and index.html aliases redirect to the canonical URL', () =
   for (const language of LANGS) {
     assert.equal(getRouteMetadata('/', language).url, `${SITE}/${language}/`)
     assert.equal(getRouteMetadata('/about/', language).url, `${SITE}/${language}/about`)
+  }
+})
+
+/* An upcoming event without a fee or a registration date would bring the
+   Search Console warning back: the calendar must carry both. */
+test('every upcoming calendar event states entryFee and registrationOpens', () => {
+  for (const content of [enContent, kaContent]) {
+    for (const e of content.events.calendar.events.filter((x) => !x.past)) {
+      assert.equal(typeof e.entryFee, 'number', `${e.title}: entryFee (GEL) missing`)
+      assert.match(e.registrationOpens || '', /^\d{4}-\d{2}-\d{2}$/, `${e.title}: registrationOpens missing`)
+    }
   }
 })
