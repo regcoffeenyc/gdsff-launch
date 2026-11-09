@@ -72,6 +72,7 @@ function eventOffer(event, url) {
     category: membersOnly ? 'Members' : 'Entry',
   }
   if (typeof event.entryFee === 'number') offer.price = event.entryFee
+  if (event.registrationOpens) offer.validFrom = event.registrationOpens
   return offer
 }
 
@@ -80,8 +81,16 @@ function eventOffer(event, url) {
 // 'performer'" on every entry. The performer of a federation event is the
 // federation (its athletes compete under it; clinics and the assembly are run
 // by it), and the offer is the entry route above.
+// Search Console, 8-9 November 2026: "Missing field 'price'" and "Missing
+// field 'validFrom'" (in 'offers'). Every flagged entry was an event that had
+// already taken place, whose fee and registration date the calendar does not
+// hold. Google shows only upcoming events, so past entries stay on the page for
+// reference but are no longer marked up; an upcoming entry states its fee
+// (`entryFee`, GEL) and the day entries open (`registrationOpens`, YYYY-MM-DD)
+// in the calendar, and both go into its offer. Nothing is invented.
 function eventsJsonld(lang, pageUrl, image) {
-  const events = content[lang].events.calendar.events
+  const events = content[lang].events.calendar.events.filter((event) => !event.past)
+  if (!events.length) return ''
   const url = `${pageUrl}#calendar-2026`
   return jsonld({
     '@context': 'https://schema.org',
