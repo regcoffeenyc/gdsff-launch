@@ -79,6 +79,21 @@
       "source": "/social",
       "destination": "/ka/social",
       "permanent": true
+    },
+    {
+      "source": "/:lang(ka|en)/index.html",
+      "destination": "/:lang/",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(ka|en)/:page/index.html",
+      "destination": "/:lang/:page",
+      "permanent": true
+    },
+    {
+      "source": "/:lang(ka|en)/:page/",
+      "destination": "/:lang/:page",
+      "permanent": true
     }
   ],
   "headers": [
