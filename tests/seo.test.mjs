@@ -68,7 +68,7 @@ test('sitemap includes exactly the 26 public canonical URLs', () => {
 test('legacy redirects are permanent and every destination was prerendered', () => {
   const config = JSON.parse(read('vercel.json'))
   // Language-prefixed sources are the canonical-alias redirects tested below.
-  const legacy = config.redirects.filter(({ source }) => !source.startsWith('/:lang'))
+  const legacy = config.redirects.filter(({ source, destination }) => !source.startsWith('/:lang') && !destination.startsWith('https://'))
   assert.equal(legacy.length, allRoutes.length)
   assert.deepEqual(legacy.map(({ source }) => source).sort(), [...allRoutes].sort())
   for (const redirect of legacy) {
@@ -166,4 +166,11 @@ test('every upcoming calendar event states entryFee and registrationOpens', () =
       assert.match(e.registrationOpens || '', /^\d{4}-\d{2}-\d{2}$/, `${e.title}: registrationOpens missing`)
     }
   }
+})
+
+/* The range journal lives on its own subdomain. Typing gdsff.com/journal on a
+   phone lands there instead of on the federation site Safari autocompletes. */
+test('gdsff.com/journal goes to the range journal', () => {
+  const r = JSON.parse(read('vercel.json')).redirects.find((x) => x.source === '/journal')
+  assert.equal(r?.destination, 'https://journal.gdsff.com/')
 })

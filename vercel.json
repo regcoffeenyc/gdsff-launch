@@ -99,6 +99,11 @@
       "source": "/:lang(ka|en)",
       "destination": "/:lang/",
       "permanent": true
+    },
+    {
+      "source": "/journal",
+      "destination": "https://journal.gdsff.com/",
+      "permanent": false
     }
   ],
   "headers": [
