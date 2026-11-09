@@ -61,9 +61,11 @@ test('sitemap includes exactly the 26 public canonical URLs', () => {
 
 test('legacy redirects are permanent and every destination was prerendered', () => {
   const config = JSON.parse(read('vercel.json'))
-  assert.equal(config.redirects.length, allRoutes.length)
-  assert.deepEqual(config.redirects.map(({ source }) => source).sort(), [...allRoutes].sort())
-  for (const redirect of config.redirects) {
+  // Language-prefixed sources are the canonical-alias redirects tested below.
+  const legacy = config.redirects.filter(({ source }) => !source.startsWith('/:lang'))
+  assert.equal(legacy.length, allRoutes.length)
+  assert.deepEqual(legacy.map(({ source }) => source).sort(), [...allRoutes].sort())
+  for (const redirect of legacy) {
     assert.equal(redirect.permanent, true, redirect.source)
     assert.equal(`${SITE}${redirect.destination}`, getRouteMetadata(redirect.source, 'ka').url)
   }
@@ -129,5 +131,22 @@ test('every image in siteAssets.js exists in public/', async () => {
   assert.ok(files.length > 0)
   for (const file of files) {
     assert.doesNotThrow(() => readFileSync(new URL(`../public/${file}`, import.meta.url)), `public/${file} is missing`)
+  }
+})
+
+/* Search Console, 9 Nov 2026: "Alternative page with proper canonical tag".
+   /en/about/ and /ka/index.html served the same page as /en/about and /ka/
+   with 200, so Google crawled both and reported the duplicates. Each alias
+   now redirects permanently to the URL its canonical names. */
+test('trailing-slash and index.html aliases redirect to the canonical URL', () => {
+  const redirects = JSON.parse(read('vercel.json')).redirects
+  const find = (source) => redirects.find((r) => r.source === source)
+  for (const source of ['/:lang(ka|en)', '/:lang(ka|en)/index.html', '/:lang(ka|en)/:page/index.html', '/:lang(ka|en)/:page/']) {
+    assert.equal(find(source)?.permanent, true, source)
+  }
+  assert.equal(find('/:lang(ka|en)/:page/').destination, '/:lang/:page')
+  for (const language of LANGS) {
+    assert.equal(getRouteMetadata('/', language).url, `${SITE}/${language}/`)
+    assert.equal(getRouteMetadata('/about/', language).url, `${SITE}/${language}/about`)
   }
 })
