@@ -8,7 +8,7 @@
  * carries any more. The net did nothing except ship the number to every
  * visitor's browser in the public bundle, where it was live on www.gdsff.com.
  *
- * The federation's number is +995 511 560038. Nothing else.
+ * The federation's number is +995 595 733 390. Nothing else.
  *
  *   node --test tests/noShopNumber.test.mjs
  */
@@ -44,5 +44,5 @@ test('the shop number appears in no source file', () => {
 
 test('the federation number is the one the site publishes', () => {
   const contact = readFileSync(join(ROOT, 'src/siteContent.js'), 'utf8')
-  assert.ok(/511\s?560\s?038/.test(contact), 'expected +995 511 560038 in siteContent.js')
+  assert.ok(/595\s?733\s?390/.test(contact), 'expected +995 595 733 390 in siteContent.js')
 })

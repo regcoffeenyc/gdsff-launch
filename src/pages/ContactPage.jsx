@@ -19,9 +19,9 @@ const contactCopy = {
       },
       {
         title: 'Phone',
-        value: '+995 511 560038',
+        value: '+995 595 733 390',
         text: 'Direct federation contact for event operations, coordination, and urgent follow-up.',
-        href: 'tel:+995511560038',
+        href: 'tel:+995595733390',
         icon: PhoneIcon,
         actionLabel: 'Call Federation',
       },
@@ -69,9 +69,9 @@ const contactCopy = {
       },
       {
         title: 'ტელეფონი',
-        value: '+995 511 560038',
+        value: '+995 595 733 390',
         text: 'ფედერაციის პირდაპირი საკონტაქტო ნომერი ღონისძიებების ოპერაციებისთვის, კოორდინაციისთვის და სწრაფი რეაგირებისთვის.',
-        href: 'tel:+995511560038',
+        href: 'tel:+995595733390',
         icon: PhoneIcon,
         actionLabel: 'დარეკვა',
       },

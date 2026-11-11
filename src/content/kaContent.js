@@ -8,7 +8,7 @@ export const kaContent = {
       { id: 'instagram', label: 'Instagram', href: 'https://www.instagram.com/gdsffofficial/?hl=en' },
     ],
     email: 'office@gdsff.org',
-    phone: '+995 511 560038',
+    phone: '+995 595 733 390',
     locationLabel: `41\u00B035'22.30"N 45\u00B016'56.28"E`,
     locationHref: 'https://maps.google.com/?q=41.589528,45.282300',
     facebookPageName: 'GDSFF | Georgian Dynamic Shooting & Functional Fitness Federation',
